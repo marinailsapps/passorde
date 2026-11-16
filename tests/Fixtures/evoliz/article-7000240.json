@@ -1,0 +1,42 @@
+{
+    "articleid": 7000240,
+    "userid": 50001,
+    "reference": "ASTRA MT POM",
+    "reference_clean": "ASTRA MT POM",
+    "nature": "product",
+    "sale_classification": {
+        "id": 500030,
+        "code": "POMMIER",
+        "label": "POMMIER"
+    },
+    "designation": "ASTRA MOTTE POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0412",
+    "designation_clean": "ASTRA MOTTE POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0412",
+    "quantity": 0,
+    "weight": 0,
+    "unit": "",
+    "unit_price_vat_exclude": 88,
+    "unit_price_vat_include": 92.84,
+    "vat": 5.5,
+    "ttc": false,
+    "purchase_classification": null,
+    "margin": {
+        "purchase_unit_price_vat_exclude": 64,
+        "coefficient": 2.5,
+        "percent": 50.5,
+        "margin_percent": 100.5,
+        "markup_percent": 50.5,
+        "amount": 10
+    },
+    "supplier": {
+        "supplierid": 7000010,
+        "code": "F6",
+        "name": "PEPINIERES EXEMPLE"
+    },
+    "supplier_reference": "PLANTS POMMIER",
+    "supplier_reference_clean": "PLANTS POMMIER",
+    "stock_management": true,
+    "stocked_quantity": 4,
+    "enabled": true,
+    "picture_link": null,
+    "custom_fields": []
+}

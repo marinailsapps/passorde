@@ -1,0 +1,107 @@
+{
+    "data": [
+        {
+            "clientid": 7000280,
+            "userid": 50001,
+            "code": "SPECIMEPHILIBERT",
+            "civility": "",
+            "name": "SPECIMEN PHILIBERT",
+            "type": "Professionnel",
+            "legalform": "",
+            "business_number": "00000000000000",
+            "business_identification_number": "000000000",
+            "activity_number": "4761Z ",
+            "vat_number": "EX-0001",
+            "immat_number": "",
+            "bank_information": {
+                "bank_name": "",
+                "bank_account_detail": "",
+                "iban": "",
+                "bank_identification_code": ""
+            },
+            "address": {
+                "addr": "LIEU-DIT EXEMPLE",
+                "addr2": "",
+                "addr3": "",
+                "postcode": "32380",
+                "town": "SAINT-EXEMPLE-LES-BOIS",
+                "country": {
+                    "label": "France",
+                    "iso2": "FR"
+                },
+                "business_number": "00000000000000"
+            },
+            "delivery_address": null,
+            "phone": "06.00.00.00.03",
+            "mobile": "",
+            "fax": "",
+            "website": "",
+            "safe_amount": 0,
+            "term": null,
+            "ttc": false,
+            "comment": "LIVRAISON EXEMPLE",
+            "stampdate": "2025-02-11T01:11:01.000000Z",
+            "enabled": true,
+            "custom_fields": []
+        },
+        {
+            "clientid": 7000160,
+            "userid": 50001,
+            "code": "EXEMPLEAMB",
+            "civility": "",
+            "name": "EXEMPLE AMBROISE",
+            "type": "Professionnel",
+            "legalform": "",
+            "business_number": "",
+            "business_identification_number": null,
+            "activity_number": "",
+            "vat_number": "NC",
+            "immat_number": "",
+            "bank_information": {
+                "bank_name": "",
+                "bank_account_detail": "",
+                "iban": "",
+                "bank_identification_code": ""
+            },
+            "address": {
+                "addr": "1 RUE EXEMPLE",
+                "addr2": "",
+                "addr3": null,
+                "postcode": "32380",
+                "town": "BOISJOLI",
+                "country": {
+                    "label": "France",
+                    "iso2": "FR"
+                },
+                "business_number": ""
+            },
+            "delivery_address": null,
+            "phone": "06.00.00.00.01",
+            "mobile": "",
+            "fax": "",
+            "website": "",
+            "safe_amount": 0,
+            "term": null,
+            "ttc": false,
+            "comment": "",
+            "stampdate": "2025-03-12T02:12:02.000000Z",
+            "enabled": true,
+            "custom_fields": []
+        }
+    ],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/clients?page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/clients?page=2",
+        "prev": "https://www.evoliz.io/api/v1/companies/10001/clients?page=1",
+        "next": null
+    },
+    "meta": {
+        "current_page": 2,
+        "from": 1,
+        "last_page": 2,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/clients",
+        "per_page": 100,
+        "to": 2,
+        "total": 5
+    }
+}

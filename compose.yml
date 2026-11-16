@@ -1,0 +1,120 @@
+# Local development stack. Production overrides live in compose.prod.yml.
+# Host ports come from .env (APP_PORT, VITE_PORT, DB_PORT) with defaults that
+# avoid the usual 8080/5173/5432 so neighbouring projects never collide.
+x-php: &php
+  build:
+    context: .
+    dockerfile: docker/php/Dockerfile
+    target: dev
+    args:
+      USER_ID: ${USER_ID:-1000}
+      GROUP_ID: ${GROUP_ID:-1000}
+  # Tag of the locally built dev image: set another one to keep a second checkout's image apart.
+  image: ${PASSORDE_DEV_IMAGE:-passorde-php:dev}
+  volumes:
+    - .:/var/www/html
+    # The private installation profile (config/passorde.php), kept outside the repository.
+    - ${PASSORDE_PROFILE_DIR:-./profile}:/var/www/html/profile:ro
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  app:
+    <<: *php
+    ports:
+      - "${APP_PORT:-8093}:8080"
+    environment:
+      PHP_OPCACHE_ENABLE: "0"
+      HEALTHCHECK_PATH: /up
+      # Run migrations on start; keep every Laravel cache off in dev.
+      AUTORUN_ENABLED: "true"
+      AUTORUN_LARAVEL_MIGRATION: "true"
+      AUTORUN_LARAVEL_STORAGE_LINK: "false"
+      AUTORUN_LARAVEL_OPTIMIZE: "false"
+      AUTORUN_LARAVEL_CONFIG_CACHE: "false"
+      AUTORUN_LARAVEL_ROUTE_CACHE: "false"
+      AUTORUN_LARAVEL_VIEW_CACHE: "false"
+      AUTORUN_LARAVEL_EVENT_CACHE: "false"
+
+  queue:
+    <<: *php
+    command: ["php", "/var/www/html/artisan", "queue:work", "--tries=5"]
+    stop_signal: SIGTERM
+    healthcheck:
+      test: ["CMD", "healthcheck-queue"]
+      start_period: 10s
+    depends_on:
+      app:
+        condition: service_started
+
+  scheduler:
+    <<: *php
+    command: ["php", "/var/www/html/artisan", "schedule:work"]
+    stop_signal: SIGTERM
+    healthcheck:
+      test: ["CMD", "healthcheck-schedule"]
+      start_period: 10s
+    depends_on:
+      app:
+        condition: service_started
+
+  # Vite dev server with HMR. node_modules lives in a named volume so the
+  # Linux binaries never clash with a host (macOS) install.
+  vite:
+    image: node:22-alpine
+    working_dir: /app
+    command: ["sh", "-c", "npm ci && npm run dev"]
+    # Listens on VITE_PORT inside the container too, so HMR URLs match the host port.
+    ports:
+      - "${VITE_PORT:-5193}:${VITE_PORT:-5193}"
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+
+  # Optional fakes for dev walkthroughs, so approving test orders never creates
+  # real delivery notes nor sends real SMS: docker compose --profile mock up -d,
+  # then the PASSORDE_EVOLIZ_* and OVH_ENDPOINT values of docs/RUNBOOK.md
+  # "Rehearsing with the Evoliz mock". The Evoliz mock is Passorde's own (fictional
+  # data, company 1000), run from the vendor copy of the package.
+  evoliz-mock:
+    image: php:8.3-cli-alpine
+    profiles: ["mock"]
+    working_dir: /mock
+    command: ["php", "-S", "0.0.0.0:8080", "index.php"]
+    volumes:
+      - ./vendor/marinailsapps/passorde-connect/connectors/evoliz/mock:/mock:ro
+
+  # OVH SMS API: prints each SMS in its log (docker compose logs ovh-mock).
+  ovh-mock:
+    image: php:8.3-cli-alpine
+    profiles: ["mock"]
+    working_dir: /mock
+    command: ["php", "-S", "0.0.0.0:8080", "index.php"]
+    volumes:
+      - ./docker/ovh-mock:/mock:ro
+
+
+  postgres:
+    image: postgres:16
+    # Postgres listens on DB_PORT inside the network as well, so DB_PORT in .env
+    # is right both for Laravel (postgres:DB_PORT) and for host tools (localhost:DB_PORT).
+    command: ["postgres", "-p", "${DB_PORT:-54393}"]
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-passorde}
+      POSTGRES_USER: ${DB_USERNAME:-passorde}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-secret}
+    ports:
+      - "${DB_PORT:-54393}:${DB_PORT:-54393}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./docker/postgres/init-test-db.sql:/docker-entrypoint-initdb.d/init-test-db.sql:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -p ${DB_PORT:-54393} -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  postgres-data:
+  node-modules:

@@ -1,0 +1,53 @@
+# Build context of docker/php/Dockerfile (production target). Only what the
+# running app needs; docker/backup has its own Dockerfile.dockerignore.
+.git
+# The installation profile: private, never in an image; production mounts it at run time (compose.prod.yml).
+profile
+.github
+# Environment files at any depth (restore/ keeps the .env of a restored backup).
+**/.env
+**/.env.*
+!.env.example
+**/.DS_Store
+.idea
+.vscode
+node_modules
+vendor
+public/build
+# Generated in the image build from the profile given to it (docker/php/Dockerfile).
+public/icons
+public/favicon.ico
+build-profile
+public/hot
+public/sw.js
+public/sw.js.map
+public/storage
+bootstrap/cache/*.php
+storage/app/*
+!storage/app/private
+!storage/app/public
+storage/app/private/*
+storage/app/public/*
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/testing
+storage/framework/views/*
+storage/logs/*
+storage/pail
+storage/*.key
+# The Passorde licence file: never in an image (production installs its own key).
+storage/passorde
+# Dev and docs output: viewport sweeps, guide screenshots.
+storage/viewport-sweep*
+tests
+# Shared test cases: the type check of the asset build reads them (fuzzyMatch.test.ts, salesReport.test.ts, i18n.test.ts).
+!tests/Fixtures/search-cases.json
+!tests/Fixtures/sales-report-cases.json
+!tests/Fixtures/wording-cases.json
+tools
+docs
+deploy
+compose*.yml
+restore
+.phpunit.cache
+.phpunit.result.cache

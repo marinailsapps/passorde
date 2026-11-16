@@ -1,0 +1,2513 @@
+[
+    {
+        "name": "every BL of the period, every grouping",
+        "input": {
+            "deliveries": [
+                {
+                    "id": 1,
+                    "number": "BL-20269001001",
+                    "date": "2026-09-02",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "640.00",
+                    "total_vat": "38.10",
+                    "total_ttc": "678.10"
+                },
+                {
+                    "id": 2,
+                    "number": "BL-20269001002",
+                    "date": "2026-09-20",
+                    "client_id": 8,
+                    "client_name": "EURL EXEMPLE",
+                    "invoiced": false,
+                    "seller_id": null,
+                    "total_ht": "116.00",
+                    "total_vat": "5.83",
+                    "total_ttc": "121.83"
+                },
+                {
+                    "id": 3,
+                    "number": "BL-20269001003",
+                    "date": "2026-10-05",
+                    "client_id": null,
+                    "client_name": "CLIENT HORS ANNUAIRE",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "165.00",
+                    "total_vat": "11.25",
+                    "total_ttc": "176.25"
+                },
+                {
+                    "id": 4,
+                    "number": "BL-20269001004",
+                    "date": "2026-11-01",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": false,
+                    "seller_id": 2,
+                    "total_ht": "32.00",
+                    "total_vat": "1.76",
+                    "total_ttc": "33.76"
+                }
+            ],
+            "lines": [
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "10.00",
+                    "total_ht": "320.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "0.00",
+                    "vat_rate": "5.50",
+                    "is_free": true
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 8,
+                    "reference": "BRAVO MT POM",
+                    "quantity": "6.00",
+                    "total_ht": "300.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 9,
+                    "reference": "GANTS",
+                    "quantity": "1.00",
+                    "total_ht": "20.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": 10,
+                    "reference": "NOUVELLE VARIETE",
+                    "quantity": "2.00",
+                    "total_ht": "106.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": null,
+                    "reference": null,
+                    "quantity": "1.00",
+                    "total_ht": "10.00",
+                    "vat_rate": null,
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "5.00",
+                    "total_ht": "150.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 11,
+                    "reference": "FRAIS PORT",
+                    "quantity": "1.00",
+                    "total_ht": "15.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 4,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "32.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                }
+            ],
+            "articles": {
+                "6": {
+                    "reference": "VELOURS TIGE POM",
+                    "category": "POMMIER",
+                    "variant": "nu"
+                },
+                "8": {
+                    "reference": "BRAVO MT POM",
+                    "category": "POMMIER",
+                    "variant": "motte"
+                },
+                "9": {
+                    "reference": "GANTS",
+                    "category": null,
+                    "variant": "material"
+                },
+                "10": {
+                    "reference": "NOUVELLE VARIETE",
+                    "category": null,
+                    "variant": null
+                },
+                "11": {
+                    "reference": "FRAIS PORT",
+                    "category": null,
+                    "variant": "other"
+                }
+            },
+            "clients": {
+                "7": {
+                    "name": "SARL FICTIF",
+                    "postcode": "59380"
+                },
+                "8": {
+                    "name": "EURL EXEMPLE",
+                    "postcode": "83100"
+                }
+            },
+            "variants": [
+                {
+                    "value": "nu",
+                    "label": "NU",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "motte",
+                    "label": "MOTTE",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "material",
+                    "label": "MATÉRIEL",
+                    "counts": false,
+                    "own_tab": true
+                },
+                {
+                    "value": "other",
+                    "label": "AUTRE",
+                    "counts": false,
+                    "own_tab": false
+                }
+            ],
+            "filters": {
+                "from": "2026-09-01",
+                "to": "2026-10-31",
+                "delivered": true,
+                "invoiced": true,
+                "seller_id": null
+            }
+        },
+        "expected": {
+            "cards": {
+                "count": 3,
+                "quantity": "24.00",
+                "free_quantity": "1.00",
+                "ht": "921.00",
+                "vat": "55.18",
+                "ttc": "976.18"
+            },
+            "groups": {
+                "category": [
+                    {
+                        "key": "POMMIER",
+                        "label": "POMMIER",
+                        "count": 2,
+                        "quantity": "22.00",
+                        "free_quantity": "1.00",
+                        "ht": "770.00",
+                        "ttc": "812.35",
+                        "deliveries": [
+                            3,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~unclassified",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "106.00",
+                        "ttc": "111.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "~material",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "20.00",
+                        "ttc": "24.00",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~other",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "15.00",
+                        "ttc": "18.00",
+                        "deliveries": [
+                            3
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "10.00",
+                        "ttc": "10.00",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ],
+                "article": [
+                    {
+                        "key": "id:6",
+                        "label": "VELOURS TIGE POM",
+                        "count": 2,
+                        "quantity": "16.00",
+                        "free_quantity": "1.00",
+                        "ht": "470.00",
+                        "ttc": "495.85",
+                        "deliveries": [
+                            3,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "id:8",
+                        "label": "BRAVO MT POM",
+                        "count": 1,
+                        "quantity": "6.00",
+                        "free_quantity": "0.00",
+                        "ht": "300.00",
+                        "ttc": "316.50",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "id:10",
+                        "label": "NOUVELLE VARIETE",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "106.00",
+                        "ttc": "111.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "id:9",
+                        "label": "GANTS",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "20.00",
+                        "ttc": "24.00",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "id:11",
+                        "label": "FRAIS PORT",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "15.00",
+                        "ttc": "18.00",
+                        "deliveries": [
+                            3
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "10.00",
+                        "ttc": "10.00",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ],
+                "client": [
+                    {
+                        "key": "id:7",
+                        "label": "SARL FICTIF",
+                        "count": 1,
+                        "quantity": "17.00",
+                        "free_quantity": "1.00",
+                        "ht": "640.00",
+                        "ttc": "678.10",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "name:CLIENT HORS ANNUAIRE",
+                        "label": "CLIENT HORS ANNUAIRE",
+                        "count": 1,
+                        "quantity": "5.00",
+                        "free_quantity": "0.00",
+                        "ht": "165.00",
+                        "ttc": "176.25",
+                        "deliveries": [
+                            3
+                        ]
+                    },
+                    {
+                        "key": "id:8",
+                        "label": "EURL EXEMPLE",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "116.00",
+                        "ttc": "121.83",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ],
+                "month": [
+                    {
+                        "key": "2026-09",
+                        "label": "2026-09",
+                        "count": 2,
+                        "quantity": "19.00",
+                        "free_quantity": "1.00",
+                        "ht": "756.00",
+                        "ttc": "799.93",
+                        "deliveries": [
+                            2,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "2026-10",
+                        "label": "2026-10",
+                        "count": 1,
+                        "quantity": "5.00",
+                        "free_quantity": "0.00",
+                        "ht": "165.00",
+                        "ttc": "176.25",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ],
+                "department": [
+                    {
+                        "key": "59",
+                        "label": "59",
+                        "count": 1,
+                        "quantity": "17.00",
+                        "free_quantity": "1.00",
+                        "ht": "640.00",
+                        "ttc": "678.10",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~unknown",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "5.00",
+                        "free_quantity": "0.00",
+                        "ht": "165.00",
+                        "ttc": "176.25",
+                        "deliveries": [
+                            3
+                        ]
+                    },
+                    {
+                        "key": "83",
+                        "label": "83",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "116.00",
+                        "ttc": "121.83",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ],
+                "variant": [
+                    {
+                        "key": "nu",
+                        "label": "NU",
+                        "count": 2,
+                        "quantity": "16.00",
+                        "free_quantity": "1.00",
+                        "ht": "470.00",
+                        "ttc": "495.85",
+                        "deliveries": [
+                            3,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "motte",
+                        "label": "MOTTE",
+                        "count": 1,
+                        "quantity": "6.00",
+                        "free_quantity": "0.00",
+                        "ht": "300.00",
+                        "ttc": "316.50",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~unclassified",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "106.00",
+                        "ttc": "111.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "material",
+                        "label": "MATÉRIEL",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "20.00",
+                        "ttc": "24.00",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "other",
+                        "label": "AUTRE",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "15.00",
+                        "ttc": "18.00",
+                        "deliveries": [
+                            3
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "10.00",
+                        "ttc": "10.00",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ]
+            },
+            "deliveries": [
+                {
+                    "id": 3,
+                    "number": "BL-20269001003",
+                    "date": "2026-10-05",
+                    "client": "CLIENT HORS ANNUAIRE",
+                    "invoiced": true,
+                    "ht": "165.00",
+                    "ttc": "176.25"
+                },
+                {
+                    "id": 2,
+                    "number": "BL-20269001002",
+                    "date": "2026-09-20",
+                    "client": "EURL EXEMPLE",
+                    "invoiced": false,
+                    "ht": "116.00",
+                    "ttc": "121.83"
+                },
+                {
+                    "id": 1,
+                    "number": "BL-20269001001",
+                    "date": "2026-09-02",
+                    "client": "SARL FICTIF",
+                    "invoiced": true,
+                    "ht": "640.00",
+                    "ttc": "678.10"
+                }
+            ]
+        }
+    },
+    {
+        "name": "invoiced only, one seller",
+        "input": {
+            "deliveries": [
+                {
+                    "id": 1,
+                    "number": "BL-20269001001",
+                    "date": "2026-09-02",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "640.00",
+                    "total_vat": "38.10",
+                    "total_ttc": "678.10"
+                },
+                {
+                    "id": 2,
+                    "number": "BL-20269001002",
+                    "date": "2026-09-20",
+                    "client_id": 8,
+                    "client_name": "EURL EXEMPLE",
+                    "invoiced": false,
+                    "seller_id": null,
+                    "total_ht": "116.00",
+                    "total_vat": "5.83",
+                    "total_ttc": "121.83"
+                },
+                {
+                    "id": 3,
+                    "number": "BL-20269001003",
+                    "date": "2026-10-05",
+                    "client_id": null,
+                    "client_name": "CLIENT HORS ANNUAIRE",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "165.00",
+                    "total_vat": "11.25",
+                    "total_ttc": "176.25"
+                },
+                {
+                    "id": 4,
+                    "number": "BL-20269001004",
+                    "date": "2026-11-01",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": false,
+                    "seller_id": 2,
+                    "total_ht": "32.00",
+                    "total_vat": "1.76",
+                    "total_ttc": "33.76"
+                }
+            ],
+            "lines": [
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "10.00",
+                    "total_ht": "320.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "0.00",
+                    "vat_rate": "5.50",
+                    "is_free": true
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 8,
+                    "reference": "BRAVO MT POM",
+                    "quantity": "6.00",
+                    "total_ht": "300.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 9,
+                    "reference": "GANTS",
+                    "quantity": "1.00",
+                    "total_ht": "20.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": 10,
+                    "reference": "NOUVELLE VARIETE",
+                    "quantity": "2.00",
+                    "total_ht": "106.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": null,
+                    "reference": null,
+                    "quantity": "1.00",
+                    "total_ht": "10.00",
+                    "vat_rate": null,
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "5.00",
+                    "total_ht": "150.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 11,
+                    "reference": "FRAIS PORT",
+                    "quantity": "1.00",
+                    "total_ht": "15.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 4,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "32.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                }
+            ],
+            "articles": {
+                "6": {
+                    "reference": "VELOURS TIGE POM",
+                    "category": "POMMIER",
+                    "variant": "nu"
+                },
+                "8": {
+                    "reference": "BRAVO MT POM",
+                    "category": "POMMIER",
+                    "variant": "motte"
+                },
+                "9": {
+                    "reference": "GANTS",
+                    "category": null,
+                    "variant": "material"
+                },
+                "10": {
+                    "reference": "NOUVELLE VARIETE",
+                    "category": null,
+                    "variant": null
+                },
+                "11": {
+                    "reference": "FRAIS PORT",
+                    "category": null,
+                    "variant": "other"
+                }
+            },
+            "clients": {
+                "7": {
+                    "name": "SARL FICTIF",
+                    "postcode": "59380"
+                },
+                "8": {
+                    "name": "EURL EXEMPLE",
+                    "postcode": "83100"
+                }
+            },
+            "variants": [
+                {
+                    "value": "nu",
+                    "label": "NU",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "motte",
+                    "label": "MOTTE",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "material",
+                    "label": "MATÉRIEL",
+                    "counts": false,
+                    "own_tab": true
+                },
+                {
+                    "value": "other",
+                    "label": "AUTRE",
+                    "counts": false,
+                    "own_tab": false
+                }
+            ],
+            "filters": {
+                "from": "2026-09-01",
+                "to": "2026-11-30",
+                "delivered": false,
+                "invoiced": true,
+                "seller_id": 2
+            }
+        },
+        "expected": {
+            "cards": {
+                "count": 2,
+                "quantity": "22.00",
+                "free_quantity": "1.00",
+                "ht": "805.00",
+                "vat": "49.35",
+                "ttc": "854.35"
+            },
+            "groups": {
+                "category": [
+                    {
+                        "key": "POMMIER",
+                        "label": "POMMIER",
+                        "count": 2,
+                        "quantity": "22.00",
+                        "free_quantity": "1.00",
+                        "ht": "770.00",
+                        "ttc": "812.35",
+                        "deliveries": [
+                            3,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~material",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "20.00",
+                        "ttc": "24.00",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~other",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "15.00",
+                        "ttc": "18.00",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ],
+                "article": [
+                    {
+                        "key": "id:6",
+                        "label": "VELOURS TIGE POM",
+                        "count": 2,
+                        "quantity": "16.00",
+                        "free_quantity": "1.00",
+                        "ht": "470.00",
+                        "ttc": "495.85",
+                        "deliveries": [
+                            3,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "id:8",
+                        "label": "BRAVO MT POM",
+                        "count": 1,
+                        "quantity": "6.00",
+                        "free_quantity": "0.00",
+                        "ht": "300.00",
+                        "ttc": "316.50",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "id:9",
+                        "label": "GANTS",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "20.00",
+                        "ttc": "24.00",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "id:11",
+                        "label": "FRAIS PORT",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "15.00",
+                        "ttc": "18.00",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ],
+                "client": [
+                    {
+                        "key": "id:7",
+                        "label": "SARL FICTIF",
+                        "count": 1,
+                        "quantity": "17.00",
+                        "free_quantity": "1.00",
+                        "ht": "640.00",
+                        "ttc": "678.10",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "name:CLIENT HORS ANNUAIRE",
+                        "label": "CLIENT HORS ANNUAIRE",
+                        "count": 1,
+                        "quantity": "5.00",
+                        "free_quantity": "0.00",
+                        "ht": "165.00",
+                        "ttc": "176.25",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ],
+                "month": [
+                    {
+                        "key": "2026-09",
+                        "label": "2026-09",
+                        "count": 1,
+                        "quantity": "17.00",
+                        "free_quantity": "1.00",
+                        "ht": "640.00",
+                        "ttc": "678.10",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "2026-10",
+                        "label": "2026-10",
+                        "count": 1,
+                        "quantity": "5.00",
+                        "free_quantity": "0.00",
+                        "ht": "165.00",
+                        "ttc": "176.25",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ],
+                "department": [
+                    {
+                        "key": "59",
+                        "label": "59",
+                        "count": 1,
+                        "quantity": "17.00",
+                        "free_quantity": "1.00",
+                        "ht": "640.00",
+                        "ttc": "678.10",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "~unknown",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "5.00",
+                        "free_quantity": "0.00",
+                        "ht": "165.00",
+                        "ttc": "176.25",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ],
+                "variant": [
+                    {
+                        "key": "nu",
+                        "label": "NU",
+                        "count": 2,
+                        "quantity": "16.00",
+                        "free_quantity": "1.00",
+                        "ht": "470.00",
+                        "ttc": "495.85",
+                        "deliveries": [
+                            3,
+                            1
+                        ]
+                    },
+                    {
+                        "key": "motte",
+                        "label": "MOTTE",
+                        "count": 1,
+                        "quantity": "6.00",
+                        "free_quantity": "0.00",
+                        "ht": "300.00",
+                        "ttc": "316.50",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "material",
+                        "label": "MATÉRIEL",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "20.00",
+                        "ttc": "24.00",
+                        "deliveries": [
+                            1
+                        ]
+                    },
+                    {
+                        "key": "other",
+                        "label": "AUTRE",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "15.00",
+                        "ttc": "18.00",
+                        "deliveries": [
+                            3
+                        ]
+                    }
+                ]
+            },
+            "deliveries": [
+                {
+                    "id": 3,
+                    "number": "BL-20269001003",
+                    "date": "2026-10-05",
+                    "client": "CLIENT HORS ANNUAIRE",
+                    "invoiced": true,
+                    "ht": "165.00",
+                    "ttc": "176.25"
+                },
+                {
+                    "id": 1,
+                    "number": "BL-20269001001",
+                    "date": "2026-09-02",
+                    "client": "SARL FICTIF",
+                    "invoiced": true,
+                    "ht": "640.00",
+                    "ttc": "678.10"
+                }
+            ]
+        }
+    },
+    {
+        "name": "delivery notes not invoiced only",
+        "input": {
+            "deliveries": [
+                {
+                    "id": 1,
+                    "number": "BL-20269001001",
+                    "date": "2026-09-02",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "640.00",
+                    "total_vat": "38.10",
+                    "total_ttc": "678.10"
+                },
+                {
+                    "id": 2,
+                    "number": "BL-20269001002",
+                    "date": "2026-09-20",
+                    "client_id": 8,
+                    "client_name": "EURL EXEMPLE",
+                    "invoiced": false,
+                    "seller_id": null,
+                    "total_ht": "116.00",
+                    "total_vat": "5.83",
+                    "total_ttc": "121.83"
+                },
+                {
+                    "id": 3,
+                    "number": "BL-20269001003",
+                    "date": "2026-10-05",
+                    "client_id": null,
+                    "client_name": "CLIENT HORS ANNUAIRE",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "165.00",
+                    "total_vat": "11.25",
+                    "total_ttc": "176.25"
+                },
+                {
+                    "id": 4,
+                    "number": "BL-20269001004",
+                    "date": "2026-11-01",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": false,
+                    "seller_id": 2,
+                    "total_ht": "32.00",
+                    "total_vat": "1.76",
+                    "total_ttc": "33.76"
+                }
+            ],
+            "lines": [
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "10.00",
+                    "total_ht": "320.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "0.00",
+                    "vat_rate": "5.50",
+                    "is_free": true
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 8,
+                    "reference": "BRAVO MT POM",
+                    "quantity": "6.00",
+                    "total_ht": "300.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 9,
+                    "reference": "GANTS",
+                    "quantity": "1.00",
+                    "total_ht": "20.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": 10,
+                    "reference": "NOUVELLE VARIETE",
+                    "quantity": "2.00",
+                    "total_ht": "106.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": null,
+                    "reference": null,
+                    "quantity": "1.00",
+                    "total_ht": "10.00",
+                    "vat_rate": null,
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "5.00",
+                    "total_ht": "150.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 11,
+                    "reference": "FRAIS PORT",
+                    "quantity": "1.00",
+                    "total_ht": "15.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 4,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "32.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                }
+            ],
+            "articles": {
+                "6": {
+                    "reference": "VELOURS TIGE POM",
+                    "category": "POMMIER",
+                    "variant": "nu"
+                },
+                "8": {
+                    "reference": "BRAVO MT POM",
+                    "category": "POMMIER",
+                    "variant": "motte"
+                },
+                "9": {
+                    "reference": "GANTS",
+                    "category": null,
+                    "variant": "material"
+                },
+                "10": {
+                    "reference": "NOUVELLE VARIETE",
+                    "category": null,
+                    "variant": null
+                },
+                "11": {
+                    "reference": "FRAIS PORT",
+                    "category": null,
+                    "variant": "other"
+                }
+            },
+            "clients": {
+                "7": {
+                    "name": "SARL FICTIF",
+                    "postcode": "59380"
+                },
+                "8": {
+                    "name": "EURL EXEMPLE",
+                    "postcode": "83100"
+                }
+            },
+            "variants": [
+                {
+                    "value": "nu",
+                    "label": "NU",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "motte",
+                    "label": "MOTTE",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "material",
+                    "label": "MATÉRIEL",
+                    "counts": false,
+                    "own_tab": true
+                },
+                {
+                    "value": "other",
+                    "label": "AUTRE",
+                    "counts": false,
+                    "own_tab": false
+                }
+            ],
+            "filters": {
+                "from": "2026-01-01",
+                "to": "2026-12-31",
+                "delivered": true,
+                "invoiced": false,
+                "seller_id": null
+            }
+        },
+        "expected": {
+            "cards": {
+                "count": 2,
+                "quantity": "3.00",
+                "free_quantity": "0.00",
+                "ht": "148.00",
+                "vat": "7.59",
+                "ttc": "155.59"
+            },
+            "groups": {
+                "category": [
+                    {
+                        "key": "~unclassified",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "106.00",
+                        "ttc": "111.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "POMMIER",
+                        "label": "POMMIER",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "32.00",
+                        "ttc": "33.76",
+                        "deliveries": [
+                            4
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "10.00",
+                        "ttc": "10.00",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ],
+                "article": [
+                    {
+                        "key": "id:10",
+                        "label": "NOUVELLE VARIETE",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "106.00",
+                        "ttc": "111.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "id:6",
+                        "label": "VELOURS TIGE POM",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "32.00",
+                        "ttc": "33.76",
+                        "deliveries": [
+                            4
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "10.00",
+                        "ttc": "10.00",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ],
+                "client": [
+                    {
+                        "key": "id:8",
+                        "label": "EURL EXEMPLE",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "116.00",
+                        "ttc": "121.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "id:7",
+                        "label": "SARL FICTIF",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "32.00",
+                        "ttc": "33.76",
+                        "deliveries": [
+                            4
+                        ]
+                    }
+                ],
+                "month": [
+                    {
+                        "key": "2026-09",
+                        "label": "2026-09",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "116.00",
+                        "ttc": "121.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "2026-11",
+                        "label": "2026-11",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "32.00",
+                        "ttc": "33.76",
+                        "deliveries": [
+                            4
+                        ]
+                    }
+                ],
+                "department": [
+                    {
+                        "key": "83",
+                        "label": "83",
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "116.00",
+                        "ttc": "121.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "59",
+                        "label": "59",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "32.00",
+                        "ttc": "33.76",
+                        "deliveries": [
+                            4
+                        ]
+                    }
+                ],
+                "variant": [
+                    {
+                        "key": "~unclassified",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "106.00",
+                        "ttc": "111.83",
+                        "deliveries": [
+                            2
+                        ]
+                    },
+                    {
+                        "key": "nu",
+                        "label": "NU",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "32.00",
+                        "ttc": "33.76",
+                        "deliveries": [
+                            4
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "10.00",
+                        "ttc": "10.00",
+                        "deliveries": [
+                            2
+                        ]
+                    }
+                ]
+            },
+            "deliveries": [
+                {
+                    "id": 4,
+                    "number": "BL-20269001004",
+                    "date": "2026-11-01",
+                    "client": "SARL FICTIF",
+                    "invoiced": false,
+                    "ht": "32.00",
+                    "ttc": "33.76"
+                },
+                {
+                    "id": 2,
+                    "number": "BL-20269001002",
+                    "date": "2026-09-20",
+                    "client": "EURL EXEMPLE",
+                    "invoiced": false,
+                    "ht": "116.00",
+                    "ttc": "121.83"
+                }
+            ]
+        }
+    },
+    {
+        "name": "nothing in the period",
+        "input": {
+            "deliveries": [
+                {
+                    "id": 1,
+                    "number": "BL-20269001001",
+                    "date": "2026-09-02",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "640.00",
+                    "total_vat": "38.10",
+                    "total_ttc": "678.10"
+                },
+                {
+                    "id": 2,
+                    "number": "BL-20269001002",
+                    "date": "2026-09-20",
+                    "client_id": 8,
+                    "client_name": "EURL EXEMPLE",
+                    "invoiced": false,
+                    "seller_id": null,
+                    "total_ht": "116.00",
+                    "total_vat": "5.83",
+                    "total_ttc": "121.83"
+                },
+                {
+                    "id": 3,
+                    "number": "BL-20269001003",
+                    "date": "2026-10-05",
+                    "client_id": null,
+                    "client_name": "CLIENT HORS ANNUAIRE",
+                    "invoiced": true,
+                    "seller_id": 2,
+                    "total_ht": "165.00",
+                    "total_vat": "11.25",
+                    "total_ttc": "176.25"
+                },
+                {
+                    "id": 4,
+                    "number": "BL-20269001004",
+                    "date": "2026-11-01",
+                    "client_id": 7,
+                    "client_name": "SARL FICTIF",
+                    "invoiced": false,
+                    "seller_id": 2,
+                    "total_ht": "32.00",
+                    "total_vat": "1.76",
+                    "total_ttc": "33.76"
+                }
+            ],
+            "lines": [
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "10.00",
+                    "total_ht": "320.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "0.00",
+                    "vat_rate": "5.50",
+                    "is_free": true
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 8,
+                    "reference": "BRAVO MT POM",
+                    "quantity": "6.00",
+                    "total_ht": "300.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 1,
+                    "article_id": 9,
+                    "reference": "GANTS",
+                    "quantity": "1.00",
+                    "total_ht": "20.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": 10,
+                    "reference": "NOUVELLE VARIETE",
+                    "quantity": "2.00",
+                    "total_ht": "106.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 2,
+                    "article_id": null,
+                    "reference": null,
+                    "quantity": "1.00",
+                    "total_ht": "10.00",
+                    "vat_rate": null,
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "5.00",
+                    "total_ht": "150.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 3,
+                    "article_id": 11,
+                    "reference": "FRAIS PORT",
+                    "quantity": "1.00",
+                    "total_ht": "15.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 4,
+                    "article_id": 6,
+                    "reference": "VELOURS TIGE POM",
+                    "quantity": "1.00",
+                    "total_ht": "32.00",
+                    "vat_rate": "5.50",
+                    "is_free": false
+                }
+            ],
+            "articles": {
+                "6": {
+                    "reference": "VELOURS TIGE POM",
+                    "category": "POMMIER",
+                    "variant": "nu"
+                },
+                "8": {
+                    "reference": "BRAVO MT POM",
+                    "category": "POMMIER",
+                    "variant": "motte"
+                },
+                "9": {
+                    "reference": "GANTS",
+                    "category": null,
+                    "variant": "material"
+                },
+                "10": {
+                    "reference": "NOUVELLE VARIETE",
+                    "category": null,
+                    "variant": null
+                },
+                "11": {
+                    "reference": "FRAIS PORT",
+                    "category": null,
+                    "variant": "other"
+                }
+            },
+            "clients": {
+                "7": {
+                    "name": "SARL FICTIF",
+                    "postcode": "59380"
+                },
+                "8": {
+                    "name": "EURL EXEMPLE",
+                    "postcode": "83100"
+                }
+            },
+            "variants": [
+                {
+                    "value": "nu",
+                    "label": "NU",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "motte",
+                    "label": "MOTTE",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "material",
+                    "label": "MATÉRIEL",
+                    "counts": false,
+                    "own_tab": true
+                },
+                {
+                    "value": "other",
+                    "label": "AUTRE",
+                    "counts": false,
+                    "own_tab": false
+                }
+            ],
+            "filters": {
+                "from": "2025-01-01",
+                "to": "2025-12-31",
+                "delivered": true,
+                "invoiced": true,
+                "seller_id": null
+            }
+        },
+        "expected": {
+            "cards": {
+                "count": 0,
+                "quantity": "0.00",
+                "free_quantity": "0.00",
+                "ht": "0.00",
+                "vat": "0.00",
+                "ttc": "0.00"
+            },
+            "groups": {
+                "category": [],
+                "article": [],
+                "client": [],
+                "month": [],
+                "department": [],
+                "variant": []
+            },
+            "deliveries": []
+        }
+    },
+    {
+        "name": "a fictional catalogue: what counts and how variants group follow the profile",
+        "input": {
+            "deliveries": [
+                {
+                    "id": 11,
+                    "number": "BL-EX-0011",
+                    "date": "2026-03-04",
+                    "client_id": 41,
+                    "client_name": "PÉPINIÈRE DU VAL",
+                    "invoiced": false,
+                    "seller_id": 5,
+                    "total_ht": "171.00",
+                    "total_vat": "19.30",
+                    "total_ttc": "190.30"
+                },
+                {
+                    "id": 12,
+                    "number": "BL-EX-0012",
+                    "date": "2026-03-09",
+                    "client_id": null,
+                    "client_name": "JARDIN EXEMPLE",
+                    "invoiced": true,
+                    "seller_id": 5,
+                    "total_ht": "48.00",
+                    "total_vat": "9.60",
+                    "total_ttc": "57.60"
+                }
+            ],
+            "lines": [
+                {
+                    "delivery_id": 11,
+                    "article_id": 21,
+                    "reference": "GALA POM",
+                    "quantity": "10.00",
+                    "total_ht": "120.00",
+                    "vat_rate": "10.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 11,
+                    "article_id": 21,
+                    "reference": "GALA POM",
+                    "quantity": "2.00",
+                    "total_ht": "0.00",
+                    "vat_rate": "10.00",
+                    "is_free": true
+                },
+                {
+                    "delivery_id": 11,
+                    "article_id": 22,
+                    "reference": "SECATEUR",
+                    "quantity": "1.00",
+                    "total_ht": "35.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 11,
+                    "article_id": 23,
+                    "reference": "PORT",
+                    "quantity": "1.00",
+                    "total_ht": "16.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 12,
+                    "article_id": 24,
+                    "reference": "ERABLE GD",
+                    "quantity": "4.00",
+                    "total_ht": "48.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 12,
+                    "article_id": null,
+                    "reference": null,
+                    "quantity": "1.00",
+                    "total_ht": "0.00",
+                    "vat_rate": null,
+                    "is_free": false
+                }
+            ],
+            "articles": {
+                "21": {
+                    "reference": "GALA POM",
+                    "category": "POMMIER",
+                    "variant": "racine"
+                },
+                "22": {
+                    "reference": "SECATEUR",
+                    "category": null,
+                    "variant": "outil"
+                },
+                "23": {
+                    "reference": "PORT",
+                    "category": null,
+                    "variant": "frais"
+                },
+                "24": {
+                    "reference": "ERABLE GD",
+                    "category": "ERABLE",
+                    "variant": "godet"
+                }
+            },
+            "clients": {
+                "41": {
+                    "name": "PÉPINIÈRE DU VAL",
+                    "postcode": "84100"
+                }
+            },
+            "variants": [
+                {
+                    "value": "racine",
+                    "label": "Racines nues",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "godet",
+                    "label": "Godet",
+                    "counts": true,
+                    "own_tab": false
+                },
+                {
+                    "value": "outil",
+                    "label": "Outil",
+                    "counts": false,
+                    "own_tab": true
+                },
+                {
+                    "value": "frais",
+                    "label": "Frais",
+                    "counts": false,
+                    "own_tab": false
+                }
+            ],
+            "filters": {
+                "from": "2026-03-01",
+                "to": "2026-03-31",
+                "delivered": true,
+                "invoiced": true,
+                "seller_id": null
+            }
+        },
+        "expected": {
+            "cards": {
+                "count": 2,
+                "quantity": "16.00",
+                "free_quantity": "2.00",
+                "ht": "219.00",
+                "vat": "28.90",
+                "ttc": "247.90"
+            },
+            "groups": {
+                "category": [
+                    {
+                        "key": "POMMIER",
+                        "label": "POMMIER",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "120.00",
+                        "ttc": "132.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "ERABLE",
+                        "label": "ERABLE",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    },
+                    {
+                        "key": "~material",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "35.00",
+                        "ttc": "42.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~other",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "16.00",
+                        "ttc": "19.20",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "0.00",
+                        "ttc": "0.00",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "article": [
+                    {
+                        "key": "id:21",
+                        "label": "GALA POM",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "120.00",
+                        "ttc": "132.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "id:24",
+                        "label": "ERABLE GD",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    },
+                    {
+                        "key": "id:22",
+                        "label": "SECATEUR",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "35.00",
+                        "ttc": "42.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "id:23",
+                        "label": "PORT",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "16.00",
+                        "ttc": "19.20",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "0.00",
+                        "ttc": "0.00",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "client": [
+                    {
+                        "key": "id:41",
+                        "label": "PÉPINIÈRE DU VAL",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "171.00",
+                        "ttc": "190.30",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "name:JARDIN EXEMPLE",
+                        "label": "JARDIN EXEMPLE",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "month": [
+                    {
+                        "key": "2026-03",
+                        "label": "2026-03",
+                        "count": 2,
+                        "quantity": "16.00",
+                        "free_quantity": "2.00",
+                        "ht": "219.00",
+                        "ttc": "247.90",
+                        "deliveries": [
+                            12,
+                            11
+                        ]
+                    }
+                ],
+                "department": [
+                    {
+                        "key": "84",
+                        "label": "84",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "171.00",
+                        "ttc": "190.30",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~unknown",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "variant": [
+                    {
+                        "key": "racine",
+                        "label": "Racines nues",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "120.00",
+                        "ttc": "132.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "godet",
+                        "label": "Godet",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    },
+                    {
+                        "key": "outil",
+                        "label": "Outil",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "35.00",
+                        "ttc": "42.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "frais",
+                        "label": "Frais",
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "16.00",
+                        "ttc": "19.20",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "0.00",
+                        "ttc": "0.00",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ]
+            },
+            "deliveries": [
+                {
+                    "id": 12,
+                    "number": "BL-EX-0012",
+                    "date": "2026-03-09",
+                    "client": "JARDIN EXEMPLE",
+                    "invoiced": true,
+                    "ht": "48.00",
+                    "ttc": "57.60"
+                },
+                {
+                    "id": 11,
+                    "number": "BL-EX-0011",
+                    "date": "2026-03-04",
+                    "client": "PÉPINIÈRE DU VAL",
+                    "invoiced": false,
+                    "ht": "171.00",
+                    "ttc": "190.30"
+                }
+            ]
+        }
+    },
+    {
+        "name": "without variants every article counts and groups by category",
+        "input": {
+            "deliveries": [
+                {
+                    "id": 11,
+                    "number": "BL-EX-0011",
+                    "date": "2026-03-04",
+                    "client_id": 41,
+                    "client_name": "PÉPINIÈRE DU VAL",
+                    "invoiced": false,
+                    "seller_id": 5,
+                    "total_ht": "171.00",
+                    "total_vat": "19.30",
+                    "total_ttc": "190.30"
+                },
+                {
+                    "id": 12,
+                    "number": "BL-EX-0012",
+                    "date": "2026-03-09",
+                    "client_id": null,
+                    "client_name": "JARDIN EXEMPLE",
+                    "invoiced": true,
+                    "seller_id": 5,
+                    "total_ht": "48.00",
+                    "total_vat": "9.60",
+                    "total_ttc": "57.60"
+                }
+            ],
+            "lines": [
+                {
+                    "delivery_id": 11,
+                    "article_id": 21,
+                    "reference": "GALA POM",
+                    "quantity": "10.00",
+                    "total_ht": "120.00",
+                    "vat_rate": "10.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 11,
+                    "article_id": 21,
+                    "reference": "GALA POM",
+                    "quantity": "2.00",
+                    "total_ht": "0.00",
+                    "vat_rate": "10.00",
+                    "is_free": true
+                },
+                {
+                    "delivery_id": 11,
+                    "article_id": 22,
+                    "reference": "SECATEUR",
+                    "quantity": "1.00",
+                    "total_ht": "35.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 11,
+                    "article_id": 23,
+                    "reference": "PORT",
+                    "quantity": "1.00",
+                    "total_ht": "16.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 12,
+                    "article_id": 24,
+                    "reference": "ERABLE GD",
+                    "quantity": "4.00",
+                    "total_ht": "48.00",
+                    "vat_rate": "20.00",
+                    "is_free": false
+                },
+                {
+                    "delivery_id": 12,
+                    "article_id": null,
+                    "reference": null,
+                    "quantity": "1.00",
+                    "total_ht": "0.00",
+                    "vat_rate": null,
+                    "is_free": false
+                }
+            ],
+            "articles": {
+                "21": {
+                    "reference": "GALA POM",
+                    "category": "POMMIER",
+                    "variant": "racine"
+                },
+                "22": {
+                    "reference": "SECATEUR",
+                    "category": null,
+                    "variant": "outil"
+                },
+                "23": {
+                    "reference": "PORT",
+                    "category": null,
+                    "variant": "frais"
+                },
+                "24": {
+                    "reference": "ERABLE GD",
+                    "category": "ERABLE",
+                    "variant": "godet"
+                }
+            },
+            "clients": {
+                "41": {
+                    "name": "PÉPINIÈRE DU VAL",
+                    "postcode": "84100"
+                }
+            },
+            "filters": {
+                "from": "2026-03-01",
+                "to": "2026-03-31",
+                "delivered": true,
+                "invoiced": true,
+                "seller_id": null
+            }
+        },
+        "expected": {
+            "cards": {
+                "count": 2,
+                "quantity": "18.00",
+                "free_quantity": "2.00",
+                "ht": "219.00",
+                "vat": "28.90",
+                "ttc": "247.90"
+            },
+            "groups": {
+                "category": [
+                    {
+                        "key": "POMMIER",
+                        "label": "POMMIER",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "120.00",
+                        "ttc": "132.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~unclassified",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "2.00",
+                        "free_quantity": "0.00",
+                        "ht": "51.00",
+                        "ttc": "61.20",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "ERABLE",
+                        "label": "ERABLE",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "0.00",
+                        "ttc": "0.00",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "article": [
+                    {
+                        "key": "id:21",
+                        "label": "GALA POM",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "120.00",
+                        "ttc": "132.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "id:24",
+                        "label": "ERABLE GD",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    },
+                    {
+                        "key": "id:22",
+                        "label": "SECATEUR",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "35.00",
+                        "ttc": "42.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "id:23",
+                        "label": "PORT",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "16.00",
+                        "ttc": "19.20",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "0.00",
+                        "ttc": "0.00",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "client": [
+                    {
+                        "key": "id:41",
+                        "label": "PÉPINIÈRE DU VAL",
+                        "count": 1,
+                        "quantity": "14.00",
+                        "free_quantity": "2.00",
+                        "ht": "171.00",
+                        "ttc": "190.30",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "name:JARDIN EXEMPLE",
+                        "label": "JARDIN EXEMPLE",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "month": [
+                    {
+                        "key": "2026-03",
+                        "label": "2026-03",
+                        "count": 2,
+                        "quantity": "18.00",
+                        "free_quantity": "2.00",
+                        "ht": "219.00",
+                        "ttc": "247.90",
+                        "deliveries": [
+                            12,
+                            11
+                        ]
+                    }
+                ],
+                "department": [
+                    {
+                        "key": "84",
+                        "label": "84",
+                        "count": 1,
+                        "quantity": "14.00",
+                        "free_quantity": "2.00",
+                        "ht": "171.00",
+                        "ttc": "190.30",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~unknown",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ],
+                "variant": [
+                    {
+                        "key": "racine",
+                        "label": "racine",
+                        "count": 1,
+                        "quantity": "12.00",
+                        "free_quantity": "2.00",
+                        "ht": "120.00",
+                        "ttc": "132.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "godet",
+                        "label": "godet",
+                        "count": 1,
+                        "quantity": "4.00",
+                        "free_quantity": "0.00",
+                        "ht": "48.00",
+                        "ttc": "57.60",
+                        "deliveries": [
+                            12
+                        ]
+                    },
+                    {
+                        "key": "outil",
+                        "label": "outil",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "35.00",
+                        "ttc": "42.00",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "frais",
+                        "label": "frais",
+                        "count": 1,
+                        "quantity": "1.00",
+                        "free_quantity": "0.00",
+                        "ht": "16.00",
+                        "ttc": "19.20",
+                        "deliveries": [
+                            11
+                        ]
+                    },
+                    {
+                        "key": "~none",
+                        "label": null,
+                        "count": 1,
+                        "quantity": "0.00",
+                        "free_quantity": "0.00",
+                        "ht": "0.00",
+                        "ttc": "0.00",
+                        "deliveries": [
+                            12
+                        ]
+                    }
+                ]
+            },
+            "deliveries": [
+                {
+                    "id": 12,
+                    "number": "BL-EX-0012",
+                    "date": "2026-03-09",
+                    "client": "JARDIN EXEMPLE",
+                    "invoiced": true,
+                    "ht": "48.00",
+                    "ttc": "57.60"
+                },
+                {
+                    "id": 11,
+                    "number": "BL-EX-0011",
+                    "date": "2026-03-04",
+                    "client": "PÉPINIÈRE DU VAL",
+                    "invoiced": false,
+                    "ht": "171.00",
+                    "ttc": "190.30"
+                }
+            ]
+        }
+    }
+]

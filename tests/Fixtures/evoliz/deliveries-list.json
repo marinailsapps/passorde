@@ -1,0 +1,641 @@
+{
+    "data": [
+        {
+            "deliveryid": 7000050,
+            "document_number": "BL-20269001051",
+            "userid": 50001,
+            "client": {
+                "clientid": 7000160,
+                "code": "EXEMPLEAMB",
+                "name": "EXEMPLE AMBROISE",
+                "civility": "",
+                "contact": null,
+                "delivery_address": null
+            },
+            "default_currency": {
+                "code": "EUR",
+                "conversion": 1,
+                "symbol": "€"
+            },
+            "document_currency": null,
+            "total": {
+                "rebate": {
+                    "amount_vat_exclude": 0
+                },
+                "vat_exclude": 333,
+                "vat": 14.52,
+                "vat_include": 347.52,
+                "net_to_pay": 347.52,
+                "total_quantity": 5,
+                "number_packages": null,
+                "package_weight": null,
+                "margin": {
+                    "purchase_price_vat_exclude": 640,
+                    "percent": -49.5,
+                    "margin_percent": -99.5,
+                    "markup_percent": -49.5,
+                    "amount": -10
+                }
+            },
+            "currency_total": null,
+            "status_code": 2,
+            "status": "create",
+            "status_dates": {
+                "create": "2026-09-26T10:30:00.000000Z",
+                "sent": null,
+                "accept": null,
+                "wait": null,
+                "reject": null,
+                "invoice": null,
+                "close": null
+            },
+            "object": null,
+            "documentdate": "2026-09-26",
+            "duedate": "2026-10-26",
+            "execdate": null,
+            "term": {
+                "penalty": null,
+                "nopenalty": false,
+                "recovery_indemnity": false,
+                "discount_term": null,
+                "no_discount_term": false,
+                "paytype": null,
+                "bank": {
+                    "bankid": 60001,
+                    "label": "Banque par défaut",
+                    "iban": null,
+                    "bic": null
+                },
+                "payterm": {
+                    "paytermid": 5,
+                    "label": "30 jours"
+                }
+            },
+            "comment": "",
+            "comment_clean": "",
+            "shipping": null,
+            "shipping_clean": null,
+            "external_document_number": "C-2026-0901",
+            "enabled": true,
+            "file": "https://www.evoliz.io/api/companies/10001/files/delivery/7000050",
+            "links": "https://www.evoliz.io/api/companies/10001/links/delivery/7000050",
+            "webdoc": "https://www.evoliz.com/exemple/modules/webdoc/MASQUE",
+            "items": [
+                {
+                    "itemid": 300000130,
+                    "articleid": 7000240,
+                    "reference": "ASTRA MT POM",
+                    "reference_clean": "ASTRA MT POM",
+                    "designation": "ASTRA MOTTE POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0412",
+                    "designation_clean": "ASTRA MOTTE POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0412",
+                    "quantity": 3,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 88,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 264,
+                        "vat": 14.52,
+                        "vat_include": 278.52,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 2.5,
+                            "percent": 50.5,
+                            "margin_percent": 100.5,
+                            "markup_percent": 50.5,
+                            "amount": 10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000140,
+                    "articleid": 7000240,
+                    "reference": "ASTRA MT POM",
+                    "reference_clean": "ASTRA MT POM",
+                    "designation": "ASTRA MOTTE POMMIER / plants offerts",
+                    "designation_clean": "ASTRA MOTTE POMMIER / plants offerts",
+                    "quantity": 1,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 0,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 0,
+                        "vat": 0,
+                        "vat_include": 0,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 0,
+                            "percent": 0,
+                            "margin_percent": 0,
+                            "markup_percent": 0,
+                            "amount": 0
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000150,
+                    "articleid": null,
+                    "reference": null,
+                    "reference_clean": "",
+                    "designation": "Ligne test libre",
+                    "designation_clean": "Ligne test libre",
+                    "quantity": 1,
+                    "type": "article",
+                    "unit": null,
+                    "unit_price_vat_exclude": 69,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": null,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 69,
+                        "vat": 0,
+                        "vat_include": 69,
+                        "margin": null
+                    },
+                    "currency_total": null,
+                    "sale_classification": null,
+                    "weight": 0
+                }
+            ],
+            "prices_include_vat": false,
+            "business_process": {
+                "label": "goods",
+                "code": "b1"
+            },
+            "template": {
+                "templateid": 60002,
+                "label": "BL 1.0"
+            }
+        },
+        {
+            "deliveryid": 7000030,
+            "document_number": "BL-20269001049",
+            "userid": 50001,
+            "client": {
+                "clientid": 7000210,
+                "code": "SARLFICTIF",
+                "name": "SARL FICTIF",
+                "civility": "",
+                "contact": null,
+                "delivery_address": null
+            },
+            "default_currency": {
+                "code": "EUR",
+                "conversion": 1,
+                "symbol": "€"
+            },
+            "document_currency": null,
+            "total": {
+                "rebate": {
+                    "amount_vat_exclude": 0
+                },
+                "vat_exclude": 1318,
+                "vat": 72.49,
+                "vat_include": 1390.49,
+                "net_to_pay": 1390.49,
+                "total_quantity": 20,
+                "number_packages": null,
+                "package_weight": null,
+                "margin": {
+                    "purchase_price_vat_exclude": 640,
+                    "percent": 50.5,
+                    "margin_percent": 100.5,
+                    "markup_percent": 50.5,
+                    "amount": 10
+                }
+            },
+            "currency_total": null,
+            "status_code": 2,
+            "status": "create",
+            "status_dates": {
+                "create": "2026-09-27T13:00:00.000000Z",
+                "sent": null,
+                "accept": null,
+                "wait": null,
+                "reject": null,
+                "invoice": null,
+                "close": null
+            },
+            "object": "",
+            "documentdate": "2026-09-27",
+            "duedate": "2026-10-27",
+            "execdate": null,
+            "term": {
+                "penalty": null,
+                "nopenalty": false,
+                "recovery_indemnity": true,
+                "discount_term": null,
+                "no_discount_term": false,
+                "paytype": null,
+                "bank": {
+                    "bankid": 60001,
+                    "label": "Banque par défaut",
+                    "iban": null,
+                    "bic": null
+                },
+                "payterm": {
+                    "paytermid": 5,
+                    "label": "30 jours"
+                }
+            },
+            "comment": "",
+            "comment_clean": "",
+            "shipping": "",
+            "shipping_clean": null,
+            "external_document_number": null,
+            "enabled": true,
+            "file": "https://www.evoliz.io/api/companies/10001/files/delivery/7000030",
+            "links": "https://www.evoliz.io/api/companies/10001/links/delivery/7000030",
+            "webdoc": "https://www.evoliz.com/exemple/modules/webdoc/MASQUE",
+            "items": [
+                {
+                    "itemid": 300000030,
+                    "articleid": 7000100,
+                    "reference": "BRAVO TOM POMMIER",
+                    "reference_clean": "BRAVO TOM POMMIER",
+                    "designation": "BRAVO TOM POMMIER /CAL : 6-8 / PG : M9 / LOT : A26-0517",
+                    "designation_clean": "BRAVO TOM POMMIER /CAL : 6-8 / PG : M9 / LOT : A26-0517",
+                    "quantity": 12,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 74,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 888,
+                        "vat": 48.84,
+                        "vat_include": 936.84,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 2.5,
+                            "percent": 50.5,
+                            "margin_percent": 100.5,
+                            "markup_percent": 50.5,
+                            "amount": 10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000040,
+                    "articleid": 7000100,
+                    "reference": "BRAVO TOM POMMIER",
+                    "reference_clean": "BRAVO TOM POMMIER",
+                    "designation": "BRAVO TOM POMMIER /CAL : 6-8 / PG : M9 / LOT : A26-0517 / plant offert",
+                    "designation_clean": "BRAVO TOM POMMIER /CAL : 6-8 / PG : M9 / LOT : A26-0517 / plant offert",
+                    "quantity": 1,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 0,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 0,
+                        "vat": 0,
+                        "vat_include": 0,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 0,
+                            "percent": 0,
+                            "margin_percent": -100,
+                            "markup_percent": 0,
+                            "amount": -10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000050,
+                    "articleid": 7000110,
+                    "reference": "BRAVO MOTTE POMMIER",
+                    "reference_clean": "BRAVO MOTTE POMMIER",
+                    "designation": "BRAVO MOTTE POMMIER / PG :M9 / CAL : 6-8 / LOT : B26-0233",
+                    "designation_clean": "BRAVO MOTTE POMMIER / PG :M9 / CAL : 6-8 / LOT : B26-0233",
+                    "quantity": 5,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 86,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 430,
+                        "vat": 23.65,
+                        "vat_include": 453.65,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 2.5,
+                            "percent": 50.5,
+                            "margin_percent": 100.5,
+                            "markup_percent": 50.5,
+                            "amount": 10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000060,
+                    "articleid": 7000110,
+                    "reference": "BRAVO MOTTE POMMIER",
+                    "reference_clean": "BRAVO MOTTE POMMIER",
+                    "designation": "BRAVO MOTTE POMMIER / PG :M9 / CAL : 6-8 / LOT : B26-0233 / plant offert",
+                    "designation_clean": "BRAVO MOTTE POMMIER / PG :M9 / CAL : 6-8 / LOT : B26-0233 / plant offert",
+                    "quantity": 2,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 0,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 0,
+                        "vat": 0,
+                        "vat_include": 0,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 0,
+                            "percent": 0,
+                            "margin_percent": -100,
+                            "markup_percent": 0,
+                            "amount": -10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000070,
+                    "articleid": 7000120,
+                    "reference": "TABLIER",
+                    "reference_clean": "TABLIER",
+                    "designation": "TABLIER de jardin, taille unique",
+                    "designation_clean": "TABLIER de jardin, taille unique",
+                    "quantity": 0,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 0,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 20,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 0,
+                        "vat": 0,
+                        "vat_include": 0,
+                        "margin": null
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500020,
+                        "code": "20",
+                        "label": "VENTES 20%"
+                    },
+                    "weight": 0
+                }
+            ],
+            "prices_include_vat": false,
+            "business_process": null,
+            "template": {
+                "templateid": 60002,
+                "label": "BL 1.0"
+            }
+        },
+        {
+            "deliveryid": 7000020,
+            "document_number": "BL-20269001048",
+            "userid": 50001,
+            "client": {
+                "clientid": 7000300,
+                "code": "SARLMODELE",
+                "name": "SARL MODELE",
+                "civility": "",
+                "contact": null,
+                "delivery_address": null
+            },
+            "default_currency": {
+                "code": "EUR",
+                "conversion": 1,
+                "symbol": "€"
+            },
+            "document_currency": null,
+            "total": {
+                "rebate": {
+                    "amount_vat_exclude": 0
+                },
+                "vat_exclude": 343,
+                "vat": 18.87,
+                "vat_include": 361.87,
+                "net_to_pay": 361.87,
+                "total_quantity": 4,
+                "number_packages": null,
+                "package_weight": null,
+                "margin": {
+                    "purchase_price_vat_exclude": 640,
+                    "percent": 50.5,
+                    "margin_percent": 100.5,
+                    "markup_percent": 50.5,
+                    "amount": 10
+                }
+            },
+            "currency_total": null,
+            "status_code": 2,
+            "status": "create",
+            "status_dates": {
+                "create": "2026-09-25T12:40:00.000000Z",
+                "sent": null,
+                "accept": null,
+                "wait": null,
+                "reject": null,
+                "invoice": null,
+                "close": null
+            },
+            "object": "Livraison exemple - N°adhérent : 00000000",
+            "documentdate": "2026-09-25",
+            "duedate": "2026-10-25",
+            "execdate": null,
+            "term": {
+                "penalty": null,
+                "nopenalty": false,
+                "recovery_indemnity": true,
+                "discount_term": null,
+                "no_discount_term": false,
+                "paytype": null,
+                "bank": {
+                    "bankid": 60001,
+                    "label": "Banque par défaut",
+                    "iban": null,
+                    "bic": null
+                },
+                "payterm": {
+                    "paytermid": 5,
+                    "label": "30 jours"
+                }
+            },
+            "comment": "",
+            "comment_clean": "",
+            "shipping": "",
+            "shipping_clean": null,
+            "external_document_number": null,
+            "enabled": true,
+            "file": "https://www.evoliz.io/api/companies/10001/files/delivery/7000020",
+            "links": "https://www.evoliz.io/api/companies/10001/links/delivery/7000020",
+            "webdoc": "https://www.evoliz.com/exemple/modules/webdoc/MASQUE",
+            "items": [
+                {
+                    "itemid": 300000010,
+                    "articleid": 7000140,
+                    "reference": "WALDA PRO MOTTE POM",
+                    "reference_clean": "WALDA PRO MOTTE POM",
+                    "designation": "WALDA PRO MOTTE POMMIER / PG : PAJAM2 / CAL : 6-8 / LOT : E26-0745",
+                    "designation_clean": "WALDA PRO MOTTE POMMIER / PG : PAJAM2 / CAL : 6-8 / LOT : E26-0745",
+                    "quantity": 3,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 83,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 249,
+                        "vat": 13.7,
+                        "vat_include": 262.7,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 2.5,
+                            "percent": 50,
+                            "margin_percent": 100,
+                            "markup_percent": 50,
+                            "amount": 10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                },
+                {
+                    "itemid": 300000020,
+                    "articleid": 7000220,
+                    "reference": "TIRANO TIGE MT POM",
+                    "reference_clean": "TIRANO TIGE MT POM",
+                    "designation": "TIRANO TIGE MOTTE 150/175 POMMIER / CAL : 14-16 / PG :&nbsp;MAXMA14 / LOT : H26-0158",
+                    "designation_clean": "TIRANO TIGE MOTTE 150/175 POMMIER / CAL : 14-16 / PG :&nbsp;MAXMA14 / LOT : H26-0158",
+                    "quantity": 1,
+                    "type": "article",
+                    "unit": "",
+                    "unit_price_vat_exclude": 94,
+                    "unit_price_vat_exclude_currency": null,
+                    "vat": 5.5,
+                    "total": {
+                        "rebate": {
+                            "amount_vat_exclude": 0
+                        },
+                        "vat_exclude": 94,
+                        "vat": 5.17,
+                        "vat_include": 99.17,
+                        "margin": {
+                            "purchase_unit_price_vat_exclude": 64,
+                            "coefficient": 2.5,
+                            "percent": 50.5,
+                            "margin_percent": 100.5,
+                            "markup_percent": 50.5,
+                            "amount": 10
+                        }
+                    },
+                    "currency_total": null,
+                    "sale_classification": {
+                        "id": 500030,
+                        "code": "POMMIER",
+                        "label": "POMMIER"
+                    },
+                    "weight": 0
+                }
+            ],
+            "prices_include_vat": false,
+            "business_process": null,
+            "template": {
+                "templateid": 60002,
+                "label": "BL 1.0"
+            }
+        }
+    ],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/deliveries?per_page=3&period=currentyear&page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/deliveries?per_page=3&period=currentyear&page=337",
+        "prev": null,
+        "next": "https://www.evoliz.io/api/v1/companies/10001/deliveries?per_page=3&period=currentyear&page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 337,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/deliveries",
+        "per_page": 3,
+        "to": 3,
+        "total": 3
+    }
+}

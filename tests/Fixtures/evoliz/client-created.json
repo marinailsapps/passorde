@@ -1,0 +1,44 @@
+{
+    "clientid": 20000010,
+    "userid": 50001,
+    "code": "ESSAIAPI",
+    "civility": null,
+    "name": "CLIENT ESSAI API",
+    "type": "Professionnel",
+    "legalform": null,
+    "business_number": null,
+    "business_identification_number": null,
+    "activity_number": null,
+    "vat_number": "NC",
+    "immat_number": null,
+    "bank_information": {
+        "bank_name": null,
+        "bank_account_detail": null,
+        "iban": null,
+        "bank_identification_code": null
+    },
+    "address": {
+        "addr": "7 allée des Essais",
+        "addr2": null,
+        "addr3": null,
+        "postcode": "88200",
+        "town": "LAMBERTOU",
+        "country": {
+            "label": "France",
+            "iso2": "FR"
+        },
+        "business_number": null
+    },
+    "delivery_address": null,
+    "phone": "0600000000",
+    "mobile": null,
+    "fax": null,
+    "website": null,
+    "safe_amount": 0,
+    "term": null,
+    "ttc": false,
+    "comment": null,
+    "stampdate": null,
+    "enabled": true,
+    "custom_fields": []
+}

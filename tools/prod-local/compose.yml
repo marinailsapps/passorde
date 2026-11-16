@@ -1,0 +1,41 @@
+# Local rehearsal of the production stack only (never on the server): the
+# Evoliz and OVH mocks and MinIO standing in for the S3 backup storage, on the same
+# networks as compose.prod.yml. See docs/RUNBOOK.md "Production stack on a laptop".
+#
+#   docker compose -p passorde-prod -f compose.prod.yml -f tools/prod-local/compose.yml --env-file .env.prod.local up -d
+services:
+  # Passorde's Evoliz mock (fictional data, company 1000), from the vendor copy.
+  evoliz-mock:
+    image: php:8.3-cli-alpine
+    working_dir: /mock
+    command: ["php", "-S", "0.0.0.0:8080", "index.php"]
+    volumes:
+      - ./vendor/marinailsapps/passorde-connect/connectors/evoliz/mock:/mock:ro
+    networks:
+      - edge
+
+  # OVH SMS API: prints each SMS in its log.
+  ovh-mock:
+    image: php:8.3-cli-alpine
+    working_dir: /mock
+    command: ["php", "-S", "0.0.0.0:8080", "index.php"]
+    volumes:
+      - ./docker/ovh-mock:/mock:ro
+    networks:
+      - edge
+
+  # MinIO's own images are no longer published (2025); Bitnami's legacy build
+  # is the same server and creates the bucket itself.
+  minio:
+    image: bitnamilegacy/minio:2025.5.24
+    environment:
+      MINIO_ROOT_USER: ${BACKUP_S3_KEY}
+      MINIO_ROOT_PASSWORD: ${BACKUP_S3_SECRET}
+      MINIO_DEFAULT_BUCKETS: ${BACKUP_S3_BUCKET}
+    volumes:
+      - minio-data:/bitnami/minio/data
+    networks:
+      - edge
+
+volumes:
+  minio-data:

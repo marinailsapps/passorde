@@ -1,0 +1,216 @@
+# Production stack: caddy (TLS for APP_DOMAIN) in front of the app,
+# queue, scheduler, nightly backup and postgres. Standalone: it does not extend
+# compose.yml. On the server it lives in the install directory (/srv/passorde) next to .env, which sets
+# COMPOSE_FILE=compose.prod.yml so plain `docker compose …` uses it
+# (docs/RUNBOOK.md "Server bootstrap", "Deploying").
+#
+# Every value comes from .env (see .env.production.example). The app image tag
+# is PASSORDE_TAG, which deploy/deploy.sh and deploy/rollback.sh manage.
+#
+# Only Caddy publishes ports (Docker's port rules bypass ufw). Postgres sits on
+# an internal network without a route out; the app containers reach it there
+# and reach the internet (Evoliz, OVH, SMTP) through the "edge" network, whose
+# fixed subnet is what TRUSTED_PROXIES trusts.
+
+x-app: &app
+  image: ${PASSORDE_IMAGE:-ghcr.io/marinailsapps/passorde}:${PASSORDE_TAG:?set PASSORDE_TAG in .env (deploy/deploy.sh does)}
+  restart: unless-stopped
+  volumes:
+    # Laravel reads the same .env file compose interpolates.
+    - ${APP_ENV_FILE:-./.env}:/var/www/html/.env:ro
+    # Shared by app, queue and scheduler: file cache (Evoliz token, job and
+    # schedule locks) and logs. Without it a unique job's lock taken by the
+    # app would never be released by the queue worker.
+    - storage:/var/www/html/storage
+    # The installation profile (docs/RUNBOOK.md "Installation profile"): a private
+    # directory on the server with profile.php, read at boot; .env names it with
+    # PASSORDE_PROFILE=/var/www/html/profile (or none for the neutral defaults).
+    - ${PASSORDE_PROFILE_DIR:-./profile}:/var/www/html/profile:ro
+  networks:
+    - edge
+    - db
+  logging: &logging
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "5"
+  depends_on:
+    postgres:
+      condition: service_healthy
+
+services:
+  caddy:
+    image: caddy:2
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+      - "${HTTPS_PORT:-443}:443"
+      - "${HTTPS_PORT:-443}:443/udp"
+    environment:
+      ACME_EMAIL: ${ACME_EMAIL:-}
+      # The public host name, read by docker/caddy/Caddyfile.
+      APP_DOMAIN: ${APP_DOMAIN:?set APP_DOMAIN in .env}
+    volumes:
+      - ${CADDYFILE:-./docker/caddy/Caddyfile}:/etc/caddy/Caddyfile:ro
+      - ./docker/caddy/security.caddy:/etc/caddy/security.caddy:ro
+      # Server-only extra sites (Caddyfile imports sites/*.caddy; may be empty).
+      - ./docker/caddy/sites:/etc/caddy/sites:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      - edge
+    healthcheck:
+      # Caddy's admin endpoint, only reachable inside the container.
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:2019/config/"]
+      interval: 1m
+      start_period: 30s
+      start_interval: 2s
+    logging: *logging
+    depends_on:
+      app:
+        condition: service_started
+
+  app:
+    <<: *app
+    # Healthcheck: the image's own (curl HEALTHCHECK_PATH every 10 s).
+    environment:
+      HEALTHCHECK_PATH: /up
+      # Migrations and Laravel's caches (config, routes, views, events) run at
+      # start, before nginx and php-fpm accept requests; deploy.sh runs
+      # `migrate --force` again afterwards (a no-op unless something new came).
+      AUTORUN_ENABLED: "true"
+      AUTORUN_LARAVEL_MIGRATION: "true"
+      AUTORUN_LARAVEL_MIGRATION_TIMEOUT: "60"
+      AUTORUN_LARAVEL_STORAGE_LINK: "false"
+
+  queue:
+    <<: *app
+    # One attempt at the queue level: Evoliz retries happen inside the jobs,
+    # anything else fails the order and the admin retries.
+    command: ["php", "/var/www/html/artisan", "queue:work", "--tries=1", "--max-time=3600"]
+    stop_signal: SIGTERM
+    stop_grace_period: 60s
+    environment:
+      AUTORUN_ENABLED: "true"
+      AUTORUN_LARAVEL_MIGRATION: "false"
+      AUTORUN_LARAVEL_STORAGE_LINK: "false"
+    depends_on: &after-app
+      postgres:
+        condition: service_healthy
+      # Started once the app ran the migrations.
+      app:
+        condition: service_healthy
+    healthcheck:
+      # The queue worker ran the heartbeat job within the last 10 minutes. Not the
+      # profile: data must not fail `up --wait` after the app migrated (deploy.sh
+      # checks the profile before it touches the containers; the digest and the
+      # settings page report it afterwards).
+      test: ["CMD", "php", "/var/www/html/artisan", "ops:check", "queue"]
+      interval: 1m
+      timeout: 20s
+      start_period: 3m
+      start_interval: 5s
+      retries: 3
+
+  scheduler:
+    <<: *app
+    # With Evoliz active it runs the Evoliz syncs (unless SYNC_SCHEDULE_ENABLED=false
+    # in .env); the heartbeat and the daily digest always run.
+    command: ["php", "/var/www/html/artisan", "schedule:work"]
+    stop_signal: SIGTERM
+    environment:
+      AUTORUN_ENABLED: "true"
+      AUTORUN_LARAVEL_MIGRATION: "false"
+      AUTORUN_LARAVEL_STORAGE_LINK: "false"
+    depends_on: *after-app
+    healthcheck:
+      test: ["CMD", "php", "/var/www/html/artisan", "ops:check", "scheduler"]
+      interval: 1m
+      timeout: 20s
+      start_period: 3m
+      start_interval: 5s
+      retries: 3
+
+  # Nightly pg_dump + .env + the installation profile into restic on S3-compatible storage at 02:30 Paris
+  # time (deploy/backup.sh); restores with deploy/restore.sh.
+  backup:
+    image: ${PASSORDE_BACKUP_IMAGE:-ghcr.io/marinailsapps/passorde-backup}:${PASSORDE_TAG:?set PASSORDE_TAG in .env (deploy/deploy.sh does)}
+    restart: unless-stopped
+    init: true
+    environment:
+      TZ: Europe/Paris
+      BACKUP_SCHEDULE: ${BACKUP_SCHEDULE:-30 2 * * *}
+      PGHOST: postgres
+      PGPORT: "5432"
+      PGDATABASE: ${DB_DATABASE:-passorde}
+      PGUSER: ${DB_USERNAME:-passorde}
+      PGPASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+      BACKUP_S3_ENDPOINT: ${BACKUP_S3_ENDPOINT:-}
+      BACKUP_S3_BUCKET: ${BACKUP_S3_BUCKET:-}
+      BACKUP_S3_REGION: ${BACKUP_S3_REGION:-}
+      BACKUP_S3_KEY: ${BACKUP_S3_KEY:-}
+      BACKUP_S3_SECRET: ${BACKUP_S3_SECRET:-}
+      RESTIC_PASSWORD: ${RESTIC_PASSWORD:-}
+      # The restic host and the repository's folder in the bucket (deploy/backup.sh).
+      BACKUP_NAME: ${BACKUP_NAME:-passorde}
+      # The same repository settings backup.sh builds, so that restic works on
+      # its own in the container (docker compose exec backup restic snapshots).
+      RESTIC_REPOSITORY: s3:${BACKUP_S3_ENDPOINT:-}/${BACKUP_S3_BUCKET:-}/${BACKUP_NAME:-passorde}
+      AWS_ACCESS_KEY_ID: ${BACKUP_S3_KEY:-}
+      AWS_SECRET_ACCESS_KEY: ${BACKUP_S3_SECRET:-}
+      AWS_DEFAULT_REGION: ${BACKUP_S3_REGION:-}
+    volumes:
+      - ${APP_ENV_FILE:-./.env}:/backup/.env:ro
+      # The installation profile, saved with the dump and the .env (deploy/backup.sh).
+      - ${PASSORDE_PROFILE_DIR:-./profile}:/backup/profile:ro
+      # restore.sh writes the restored .env here (<install directory>/restore on the server).
+      - ./restore:/restore
+      - restic-cache:/root/.cache/restic
+    networks:
+      - edge
+      - db
+    healthcheck:
+      test: ["CMD", "pgrep", "crond"]
+      interval: 5m
+      start_period: 30s
+      start_interval: 2s
+    logging: *logging
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:16
+    restart: unless-stopped
+    shm_size: 256mb
+    environment:
+      POSTGRES_DB: ${DB_DATABASE:-passorde}
+      POSTGRES_USER: ${DB_USERNAME:-passorde}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD is required}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $${POSTGRES_USER} -d $${POSTGRES_DB}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    logging: *logging
+
+networks:
+  # Caddy ↔ app, and the way out to the internet. TRUSTED_PROXIES=172.30.93.0/24.
+  edge:
+    ipam:
+      config:
+        - subnet: 172.30.93.0/24
+  # Postgres only: no published port, no route out.
+  db:
+    internal: true
+
+volumes:
+  storage:
+  postgres-data:
+  caddy-data:
+  caddy-config:
+  restic-cache:

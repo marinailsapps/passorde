@@ -1,0 +1,151 @@
+{
+    "data": [
+        {
+            "clientid": 7000270,
+            "userid": 50001,
+            "code": "ESSAICLAIRVAL",
+            "civility": "",
+            "name": " ESSAI CLAIRVAL",
+            "type": "Professionnel",
+            "legalform": "",
+            "business_number": "",
+            "business_identification_number": "",
+            "activity_number": "",
+            "vat_number": "N/C",
+            "immat_number": "",
+            "bank_information": {
+                "bank_name": "",
+                "bank_account_detail": "",
+                "iban": "",
+                "bank_identification_code": ""
+            },
+            "address": {
+                "addr": "4 RUE EXEMPLE",
+                "addr2": "",
+                "addr3": "",
+                "postcode": "60130",
+                "town": "CHAMPDOUX",
+                "country": {
+                    "label": "France",
+                    "iso2": "FR"
+                },
+                "business_number": ""
+            },
+            "delivery_address": null,
+            "phone": "",
+            "mobile": "",
+            "fax": "POMMIER",
+            "website": "",
+            "safe_amount": 0,
+            "term": null,
+            "ttc": false,
+            "comment": "",
+            "stampdate": "2025-08-17T07:11:07.000000Z",
+            "enabled": true,
+            "custom_fields": []
+        },
+        {
+            "clientid": 7000150,
+            "userid": 50001,
+            "code": "PROTOHELE",
+            "civility": "",
+            "name": "PROTO HÉLÈNE",
+            "type": "Professionnel",
+            "legalform": "",
+            "business_number": "",
+            "business_identification_number": null,
+            "activity_number": "",
+            "vat_number": "NC",
+            "immat_number": "",
+            "bank_information": {
+                "bank_name": "",
+                "bank_account_detail": "",
+                "iban": "",
+                "bank_identification_code": ""
+            },
+            "address": {
+                "addr": "LIEU-DIT EXEMPLE",
+                "addr2": "",
+                "addr3": null,
+                "postcode": "30140",
+                "town": "PONTVERT/RIVIERE",
+                "country": {
+                    "label": "France",
+                    "iso2": "FR"
+                },
+                "business_number": ""
+            },
+            "delivery_address": null,
+            "phone": "06.00.00.00.02",
+            "mobile": "",
+            "fax": "",
+            "website": "",
+            "safe_amount": 0,
+            "term": null,
+            "ttc": false,
+            "comment": "",
+            "stampdate": "2025-03-12T02:12:02.000000Z",
+            "enabled": true,
+            "custom_fields": []
+        },
+        {
+            "clientid": 7000290,
+            "userid": 50001,
+            "code": "ALEXANDREMAQUETTE",
+            "civility": "",
+            "name": "GASPARD MAQUETTE",
+            "type": "Professionnel",
+            "legalform": "",
+            "business_number": "",
+            "business_identification_number": "",
+            "activity_number": "",
+            "vat_number": "N/C",
+            "immat_number": "",
+            "bank_information": {
+                "bank_name": "",
+                "bank_account_detail": "",
+                "iban": "",
+                "bank_identification_code": ""
+            },
+            "address": {
+                "addr": "12 ROUTE EXEMPLE",
+                "addr2": "",
+                "addr3": "",
+                "postcode": "66370",
+                "town": "VILLEFLEURIE",
+                "country": {
+                    "label": "France",
+                    "iso2": "FR"
+                },
+                "business_number": ""
+            },
+            "delivery_address": null,
+            "phone": "",
+            "mobile": "",
+            "fax": "",
+            "website": "",
+            "safe_amount": 0,
+            "term": null,
+            "ttc": false,
+            "comment": "",
+            "stampdate": "2025-01-18T08:12:08.000000Z",
+            "enabled": true,
+            "custom_fields": []
+        }
+    ],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/clients?page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/clients?page=2",
+        "prev": null,
+        "next": "https://www.evoliz.io/api/v1/companies/10001/clients?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 2,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/clients",
+        "per_page": 100,
+        "to": 3,
+        "total": 5
+    }
+}

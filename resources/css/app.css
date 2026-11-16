@@ -1,0 +1,93 @@
+@import 'tailwindcss';
+
+@source '../views/**/*.blade.php';
+@source '../js/**/*.{ts,vue}';
+
+@theme {
+    --font-sans: 'Inter Variable', ui-sans-serif, system-ui, sans-serif;
+
+    /* Neutral base: off-white page, white surfaces, dark slate text. */
+    --color-page: #f7f7f5;
+    --color-surface: #ffffff;
+    --color-line: #e2e4e8;
+    /* Borders of inputs, selects and steppers: 3:1 on white (WCAG 1.4.11). */
+    --color-field: #868f9e;
+    --color-ink: #1e293b;
+    /* Secondary text: 5.3:1 on the page background (AA). */
+    --color-muted: #5b6779;
+
+    /* Single accent for primary actions: the neutral one; the build puts brand.accent* here (scripts/brand.ts). */
+    --color-accent: #334155;
+    --color-accent-strong: #1e293b;
+    --color-accent-soft: #e2e8f0;
+}
+
+@layer base {
+    html {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+        @apply bg-page text-ink font-sans antialiased;
+    }
+}
+
+/*
+ * Inertia's page-load bar. Inertia would inject these rules as a <style>
+ * element, which the Content-Security-Policy (style-src 'self') blocks, so
+ * app.ts sets includeCSS: false and they live here.
+ */
+#nprogress {
+    pointer-events: none;
+}
+
+#nprogress .bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1031;
+    width: 100%;
+    height: 2px;
+    background: var(--color-accent);
+}
+
+#nprogress .peg {
+    position: absolute;
+    right: 0;
+    display: block;
+    width: 100px;
+    height: 100%;
+    box-shadow: 0 0 10px var(--color-accent), 0 0 5px var(--color-accent);
+    opacity: 1;
+    transform: rotate(3deg) translate(0, -4px);
+}
+
+/*
+ * iOS Safari gives date inputs an intrinsic width wider than half a phone
+ * (two side by side overflowed) and centres the value: let them shrink and
+ * align left like the other fields.
+ */
+input[type='date'] {
+    -webkit-appearance: none;
+    appearance: none;
+    min-width: 0;
+}
+
+input[type='date']::-webkit-date-and-time-value {
+    text-align: left;
+}
+
+/*
+ * Printing: a page without margins leaves the browser no room for its date and
+ * URL; AppLayout's <main> gives the sheet its margins, on every page.
+ */
+@page {
+    size: A4;
+    margin: 0;
+}
+
+@media print {
+    body {
+        background: white;
+    }
+}

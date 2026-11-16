@@ -1,0 +1,41 @@
+[
+    {
+        "name": "fills every form of every word, the longest placeholder first",
+        "words": { "unit": "unité", "units": "unités", "free": "offert", "category": "catégorie", "categories": "catégories", "item": "Nouvel article" },
+        "texts": {},
+        "lines": {
+            "Total": "Quantité totale (:units)",
+            "Head": ":Units",
+            "Shout": ":UNITS",
+            "One": "1 :unit, :count :units",
+            "Cat": "Toutes les :categories, sans :category, :Category de :reference",
+            "Button": "+ :item",
+            "Plain": "Enregistré.",
+            "Choice": ":count :unit|:count :units"
+        },
+        "expected": {
+            "Total": "Quantité totale (unités)",
+            "Head": "Unités",
+            "Shout": "UNITÉS",
+            "One": "1 unité, :count unités",
+            "Cat": "Toutes les catégories, sans catégorie, Catégorie de :reference",
+            "Button": "+ Nouvel article",
+            "Plain": "Enregistré.",
+            "Choice": ":count unité|:count unités"
+        }
+    },
+    {
+        "name": "lays the profile's sentences over the lines, placeholders filled there too",
+        "words": { "unit": "plant", "units": "plants", "free": "plant offert", "category": "essence", "categories": "essences", "item": "Nouvelle variété" },
+        "texts": { "Button": "+ Ajouter une variété", "Total": "Total des :units", "Extra": "Une :category" },
+        "lines": { "Button": "+ :item", "Total": "Quantité totale (:units)", "Free": ":reference, :free" },
+        "expected": { "Button": "+ Ajouter une variété", "Total": "Total des plants", "Free": ":reference, plant offert", "Extra": "Une essence" }
+    },
+    {
+        "name": "an empty word leaves nothing behind",
+        "words": { "unit": "unité", "units": "unités", "free": "offert", "category": "catégorie", "categories": "catégories", "item": "" },
+        "texts": {},
+        "lines": { "Button": "+ :item" },
+        "expected": { "Button": "+ " }
+    }
+]

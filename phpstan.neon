@@ -1,0 +1,18 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - app
+        - bootstrap/app.php
+        - config
+        - database
+        - routes
+        - tests
+    tmpDir: storage/framework/cache/phpstan
+    ignoreErrors:
+        # Pest binds test closures to the test case; state set in beforeEach ($this->user) is dynamic.
+        -
+            identifier: property.notFound
+            path: tests/*

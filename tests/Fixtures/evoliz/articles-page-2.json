@@ -1,0 +1,145 @@
+{
+    "data": [
+        {
+            "articleid": 7000070,
+            "userid": 50001,
+            "reference": "B3Q3_MOT",
+            "reference_clean": "B3Q3_MOT",
+            "nature": "product",
+            "sale_classification": {
+                "id": 500030,
+                "code": "POMMIER",
+                "label": "POMMIER"
+            },
+            "designation": "B3Q3 MOTTE POMMIER / PG : GF677 / CAL : 10-12 / LOT : G26-0602",
+            "designation_clean": "B3Q3 MOTTE POMMIER / PG : GF677 / CAL : 10-12 / LOT : G26-0602",
+            "quantity": 0,
+            "weight": 0,
+            "unit": "",
+            "unit_price_vat_exclude": 91,
+            "unit_price_vat_include": 96.005,
+            "vat": 5.5,
+            "ttc": false,
+            "purchase_classification": null,
+            "margin": {
+                "purchase_unit_price_vat_exclude": 64,
+                "coefficient": 2.5,
+                "percent": 50.5,
+                "margin_percent": 100.5,
+                "markup_percent": 50.5,
+                "amount": 10
+            },
+            "supplier": {
+                "supplierid": 7000010,
+                "code": "F6",
+                "name": "PEPINIERES EXEMPLE"
+            },
+            "supplier_reference": "PLANTS POMMIER",
+            "supplier_reference_clean": "PLANTS POMMIER",
+            "stock_management": true,
+            "stocked_quantity": 12,
+            "enabled": true,
+            "picture_link": null,
+            "custom_fields": []
+        },
+        {
+            "articleid": 7000230,
+            "userid": 50001,
+            "reference": "ASTRA POM",
+            "reference_clean": "ASTRA POM",
+            "nature": "product",
+            "sale_classification": {
+                "id": 500030,
+                "code": "POMMIER",
+                "label": "POMMIER"
+            },
+            "designation": "ASTRA POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0413",
+            "designation_clean": "ASTRA POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0413",
+            "quantity": 0,
+            "weight": 0,
+            "unit": "",
+            "unit_price_vat_exclude": 72,
+            "unit_price_vat_include": 75.96,
+            "vat": 5.5,
+            "ttc": false,
+            "purchase_classification": null,
+            "margin": {
+                "purchase_unit_price_vat_exclude": 64,
+                "coefficient": 2.5,
+                "percent": 50.5,
+                "margin_percent": 100.5,
+                "markup_percent": 50.5,
+                "amount": 10
+            },
+            "supplier": {
+                "supplierid": 7000010,
+                "code": "F6",
+                "name": "PEPINIERES EXEMPLE"
+            },
+            "supplier_reference": "PLANTS POMMIER",
+            "supplier_reference_clean": "PLANTS POMMIER",
+            "stock_management": true,
+            "stocked_quantity": 0,
+            "enabled": true,
+            "picture_link": null,
+            "custom_fields": []
+        },
+        {
+            "articleid": 7000240,
+            "userid": 50001,
+            "reference": "ASTRA MT POM",
+            "reference_clean": "ASTRA MT POM",
+            "nature": "product",
+            "sale_classification": {
+                "id": 500030,
+                "code": "POMMIER",
+                "label": "POMMIER"
+            },
+            "designation": "ASTRA MOTTE POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0412",
+            "designation_clean": "ASTRA MOTTE POMMIER&nbsp;&nbsp;/ PG :&nbsp;M9 / CAL : 12-14 / LOT : A26-0412",
+            "quantity": 0,
+            "weight": 0,
+            "unit": "",
+            "unit_price_vat_exclude": 88,
+            "unit_price_vat_include": 92.84,
+            "vat": 5.5,
+            "ttc": false,
+            "purchase_classification": null,
+            "margin": {
+                "purchase_unit_price_vat_exclude": 64,
+                "coefficient": 2.5,
+                "percent": 50.5,
+                "margin_percent": 100.5,
+                "markup_percent": 50.5,
+                "amount": 10
+            },
+            "supplier": {
+                "supplierid": 7000010,
+                "code": "F6",
+                "name": "PEPINIERES EXEMPLE"
+            },
+            "supplier_reference": "PLANTS POMMIER",
+            "supplier_reference_clean": "PLANTS POMMIER",
+            "stock_management": true,
+            "stocked_quantity": 4,
+            "enabled": true,
+            "picture_link": null,
+            "custom_fields": []
+        }
+    ],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/articles?page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/articles?page=2",
+        "prev": "https://www.evoliz.io/api/v1/companies/10001/articles?page=1",
+        "next": null
+    },
+    "meta": {
+        "current_page": 2,
+        "from": 1,
+        "last_page": 2,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/articles",
+        "per_page": 100,
+        "to": 3,
+        "total": 6
+    }
+}

@@ -1,0 +1,27 @@
+# Response headers for every site (imported by Caddyfile and Caddyfile.local).
+# "defer" applies them after the
+# app answered, so they win over anything nginx or Laravel set.
+#
+# CSP: the app loads only its own scripts and styles (Vite build, Inter is
+# bundled); Cloudflare Turnstile runs in an iframe on login and password reset;
+# the order form calls the BAN address API from the browser.
+header {
+	defer
+	# Replace what nginx in the app image sends (SAMEORIGIN; CSP frame-ancestors says the same).
+	X-Frame-Options "DENY"
+	X-Content-Type-Options "nosniff"
+	Referrer-Policy "same-origin"
+	Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
+	Content-Security-Policy "default-src 'self'; script-src 'self' https://challenges.cloudflare.com; frame-src https://challenges.cloudflare.com; connect-src 'self' https://api-adresse.data.gouv.fr https://challenges.cloudflare.com; img-src 'self' data:; style-src 'self'; font-src 'self'; worker-src 'self'; manifest-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; frame-ancestors 'none'"
+	-Server
+	-X-Powered-By
+}
+
+# Phones must always revalidate the service worker and the web manifest.
+@revalidate path /sw.js /manifest.webmanifest
+header @revalidate {
+	defer
+	Cache-Control "no-cache"
+}
+
+encode zstd gzip

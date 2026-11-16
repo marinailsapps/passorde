@@ -1,0 +1,8 @@
+{
+    "error": "Bad Request Error",
+    "message": {
+        "vat_number": [
+            "The vat number field is required."
+        ]
+    }
+}

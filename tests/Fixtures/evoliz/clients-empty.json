@@ -1,0 +1,18 @@
+{
+    "data": [],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/clients?code=ESSAIAPI&page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/clients?code=ESSAIAPI&page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": null,
+        "last_page": 1,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/clients",
+        "per_page": 15,
+        "to": null,
+        "total": 0
+    }
+}

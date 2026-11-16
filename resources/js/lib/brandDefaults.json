@@ -1,0 +1,15 @@
+{
+    "name": "Passorde",
+    "short_name": "Passorde",
+    "theme_color": "#334155",
+    "accent": "#334155",
+    "accent_strong": "#1e293b",
+    "accent_soft": "#e2e8f0",
+    "storage_prefix": "passorde",
+    "aliases": {
+        "client": {},
+        "article": {},
+        "totals": {},
+        "groupings": {}
+    }
+}

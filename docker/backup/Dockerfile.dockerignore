@@ -1,0 +1,5 @@
+# Build context of docker/backup/Dockerfile: only the scripts it copies.
+*
+!deploy/backup.sh
+!deploy/restore.sh
+!docker/backup/entrypoint.sh

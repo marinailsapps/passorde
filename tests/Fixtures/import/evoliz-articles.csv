@@ -1,0 +1,6 @@
+﻿"Référence";"Nature";"Classification vente";"Code Classification vente";"Désignation";"Quantité";"Poids par unité";"Unité";"PU HT";"PU TTC";"TVA";"Saisie en TTC";"Prix d'achat HT";"Classification achat";"Code Classification achat";"Coefficient multiplicateur";"% Marque";"% Marge";"Marge brute";"Fournisseur";"Code fournisseur";"Réf. Fournisseur";"Article stocké";"Qté stockée";"Désactivé";"Créateur"
+"ALPHA MT POM";"Produit";"TAUX REDUIT";"10";"IMAGINAIRE MOTTE POMMIER / PG : G41 / LOT : 0001";"1";"0";"";"25";"1";"5.5";"PU HT";"10.00";"";"";"2.5";"60";"150";"15";"Fournisseur Fictif ";"F01";"REF FICTIVE";"Oui";"12";"Non";"Solène Fictif"
+" BETA XY";"Produit";"POMMIER";"POMMIER";"BETA / PG : GF677";"1";"0";"";"1 234,50";"1";"5,5";"PU HT";"10.00";"";"";"2.5";"60";"150";"15";"";"";"REF FICTIVE";"Oui";"-3";"Non";"Solène Fictif"
+"GAMMA RECHARGE";"Produit";"TERREAU";"TR";"RECHARGE GAMMA";"1";"0";"";"40";"1";"20";"PU HT";"10.00";"";"";"2.5";"60";"150";"15";"";"";"REF FICTIVE";"Non";"0";"Oui";"Solène Fictif"
+"DELTA PORT";"Service";"Frais Fictifs";"02";"PARTICIPATION DELTA";"1";"0";"";"12.5";"1";"20";"PU HT";"10.00";"";"";"2.5";"60";"150";"15";"";"";"REF FICTIVE";"Non";"0";"Non";"Solène Fictif"
+"EPSILON SANS TAUX";"Service";"";"";"SANS TAUX FICTIF";"1";"0";"";"0";"1";"";"PU HT";"10.00";"";"";"2.5";"60";"150";"15";"";"";"REF FICTIVE";"Non";"0";"Non";"Solène Fictif"

@@ -1,0 +1,4 @@
+reference;designation;prix_ht;tva;stock;gestion_stock;actif;fournisseur;classification;essence;type;seuil
+ALPHA MT POM;ALPHA MOTTE POMMIER PG MYROBOLAN LOT 0001;25,50;5,5;10;oui;oui;Fournisseur Exemple;;POMMIER;motte;5
+BETA MON;BETA POIRIER PG GF677 LOT 0002;18,00;5,5;;;;;;;;
+GANT LONG;GANTS LONGS ETUI;12,00;20;3;oui;oui;;;;material;

@@ -1,0 +1,3 @@
+code;societe;contact;adresse;code_postal;ville;telephone;mobile;email;numero_adherent;actif
+C00001;SARL DE L EXEMPLE;Solène Exemple;1 rue de l Exemple;22100;EXEMPLEVILLE;09 72 00 00 00;06 00 00 00 00;Contact@Example.test;A-015838;oui
+C00002;EURL DU TEST;Dominique Test;2 place du Test;29200;TESTVILLE;;;;;

@@ -1,0 +1,14 @@
+# Local rehearsal of the production stack (docs/RUNBOOK.md "Production stack
+# on a laptop"): https://localhost:8443 with Caddy's own local CA, same headers
+# as production except HSTS (which would pin every localhost port to https).
+{
+	local_certs
+	skip_install_trust
+}
+
+localhost {
+	import /etc/caddy/security.caddy
+	# nginx in the app image sends HSTS too: drop it on localhost.
+	header -Strict-Transport-Security
+	reverse_proxy app:8080
+}

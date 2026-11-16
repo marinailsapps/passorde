@@ -1,0 +1,43 @@
+{
+    "_comment": "Shared by tests/Unit/FuzzyMatchTest.php and resources/js/lib/fuzzyMatch.test.ts: the server and the phone must rank search results identically. Names are fictitious.",
+    "clients": [
+        { "id": 1, "company_name": "SARL DU VAL", "contact_name": "Elouan Clairval", "town": "LAMBERTOU", "postcode": "88200", "extra_field": "NP-58321", "phone": "06 12 34 56 78" },
+        { "id": 2, "company_name": "EURL BARCON", "contact_name": null, "town": "CHATEAUFICTIF", "postcode": "80290", "extra_field": null, "phone": "09 74 00 00 00" },
+        { "id": 3, "company_name": "SARL BARCON ET FILS", "contact_name": null, "town": "BOISJOLI", "postcode": "59380", "extra_field": null, "phone": null },
+        { "id": 4, "company_name": "VALLÉE THADEE", "contact_name": null, "town": "MONTFICTIF", "postcode": "72100", "extra_field": null, "phone": null },
+        { "id": 5, "company_name": "EURL ÉTANG BÉRAL", "contact_name": "Paul Valmont", "town": "SAINT-EXEMPLE", "postcode": "45140", "extra_field": null, "phone": null },
+        { "id": 6, "company_name": "BARCONGES ANATOLE", "contact_name": null, "town": "MONTFICTIF", "postcode": "72100", "extra_field": null, "phone": null }
+    ],
+    "articles": [
+        { "id": 10, "reference": "ASTRA POM MT", "designation": "ASTRA MOTTE POMMIER / LOT : 000555123456 / PASSEPORT : 8B8796" },
+        { "id": 11, "reference": "ASTRA POM", "designation": "ASTRA POMMIER / PASSEPORT : 8B8791" },
+        { "id": 12, "reference": "BRAVO TOM POMMIER", "designation": "BRAVO TOM POMMIER /CAL : 6-8" },
+        { "id": 13, "reference": "LASTRADE", "designation": "TEST" }
+    ],
+    "cases": [
+        { "kind": "clients", "query": "barcon", "expect": [2, 3, 6], "why": "whole word before the start of a longer one; ties alphabetical" },
+        { "kind": "clients", "query": "baron", "expect": [6, 2, 3], "why": "one missing letter" },
+        { "kind": "clients", "query": "val", "expect": [1, 4, 5], "why": "a whole word of the name, then the start of a word, then the contact" },
+        { "kind": "clients", "query": "sarl lamb", "expect": [1], "why": "every word must match; the town counts" },
+        { "kind": "clients", "query": "beral", "expect": [5], "why": "accents ignored" },
+        { "kind": "clients", "query": "5678", "expect": [1], "why": "phone digits" },
+        { "kind": "clients", "query": "06 12 34", "expect": [1], "why": "a phone number typed with spaces is one number" },
+        { "kind": "clients", "query": "%_", "expect": [], "why": "nothing searchable" },
+        { "kind": "clients", "query": "5832", "expect": [1], "why": "N° adhérent" },
+        { "kind": "clients", "query": "5832", "expect": [], "extra_field_searchable": false, "why": "the optional client field, when the profile does not search it" },
+        { "kind": "clients", "query": "elouan 5832", "expect": [], "extra_field_searchable": false, "why": "every word must match, and the field is not read" },
+        { "kind": "clients", "query": "sarl", "expect": [3, 1], "why": "same score: alphabetical" },
+        { "kind": "clients", "query": "Eurl Barcon", "expect": [2], "why": "exact name" },
+        { "kind": "clients", "query": "sarx", "expect": [3, 1], "why": "one wrong letter" },
+        { "kind": "clients", "query": "thdaee", "expect": [4], "why": "two neighbouring letters swapped" },
+        { "kind": "clients", "query": "tarl", "expect": [], "why": "the first letter must be right" },
+        { "kind": "clients", "query": "vallle", "expect": [4], "why": "one extra letter (5+ letters)" },
+        { "kind": "articles", "query": "astra", "expect": [11, 10, 13], "why": "reference first, then a piece inside a reference" },
+        { "kind": "articles", "query": "astra mt", "expect": [10], "why": "every word must match" },
+        { "kind": "articles", "query": "asra", "expect": [11, 10], "why": "one missing letter" },
+        { "kind": "articles", "query": "555123456", "expect": [10], "why": "piece of the lot number" },
+        { "kind": "articles", "query": "8b8796", "expect": [10, 11], "why": "exact plant passport number first, one digit off after" },
+        { "kind": "articles", "query": "pommier bravo", "expect": [12], "why": "words in any order" },
+        { "kind": "articles", "query": "pommeir", "expect": [12, 11, 10], "why": "swapped letters; in the reference first" }
+    ]
+}

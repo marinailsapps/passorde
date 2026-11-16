@@ -1,0 +1,71 @@
+{
+    "data": [
+        {
+            "paytypeid": 6,
+            "label": "Autres"
+        },
+        {
+            "paytypeid": 13,
+            "label": "Avoir"
+        },
+        {
+            "paytypeid": 3,
+            "label": "Carte bancaire"
+        },
+        {
+            "paytypeid": 4,
+            "label": "Chèque"
+        },
+        {
+            "paytypeid": 7,
+            "label": "Chèque Emploi Service Universel (CESU)"
+        },
+        {
+            "paytypeid": 11,
+            "label": "Chèque vacances"
+        },
+        {
+            "paytypeid": 12,
+            "label": "Contre-remboursement"
+        },
+        {
+            "paytypeid": 5,
+            "label": "Espèces"
+        },
+        {
+            "paytypeid": 9,
+            "label": "Lettre de change"
+        },
+        {
+            "paytypeid": 1,
+            "label": "PayPal"
+        },
+        {
+            "paytypeid": 8,
+            "label": "Prélèvement"
+        },
+        {
+            "paytypeid": 10,
+            "label": "Traite"
+        },
+        {
+            "paytypeid": 2,
+            "label": "Virement"
+        }
+    ],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/paytypes?per_page=100&page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/paytypes?per_page=100&page=1",
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/paytypes",
+        "per_page": 100,
+        "to": 13,
+        "total": 13
+    }
+}

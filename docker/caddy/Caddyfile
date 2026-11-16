@@ -1,0 +1,22 @@
+# Production: TLS certificates from Let's Encrypt for APP_DOMAIN (.env, passed
+# by compose.prod.yml; its DNS record points at the server); the app container
+# listens on 8080. Another layout (a www redirect, more names): your own file,
+# named by CADDYFILE in .env.
+{
+	email {$ACME_EMAIL}
+}
+
+{$APP_DOMAIN} {
+	import /etc/caddy/security.caddy
+	# One year, replacing nginx's value; add "; includeSubDomains; preload" only
+	# once the whole domain is HTTPS.
+	header {
+		defer
+		Strict-Transport-Security "max-age=31536000"
+	}
+	reverse_proxy app:8080
+}
+
+# Extra sites written on the server only (docker/caddy/sites/README.md); the
+# directory may be empty. Deploys copy this file but never touch docker/caddy/sites/.
+import /etc/caddy/sites/*.caddy

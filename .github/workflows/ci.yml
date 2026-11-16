@@ -1,0 +1,180 @@
+# The checks of CLAUDE.md on every push and pull request, and a build of the
+# neutral production images (PASSORDE_PROFILE=none), which are neither pushed
+# nor deployed: this repository deploys nothing. An installation builds and
+# deploys its own image with its own profile (docs/RUNBOOK.md "Deploying").
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+# A newer push cancels an older run of the same branch.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  php:
+    name: Pest, Pint
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: passorde_test
+          POSTGRES_USER: passorde
+          POSTGRES_PASSWORD: secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U passorde -d passorde_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      # phpunit.xml selects the passorde_test database; these point at the service.
+      DB_HOST: 127.0.0.1
+      DB_PORT: "5432"
+      DB_USERNAME: passorde
+      DB_PASSWORD: secret
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_pgsql, intl, zip, gd
+          coverage: none
+          tools: composer:v2
+
+      - name: Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Application key
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - name: Pest
+        run: php artisan test
+
+      - name: Pint
+        run: vendor/bin/pint --test
+
+  # Its own job so it runs next to Pest, not after it. The result cache
+  # (phpstan.neon tmpDir) is restored from the latest run: only changed files
+  # are analysed again (about 2.5 min cold, seconds warm).
+  larastan:
+    name: Larastan
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.3"
+          extensions: pdo_pgsql, intl, zip, gd
+          coverage: none
+          tools: composer:v2
+
+      - name: Composer cache directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v5
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ runner.os }}-${{ hashFiles('composer.lock') }}
+          restore-keys: composer-${{ runner.os }}-
+
+      - run: composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Application key
+        run: |
+          cp .env.example .env
+          php artisan key:generate
+
+      - uses: actions/cache@v5
+        with:
+          path: storage/framework/cache/phpstan
+          key: phpstan-${{ runner.os }}-${{ github.sha }}
+          restore-keys: phpstan-${{ runner.os }}-
+
+      - name: Larastan
+        run: vendor/bin/phpstan analyse --no-progress --memory-limit=1G
+
+  node:
+    name: Vitest, ESLint, build
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      # Playwright is only used by tools/prod-local and tools/viewport-sweep: no browsers needed.
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: "1"
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci --no-audit --no-fund
+
+      - name: Vitest
+        run: npm test
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Build
+        run: npm run build
+
+  image:
+    name: Neutral production images
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: docker/setup-buildx-action@v4
+
+      - name: App image (no profile)
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/php/Dockerfile
+          target: production
+          platforms: linux/amd64
+          build-args: |
+            APP_VERSION=${{ github.sha }}
+            PASSORDE_PROFILE=none
+          push: false
+          tags: passorde:ci
+          cache-from: type=gha,scope=app
+          cache-to: type=gha,scope=app,mode=max
+
+      - name: Backup image
+        uses: docker/build-push-action@v7
+        with:
+          context: .
+          file: docker/backup/Dockerfile
+          platforms: linux/amd64
+          push: false
+          tags: passorde-backup:ci
+          cache-from: type=gha,scope=backup
+          cache-to: type=gha,scope=backup,mode=max

@@ -1,0 +1,119 @@
+{
+    "data": [
+        {
+            "contactid": 610001,
+            "userid": 50001,
+            "client": {
+                "clientid": 7000160,
+                "code": "EXEMPLEAMB",
+                "civility": "",
+                "name": "EXEMPLE AMBROISE"
+            },
+            "civility": "M.",
+            "lastname": "Test",
+            "firstname": "Elouan",
+            "email": "",
+            "profil": null,
+            "label_tel_primary": null,
+            "tel_primary": "06 00 00 00 00",
+            "label_tel_secondary": null,
+            "tel_secondary": null,
+            "label_tel_tertiary": null,
+            "tel_tertiary": null,
+            "enabled": true,
+            "consent": "unknown",
+            "favorite": false,
+            "custom_fields": []
+        },
+        {
+            "contactid": 610002,
+            "userid": 50001,
+            "client": {
+                "clientid": 7000160,
+                "code": "EXEMPLEAMB",
+                "civility": "",
+                "name": "EXEMPLE AMBROISE"
+            },
+            "civility": "M.",
+            "lastname": "Exemple",
+            "firstname": "Ambroise",
+            "email": "AM.Exemple@Example.test",
+            "profil": null,
+            "label_tel_primary": null,
+            "tel_primary": "06 00 00 00 00",
+            "label_tel_secondary": null,
+            "tel_secondary": null,
+            "label_tel_tertiary": null,
+            "tel_tertiary": null,
+            "enabled": true,
+            "consent": "unknown",
+            "favorite": true,
+            "custom_fields": []
+        },
+        {
+            "contactid": 610003,
+            "userid": 50001,
+            "client": {
+                "clientid": 7000150,
+                "code": "PROTOHELE",
+                "civility": "",
+                "name": "PROTO HELENE"
+            },
+            "civility": "M.",
+            "lastname": "Proto",
+            "firstname": "Hélène",
+            "email": "",
+            "profil": null,
+            "label_tel_primary": null,
+            "tel_primary": "06 00 00 00 00",
+            "label_tel_secondary": null,
+            "tel_secondary": null,
+            "label_tel_tertiary": null,
+            "tel_tertiary": null,
+            "enabled": true,
+            "consent": "unknown",
+            "favorite": false,
+            "custom_fields": []
+        },
+        {
+            "contactid": 610004,
+            "userid": 50001,
+            "client": {
+                "clientid": 7000270,
+                "code": "ESSAICLAIRVAL",
+                "civility": "",
+                "name": " ESSAI CLAIRVAL"
+            },
+            "civility": "M.",
+            "lastname": "Contact",
+            "firstname": "Ancien",
+            "email": "old@example.test",
+            "profil": null,
+            "label_tel_primary": null,
+            "tel_primary": "06 00 00 00 00",
+            "label_tel_secondary": null,
+            "tel_secondary": null,
+            "label_tel_tertiary": null,
+            "tel_tertiary": null,
+            "enabled": false,
+            "consent": "unknown",
+            "favorite": true,
+            "custom_fields": []
+        }
+    ],
+    "links": {
+        "first": null,
+        "last": null,
+        "prev": null,
+        "next": null
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 1,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/contacts-clients",
+        "per_page": 100,
+        "to": 4,
+        "total": 4
+    }
+}

@@ -1,0 +1,134 @@
+{
+    "data": [
+        {
+            "articleid": 7000250,
+            "userid": 50001,
+            "reference": "TOPAZE POM",
+            "reference_clean": "TOPAZE POM",
+            "nature": "product",
+            "sale_classification": {
+                "id": 500030,
+                "code": "POMMIER",
+                "label": "POMMIER"
+            },
+            "designation": "TOPAZE POMMIER /&nbsp;PG&nbsp;BA29 /&nbsp;CAL :&nbsp;12-14 / LOT : F26-0021",
+            "designation_clean": "TOPAZE POMMIER /&nbsp;PG&nbsp;BA29 /&nbsp;CAL :&nbsp;12-14 / LOT : F26-0021",
+            "quantity": 0,
+            "weight": 0,
+            "unit": "",
+            "unit_price_vat_exclude": 71,
+            "unit_price_vat_include": 74.905,
+            "vat": 5.5,
+            "ttc": false,
+            "purchase_classification": null,
+            "margin": {
+                "purchase_unit_price_vat_exclude": 64,
+                "coefficient": 2.5,
+                "percent": 50.5,
+                "margin_percent": 100,
+                "markup_percent": 50.5,
+                "amount": 10
+            },
+            "supplier": {
+                "supplierid": 7000010,
+                "code": "F6",
+                "name": "PEPINIERES EXEMPLE"
+            },
+            "supplier_reference": "PLANTS POMMIER",
+            "supplier_reference_clean": "PLANTS POMMIER",
+            "stock_management": true,
+            "stocked_quantity": 0,
+            "enabled": true,
+            "picture_link": null,
+            "custom_fields": []
+        },
+        {
+            "articleid": 7000200,
+            "userid": 50001,
+            "reference": "TOPAZE C5  POM",
+            "reference_clean": "TOPAZE C5  POM",
+            "nature": "product",
+            "sale_classification": {
+                "id": 500030,
+                "code": "POMMIER",
+                "label": "POMMIER"
+            },
+            "designation": "TOPAZE MOTTE C5 POMMIER /&nbsp;PG&nbsp;BA29 /&nbsp;CAL :&nbsp;12-14 / LOT : F26-0022",
+            "designation_clean": "TOPAZE MOTTE C5 POMMIER /&nbsp;PG&nbsp;BA29 /&nbsp;CAL :&nbsp;12-14 / LOT : F26-0022",
+            "quantity": 0,
+            "weight": 0,
+            "unit": "",
+            "unit_price_vat_exclude": 0,
+            "unit_price_vat_include": 0.0,
+            "vat": 5.5,
+            "ttc": false,
+            "purchase_classification": null,
+            "margin": null,
+            "supplier": null,
+            "supplier_reference": "PLANTS POMMIER",
+            "supplier_reference_clean": "PLANTS POMMIER",
+            "stock_management": true,
+            "stocked_quantity": 6,
+            "enabled": true,
+            "picture_link": null,
+            "custom_fields": []
+        },
+        {
+            "articleid": 7000060,
+            "userid": 50001,
+            "reference": "B3Q3 POMMIER",
+            "reference_clean": "B3Q3 POMMIER",
+            "nature": "product",
+            "sale_classification": {
+                "id": 500030,
+                "code": "POMMIER",
+                "label": "POMMIER"
+            },
+            "designation": "B3Q3 POMMIER / PG : GF677 / CAL : 10-12 / LOT : B26-0234",
+            "designation_clean": "B3Q3 POMMIER / PG : GF677 / CAL : 10-12 / LOT : B26-0234",
+            "quantity": 0,
+            "weight": 0,
+            "unit": "",
+            "unit_price_vat_exclude": 76,
+            "unit_price_vat_include": 80.18,
+            "vat": 5.5,
+            "ttc": false,
+            "purchase_classification": null,
+            "margin": {
+                "purchase_unit_price_vat_exclude": 64,
+                "coefficient": 2.5,
+                "percent": 50.5,
+                "margin_percent": 100.5,
+                "markup_percent": 50.5,
+                "amount": 10
+            },
+            "supplier": {
+                "supplierid": 7000010,
+                "code": "F6",
+                "name": "PEPINIERES EXEMPLE"
+            },
+            "supplier_reference": "PLANTS POMMIER",
+            "supplier_reference_clean": "PLANTS POMMIER",
+            "stock_management": true,
+            "stocked_quantity": -9,
+            "enabled": true,
+            "picture_link": null,
+            "custom_fields": []
+        }
+    ],
+    "links": {
+        "first": "https://www.evoliz.io/api/v1/companies/10001/articles?page=1",
+        "last": "https://www.evoliz.io/api/v1/companies/10001/articles?page=2",
+        "prev": null,
+        "next": "https://www.evoliz.io/api/v1/companies/10001/articles?page=2"
+    },
+    "meta": {
+        "current_page": 1,
+        "from": 1,
+        "last_page": 2,
+        "path": "https://www.evoliz.io/api/v1/companies/10001/articles",
+        "per_page": 100,
+        "to": 3,
+        "total": 6
+    }
+}
