@@ -593,7 +593,8 @@ Afterwards: when `/var/run/reboot-required` exists (kernel, libc), reboot in a q
 ## CI, images and copying the deploy files
 
 - `.github/workflows/ci.yml` runs on every push and pull request: Pest against a Postgres 16 service, Pint, Larastan, Vitest, ESLint and the build (Composer fetches Passorde Connect from its public repository), and it builds the **neutral** production images (`PASSORDE_PROFILE=none`). It pushes nothing and deploys nothing.
-- Your installation builds its own images, with its own profile, in a pipeline of your choice (a private repository of yours that holds the profile, or a build machine): see "Installation profile" for the build commands (`tools/prod-local/build.sh` runs exactly those). Tag them (short git SHA), push them to your registry and set `PASSORDE_IMAGE` / `PASSORDE_BACKUP_IMAGE` in the server `.env`.
+- Your installation builds its own images, with its own profile, in a pipeline of your choice (a private repository of yours that holds the profile, or a build machine): see "Installation profile" for the build commands (`tools/prod-local/build.sh` runs exactly those). Tag them (short git SHA), push them to your registry and set `PASSORDE_IMAGE` / `PASSORDE_BACKUP_IMAGE` in the server `.env`. The tag is free text (letters, digits, `.`, `_`, `-`): when the profile lives in a repository of its own, name both commits in it (for example `<app sha>-<profile sha>`), so that two builds of the same app commit with different profiles never share a tag. `APP_VERSION` (the build argument, printed by `deploy.sh` at the end) stays the app commit.
+- **Without a registry** (one server that builds its own images): clone the repository on the server, put the profile beside it and run the two builds there, with an image name whose registry part answers nothing, for example `PASSORDE_IMAGE=localhost:1/passorde` and `PASSORDE_BACKUP_IMAGE=localhost:1/passorde-backup` (port 1 refuses the connection at once: no image is ever fetched from elsewhere under that name). Skip the registry login of the bootstrap (leave `REGISTRY_USER` / `REGISTRY_TOKEN` unset). `deploy.sh` always pulls first and stops when the pull fails; `DEPLOY_PULL_OPTIONAL=1` in front of it (and of `rollback.sh`, which passes it on) lets it go on with the images of that tag already on the server, and an image that is not there still stops the deploy before anything changes. Keep the images of the tags you may roll back to (never `docker image prune -a`).
 - Before each deploy, copy the deploy files from the same commit as the image into the install directory (`deploy` is the deploy user):
 
   ```bash
@@ -655,7 +656,7 @@ Migrations only add (columns, tables), so the previous image keeps working on th
 
 It runs `deploy.sh <tag>`: the older app finds no migration to run and ignores the tables and columns it does not know.
 
-Tags are short commit SHAs; keep the ones you may roll back to in your registry. A rollback does not stop a later deploy of the bad tag: fix or revert the commit first.
+Tags are short commit SHAs (or app and profile commits, above); keep the ones you may roll back to in your registry, or on the server without one (`DEPLOY_PULL_OPTIONAL=1 /srv/passorde/deploy/rollback.sh`). A rollback does not stop a later deploy of the bad tag: fix or revert the commit first.
 
 An installation that renamed its database with `passorde:rename-legacy` and goes back to an image from before that rename undoes the rename first, with the image running now and the application stopped ("Older names", "Going back past the rename"); only then `rollback.sh <older tag>`.
 

@@ -189,6 +189,32 @@ it('goes back to the tag deployed before, or to a given one, by deploying it', f
         ->and(runDeploy($env, script: 'rollback.sh', args: [])[0])->toBe(64);
 });
 
+it('goes on with the images already on the server when the pull fails, only with DEPLOY_PULL_OPTIONAL', function () {
+    $env = "APP_ENV=production\nPASSORDE_TAG=old1234\nPASSORDE_PROFILE=none\n";
+
+    [$code, $output, $calls, $after] = runDeploy($env, ['pull' => 1]);
+    expect($code)->toBe(1)
+        ->and($output)->toContain('nothing was changed')
+        ->and($calls)->toHaveCount(1)
+        ->and($after)->toContain('PASSORDE_TAG=old1234');
+
+    [$code, $output, , $after] = runDeploy($env, ['pull' => 1], ['DEPLOY_PULL_OPTIONAL' => '1']);
+    expect($code)->toBe(0)
+        ->and($output)->toContain('pull failed: using the images of abc1234 already on the server')
+        ->and($after)->toContain('PASSORDE_TAG=abc1234');
+
+    // An image that is not on the server either: stopped before anything changes.
+    [$code, $output, , $after] = runDeploy($env, ['pull' => 1, 'artisan --version' => 1], ['DEPLOY_PULL_OPTIONAL' => '1']);
+    expect($code)->toBe(1)
+        ->and($output)->toContain('does not start')->toContain('nothing was changed')
+        ->and($after)->toContain('PASSORDE_TAG=old1234');
+
+    // rollback.sh passes the switch on to deploy.sh.
+    $releases = "2026-11-14T08:00:00Z prev0001 (previous none)\n2026-11-15T08:00:00Z old1234 (previous prev0001)\n";
+    [$code, , , $after] = runDeploy($env, ['pull' => 1], ['DEPLOY_PULL_OPTIONAL' => '1'], 'rollback.sh', [], $releases);
+    expect($code)->toBe(0)->and($after)->toContain('PASSORDE_TAG=prev0001');
+});
+
 it('keeps a tagged backup past the retention, and records the heartbeat like any run', function (array $args, string $tags, ?string $name) {
     $dir = sys_get_temp_dir().'/backup-'.Str::random(8);
     mkdir("{$dir}/bin", 0777, true);
