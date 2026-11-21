@@ -68,7 +68,7 @@ app/Support                           SyncMode, EvolizState, Profile/ (profile l
 config/passorde.php, config/server.php  product settings (profile) and server settings
 resources/js/{Pages,layouts,components,lib,types,offline}   the Vue app; offline/: Dexie mirror, outbox; sw.ts: service worker
 lang/fr.json, lang/fr/                French UI and validation strings
-scripts/                              profile-assets.php, brand.ts, make-icons.mjs (build-time brand and icons)
+scripts/                              profile-assets.php, brand.ts, make-icons.mjs (build-time brand and icons); third-party.php (THIRD-PARTY.md)
 docker/, compose.yml, compose.prod.yml  images and stacks; docker/caddy, docker/backup, docker/ovh-mock
 deploy/                               bootstrap.sh, deploy.sh, rollback.sh, backup.sh, restore.sh (run by the installer)
 tools/prod-local, tools/viewport-sweep  production stack on a laptop with smoke test; layout sweep

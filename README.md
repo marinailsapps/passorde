@@ -212,3 +212,5 @@ On the host, run `npm ci` once before the npm commands (the `vite` container kee
 ## Licence
 
 MIT. Copyright (c) 2026 les auteurs de Passorde — publié par Maryna SYOMKO, entrepreneur individuel. See [LICENSE](LICENSE).
+
+The third-party components and their licences are listed in [THIRD-PARTY.md](THIRD-PARTY.md) (`php scripts/third-party.php` writes it from the lock files); Passorde Connect, which Composer installs with every installation, is under its own proprietary licence (`vendor/marinailsapps/passorde-connect/LICENSE.md` once installed, and `LICENSE.md` in https://github.com/marinailsapps/passorde-connect) and does nothing without a licence key.
