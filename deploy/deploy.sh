@@ -16,6 +16,8 @@
 # DEPLOY_DIR (default: the directory above this script) holds .env and
 # compose.prod.yml; .env sets COMPOSE_FILE so plain `docker compose` uses it.
 # DEPLOY_CURL_OPTS adds curl options for the outside check (-k on a laptop).
+# DEPLOY_AFTER_CHANGE, DEPLOY_PULL_OPTIONAL, DEPLOY_PROFILE_NO_DATABASE: optional switches for the
+# operator or a script that calls deploy.sh (rollback.sh sets none of them); see where each is read.
 set -eu
 
 usage() {
@@ -57,7 +59,7 @@ on_error() {
 	if [ "$code" -ne 0 ]; then
 		echo "deploy: FAILED (exit $code) while deploying ${tag}." >&2
 		if [ -n "${DEPLOY_AFTER_CHANGE:-}" ]; then
-			# Called by rollback.sh, which changed the database before: it says what happens next.
+			# Set by whoever changed the database before calling deploy.sh: its text says what happens next.
 			if [ "$switched" = 0 ]; then
 				echo "deploy: deploy.sh itself switched nothing (${DEPLOY_AFTER_CHANGE})." >&2
 			else
@@ -74,9 +76,9 @@ trap on_error EXIT
 
 say "pulling images for ${tag}"
 # The shell value wins over .env: nothing changes if the tag cannot be pulled.
-# DEPLOY_PULL_OPTIONAL=1 (rollback.sh, for an image it pulled before it changed anything, or
-# the one it rolls forward to): a registry that cannot be reached is no reason to stop, the
-# images are on the server.
+# DEPLOY_PULL_OPTIONAL=1 (an optional switch for the operator, or a script calling deploy.sh,
+# when the images are already on the server; rollback.sh does not set it): a registry that
+# cannot be reached is then no reason to stop.
 if ! PASSORDE_TAG="$tag" docker compose pull --quiet app queue scheduler backup; then
 	[ -n "${DEPLOY_PULL_OPTIONAL:-}" ] || exit 1
 	say "pull failed: using the images of ${tag} already on the server"
@@ -88,8 +90,8 @@ fi
 
 # The new image must start, and reads the profile and checks it against the live database
 # before anything switches: a profile the new version refuses stops the deploy here.
-# DEPLOY_PROFILE_NO_DATABASE=1 (rollback.sh, which already ran that check before it changed
-# anything) checks the profile alone. An image built before the check existed (an older
+# DEPLOY_PROFILE_NO_DATABASE=1 (an optional switch for the operator, or a script that already ran
+# that check before it changed anything; rollback.sh does not set it) checks the profile alone. An image built before the check existed (an older
 # build of main) has no such command: said, and the deploy goes on.
 if ! PASSORDE_TAG="$tag" docker compose run --rm --no-deps -T -e AUTORUN_ENABLED=false app php artisan --version >/dev/null; then
 	echo "deploy: the image ${tag} does not start (above). Nothing was changed." >&2

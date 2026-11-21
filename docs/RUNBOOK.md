@@ -91,7 +91,7 @@ The installing developer sets their own values in a private **profile**: a direc
 - A profile that does not return an array stops the app at boot, and so does a `PASSORDE_PROFILE` naming a directory that does not exist or holds no `profile.php` (only `none`, or unset/empty with no `profile/profile.php`, mean "no profile"); `passorde:check-profile --path=<dir>` fails the same way. An unknown key is only reported by the check.
 - `php artisan config:cache` reads the profile when it caches: run it again after a profile change.
 - **Stored values** (`catalog.categories[].value`, `catalog.variants[].value`, `catalog.category_groups[].key`) are written in the database and sent to the phones: never change one once data uses it; change the label instead.
-- **Production.** The profile is a private directory on the server (e.g. `/srv/passorde/profile/profile.php`, owned by the deploy user, readable by www-data), mounted read-only on app, queue, scheduler and backup by `compose.prod.yml` (`PASSORDE_PROFILE_DIR`, default `./profile` next to the compose file); the nightly backup saves it with the dump and `.env`. `.env` must state `PASSORDE_PROFILE=/var/www/html/profile`, or `none` for the neutral defaults: with `APP_ENV=production` an empty value stops the boot ("PASSORDE_PROFILE is not set…"), and so does a directory without `profile.php`. The image never carries a profile (`.dockerignore`), but its assets are built for one ("Brand and build" below): build the image with the same profile the server mounts. `deploy.sh` refuses to deploy while `.env` does not state it, and checks the profile with the new image against the live database before switching (the old version keeps running on a failure). Afterwards a profile that no longer fits the data is reported, never fatal: the daily digest lists it under "Profil d'installation", and `php artisan ops:check profile` checks by hand. The container healthchecks do not look at it. Before deploying a profile change, run `docker compose exec app php artisan passorde:check-profile --path=<new dir>` on the server; after changing it, `docker compose up -d app queue scheduler` (the caches are rebuilt at start).
+- **Production.** The profile is a private directory on the server (e.g. `/srv/passorde/profile/profile.php`, owned by the deploy user, readable by www-data), mounted read-only on app, queue, scheduler and backup by `compose.prod.yml` (`PASSORDE_PROFILE_DIR`, default `./profile` next to the compose file); the nightly backup saves it with the dump and `.env`. `.env` must state `PASSORDE_PROFILE=/var/www/html/profile`, or `none` for the neutral defaults: with `APP_ENV=production` an empty value stops the boot ("PASSORDE_PROFILE is not set…"), and so does a directory without `profile.php`. The image never carries a profile (`.dockerignore`), but its assets are built for one ("Brand and build" below): build the image with the same profile the server mounts. `deploy.sh` refuses to deploy while `.env` does not state it, and checks the profile with the new image against the live database before switching (the old version keeps running on a failure). Afterwards a profile that no longer fits the data is reported, never fatal: the daily digest lists it under "Profil d'installation", and `php artisan ops:check profile` checks by hand. The container healthchecks do not look at it. Before deploying a profile change, run `docker compose exec app php artisan passorde:check-profile --path=<new dir>` on the server; after changing it, `docker compose up -d --force-recreate app queue scheduler` (a plain `up -d` keeps the running containers and their cached configuration; the caches are rebuilt at start). A change of name, logo, colours, storage prefix or the phones' older-name maps (`aliases.client`, `article`, `totals`, `groupings`) needs a new image built with the new profile ("Brand and build").
 
 What each section drives:
 
@@ -127,7 +127,7 @@ docker build -f docker/backup/Dockerfile -t <registry>/<backup-image>:<tag> .
 `--build-arg PASSORDE_PROFILE=none` (without the profile context) builds the neutral product. `tools/prod-local/build.sh` runs both builds (`PASSORDE_PROFILE_DIR=<dir>` or `none`; `TAG`, `IMAGE`, `BACKUP_IMAGE`). Check the result with `docker run --rm --entrypoint cat <image> public/build/profile.json`.
 
 - **Payment term (add-on).** Evoliz requires one on every BL and its id is the account's own (`GET /payterms`, e.g. "30 jours"): set `evoliz.payterm_id` in the profile. Without it, with Evoliz on, every approved order fails before anything is sent ("Aucun délai de paiement Evoliz n'est réglé…") and `passorde:check-profile` warns; once set, "Réessayer" sends them. `EVOLIZ_PAYTERM_ID` in `.env` overrides it (the mock: 37).
-- **Tests** run on `PASSORDE_PROFILE=none`, and `tests/TestCase.php` then lays the fictional `tests/Fixtures/profiles/pinned` over the defaults, so the pinned Evoliz request bodies keep their bytes. `docker compose exec -e PASSORDE_PROFILE=/var/www/html/profile app php artisan test` runs the suite with your mounted profile; it must pass the same.
+- **Tests** run with `PASSORDE_PROFILE=none`, as `phpunit.xml` sets it: `tests/TestCase.php` then lays the fictional `tests/Fixtures/profiles/pinned` over the defaults, so the pinned Evoliz request bodies keep their bytes. Do not set `PASSORDE_PROFILE` for a test run: a few tests read the profile loaded at boot (the build stamp check, the older-name routes) and fail with another one. The suite does not check your profile: `php artisan passorde:check-profile` does.
 
 ## EVOLIZ_ENABLED and the Evoliz settings
 
@@ -657,7 +657,7 @@ It runs `deploy.sh <tag>`: the older app finds no migration to run and ignores t
 
 Tags are short commit SHAs; keep the ones you may roll back to in your registry. A rollback does not stop a later deploy of the bad tag: fix or revert the commit first.
 
-An installation that renamed its database with `passorde:rename-legacy` and goes back to an image from before that rename first runs `--undo` with the image running now ("Older names").
+An installation that renamed its database with `passorde:rename-legacy` and goes back to an image from before that rename undoes the rename first, with the image running now and the application stopped ("Older names", "Going back past the rename"); only then `rollback.sh <older tag>`.
 
 ## Older names
 
@@ -665,17 +665,34 @@ An installation whose fields, tables or texts keys had other names before (its p
 
 - **Phones and API**: `client`, `article`, `totals`, `summary`, `stock_tabs`, `routes`, `groupings` keep older phones and cached pages working: the server accepts and answers the old names beside the current ones (docs/API.md "Old names"), and the phones read the rows they stored under the old names under the current ones. The phone maps are fixed in the assets at build time: build the image with the profile, as always (`passorde:check-profile` reports assets built with other older names as an error).
 - **Profile texts**: `texts` (old key => current key) reads a profile's `texts` entry written under an older key; the check asks to rename it.
-- **Database**: `schema` names the tables and columns as they were (current => old). `passorde:check-profile` reads the stored values under those names too, so `deploy.sh` can check the profile with the new image before anything changes. Then, once, with the app stopped:
+- **Database**: `schema` names the tables and columns as they were (current => old). Only `passorde:check-profile` and `passorde:rename-legacy` read this map; the app itself reads the current names only, so an image that uses the current names never runs on a database that still has the older ones (its queries on those tables and columns would fail), and an image from before the rename never runs on a renamed one. `passorde:check-profile` reads the stored values under both names, so `deploy.sh` can check the profile with the new image either side of the rename.
+
+  **Upgrading to the first image with the current names**, once, in this order: the application stopped (nothing writes while the names change), a backup kept, the rename run with the **new** image (the one you are about to deploy: the older image may not have the command, or not this version of it), then `deploy.sh` with that same tag, which starts everything again, Caddy included. `PASSORDE_TAG=<new tag>` on the command line makes Compose use the new image for these one-off containers while `.env` still names the running one:
 
   ```bash
+  cd /srv/passorde
   docker compose stop caddy app queue scheduler
   docker compose exec backup backup.sh --keep before-rename
-  docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app php artisan passorde:rename-legacy --dry-run
-  docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app php artisan passorde:rename-legacy
-  docker compose up -d
+  PASSORDE_TAG=<new tag> docker compose pull app
+  PASSORDE_TAG=<new tag> docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app php artisan passorde:rename-legacy --dry-run
+  PASSORDE_TAG=<new tag> docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app php artisan passorde:rename-legacy
+  /srv/passorde/deploy/deploy.sh <new tag>
   ```
 
-  It renames the tables and columns with their sequences, constraints and indexes, and the same field names inside the stored client corrections and order snapshots, in one transaction; a second run changes nothing. `--undo` goes back to the older names (run it with the current image before deploying an image from before the rename). The fictional `tests/Fixtures/profiles/renamed` shows every map; `tests/Feature/Migrations/RenameLegacyTest.php` pins the command.
+  The dry run lists every rename and changes nothing; read it before the real run. If `deploy.sh` then refuses (a profile error, an image that does not start), the older version is **not** running any more: fix the cause and run `deploy.sh <new tag>` again, or go back with the undo below and start the older tag with `docker compose up -d`. `deploy.sh` writes the new tag in `.env` only after its checks (it refuses a pull, an image that does not start or a profile error before that), so after such a refusal `.env` still names the older image, which may not have the command: put `PASSORDE_TAG=<new tag>` in front of both `docker compose run` lines of the undo.
+
+  **Going back past the rename** (before `rollback.sh` to an image from before it), with the image running now, because only it knows the current names, and with the application stopped: the undo takes each table's exclusive lock and rewrites stored rows in one transaction, so a running request waits on it and then fails on the names that have gone, a queue worker fails its jobs the same way, and a row written in between may keep the current field names:
+
+  ```bash
+  cd /srv/passorde
+  docker compose stop caddy app queue scheduler
+  docker compose exec backup backup.sh --keep before-undo
+  docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app php artisan passorde:rename-legacy --undo --dry-run
+  docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app php artisan passorde:rename-legacy --undo
+  /srv/passorde/deploy/rollback.sh <older tag>
+  ```
+
+  It renames the tables and columns with their sequences, constraints and indexes, and the same field names inside the stored client corrections and order snapshots, in one transaction; a second run changes nothing. `--undo` goes back to the older names (above). The fictional `tests/Fixtures/profiles/renamed` shows every map; `tests/Feature/Migrations/RenameLegacyTest.php` pins the command.
 
 ## Backups
 
@@ -702,7 +719,7 @@ docker compose exec backup restic snapshots
 docker compose exec backup restore.sh latest              # or a snapshot id; optional 2nd argument: database name
 ```
 
-`restore.sh` restores the snapshot into a **new** database (`<DB_DATABASE>_restore_<date>_<time>` unless named; `a-z`, `0-9` and `_` only; never the live name), copies that night's `.env` to `/srv/passorde/restore/<snapshot>/.env` and its installation profile to `/srv/passorde/restore/<snapshot>/profile/`, and prints the switch-over steps without touching the live database: stop caddy, app, queue and scheduler; rename the live database aside and the restored one to the live name; only if the server `.env` was lost, compare it with the restored one (`APP_KEY` must be the backup's); `docker compose up -d`; `docker compose exec app php artisan migrate --force`; check `/up`; drop the old database once satisfied. Orders created after the backup are gone from the server; orders still waiting on phones are sent as usual.
+`restore.sh` restores the snapshot into a **new** database (`<DB_DATABASE>_restore_<date>_<time>` unless named; `a-z`, `0-9` and `_` only; never the live name), copies that night's `.env` to `/srv/passorde/restore/<snapshot>/.env` and its installation profile to `/srv/passorde/restore/<snapshot>/profile/`, and prints the switch-over steps without touching the live database: stop caddy, app, queue and scheduler; rename the live database aside and the restored one to the live name; only if the server `.env` was lost, compare it with the restored one (`APP_KEY` must be the backup's); `docker compose up -d`; `docker compose exec app php artisan migrate --force`; check `/up`; drop the old database once satisfied. Orders created after the backup are gone from the server; orders still waiting on phones are sent as usual. A snapshot taken before `passorde:rename-legacy` holds the older names: after the switch-over rename and before `docker compose up -d`, run `passorde:rename-legacy --dry-run` and then `passorde:rename-legacy` as in "Older names" (with `docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app …`), so the running image finds the current names.
 
 If the whole server is lost: bootstrap a new one, put back `.env` from your own copy (or from a backup: `restic restore` from any machine with the same `BACKUP_S3_*`, `BACKUP_NAME` and `RESTIC_PASSWORD`), put back the profile, deploy, then restore the latest snapshot as above.
 
