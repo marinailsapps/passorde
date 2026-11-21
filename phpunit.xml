@@ -31,7 +31,7 @@
         <env name="PASSORDE_WRITES_ENABLED" value="true"/>
         <!-- the app schedules its own syncs; tests/TestCase.php installs a signed test licence. -->
         <env name="PASSORDE_SCHEDULE_ENABLED" value="false"/>
-        <!-- The neutral defaults of config/passorde.php; a run with -e PASSORDE_PROFILE=… checks another profile. -->
+        <!-- No installation profile at boot; tests/TestCase.php lays the fictional pinned one whatever this says. -->
         <env name="PASSORDE_PROFILE" value="none"/>
         <env name="SESSION_ENCRYPT" value="false"/>
         <env name="BROADCAST_CONNECTION" value="null"/>

@@ -58,12 +58,11 @@ abstract class TestCase extends BaseTestCase
         // https://evoliz.test, where nothing answers unless the test fakes it. fileMode() removes them.
         config()->set('passorde-connect.evoliz', [...config('passorde-connect.evoliz'), 'base_url' => 'https://evoliz.test', 'company_id' => 10001, 'public_key' => 'public', 'secret_key' => 'secret']);
 
-        // No installation profile under test (PASSORDE_PROFILE=none in phpunit.xml): the fictional pinned one
-        // (tests/Fixtures/profiles/pinned), whose values keep the pinned Evoliz bodies byte for byte. A real
-        // profile under test keeps its own values, which must give the same bytes.
-        if (config('passorde.profile.loaded') !== true) {
-            config()->set('passorde', [...Profile::load(base_path('tests/Fixtures/profiles/pinned')), 'profile' => config('passorde.profile')]);
-        }
+        // Every test runs on the fictional pinned profile (tests/Fixtures/profiles/pinned), whatever PASSORDE_PROFILE
+        // says: the tests pin its values, and its values keep the pinned Evoliz bodies byte for byte. Only the
+        // record of what was read at boot (passorde.profile) stays; an installation's profile is checked with
+        // passorde:check-profile, not with the suite.
+        config()->set('passorde', [...Profile::load(base_path('tests/Fixtures/profiles/pinned')), 'profile' => config('passorde.profile')]);
 
         // The profile check compares the running profile with the stamp of the asset build: never this
         // checkout's public/build, which follows whatever profile it was last built with.

@@ -45,13 +45,10 @@ describe('loading', function () {
             ->and($config['client']['extra_field'])->toBeNull();
     });
 
-    it('reads PASSORDE_PROFILE from the environment (none in the suite, which then runs on the pinned fixture)', function () {
+    it('reads PASSORDE_PROFILE from the environment, and runs every test on the pinned fixture whatever it says', function () {
         $env = getenv('PASSORDE_PROFILE');
-        expect(config('passorde.profile'))->toEqual(Profile::load(Profile::directory($env), Profile::required($env))['profile']);
-
-        if (config('passorde.profile.loaded') !== true) {
-            expect(config('passorde'))->toEqual([...Profile::load(fixtureProfile('pinned')), 'profile' => config('passorde.profile')]);
-        }
+        expect(config('passorde.profile'))->toEqual(Profile::load(Profile::directory($env), Profile::required($env))['profile'])
+            ->and(config('passorde'))->toEqual([...Profile::load(fixtureProfile('pinned')), 'profile' => config('passorde.profile')]);
     });
 
     it('uses no installation word in the defaults', function () {
