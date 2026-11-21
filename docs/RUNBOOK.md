@@ -794,10 +794,29 @@ docker compose exec backup restore.sh latest              # or a snapshot id; op
 cd /srv/passorde
 docker compose up -d --wait postgres                 # creates the empty DB_DATABASE on its first start
 docker compose exec -T postgres pg_restore --no-owner --role=<DB_USERNAME> --single-transaction --exit-on-error -U <DB_USERNAME> -d <DB_DATABASE> < old.dump
+# a copy of an installation that keeps running: the clean-up of "A copy while the other one runs" (below), here
 /srv/passorde/deploy/deploy.sh <tag>                 # checks the profile against it, then migrates what is missing
 ```
 
 `--single-transaction` makes a failed restore leave the database as empty as before, so the same line can run again once the cause is fixed. A plain SQL dump goes through `psql` instead (`docker compose exec -T postgres psql -U <DB_USERNAME> -d <DB_DATABASE> -v ON_ERROR_STOP=1 --single-transaction < old.sql`). If that installation's database still has older names (its profile has a `schema` map), run the rename of "Older names" from the `pull` line on, before `deploy.sh` (without a registry, leave out the `pull` line, the image being on the server already, and run `DEPLOY_PULL_OPTIONAL=1 deploy.sh`). The users come with the database: sign in with one of its admins ("First admin" says how to give one a new password); `ADMIN_*` creates nobody. Take a first backup once it runs (`docker compose exec backup backup.sh`).
+
+**What comes with the dump**: the whole database, so also the users with their password hashes, their sessions, the password reset links, the values saved on "Réglages Evoliz" (the Evoliz keys and the licence key, readable with the same `APP_KEY`), and the queue: the jobs waiting in `jobs` and the failed ones in `failed_jobs`. The queue worker starts with the first `deploy.sh` and runs whatever is in `jobs` at once. In a dump of an installation that was running, those are its own pushes to Evoliz, client SMS and syncs, which that installation runs too.
+
+- **Moving an installation** (the other one stops for good): on the other server, stop Caddy first so that nothing new comes in, wait until `select count(*) from jobs` answers 0, then stop its app, queue and scheduler and take the dump. Nothing needs emptying here.
+- **A copy while the other one runs** (a test, a trial of a new version): the copy must neither run the other installation's work nor let its people in.
+  1. In the copy's `.env`, before anything starts: `EVOLIZ_ENABLED=false` (the keys and the licence in the database are the other installation's: switched off, nothing reaches Evoliz whatever is saved), `PASSORDE_WRITES_ENABLED=false`, `SYNC_SCHEDULE_ENABLED=false`, `SMS_ENABLED=false` with empty `OVH_*` keys, `MAIL_MAILER=log` and an empty `OPS_DIGEST_TO` (no reset email or digest reaches anyone), and a `BACKUP_NAME` of its own (with the other installation's bucket and name, the copy's backups and their nightly `forget` would go into that installation's repository). These hold even if a job gets through.
+  2. After `pg_restore` (and the rename of "Older names", if any) and **before the first `deploy.sh`**, while only Postgres runs and no worker has taken anything: empty the other installation's queue, sessions and reset links, and deactivate every account, in one transaction:
+
+     ```bash
+     docker compose exec -T postgres psql -U <DB_USERNAME> -d <DB_DATABASE> -v ON_ERROR_STOP=1 --single-transaction \
+       -c 'delete from jobs' -c 'delete from job_batches' -c 'delete from failed_jobs' \
+       -c 'delete from sessions' -c 'delete from password_reset_tokens' \
+       -c 'update users set is_active = false, remember_token = null'
+     ```
+
+  3. `deploy.sh <tag>`, then `docker compose exec app php artisan user:password <login>` for one admin of the dump: it sets a new password and reactivates that account only ("First admin"). The other accounts cannot sign in or ask for a reset link on the copy; their password hashes are still in it, so keep the dump and the copy as private as the original, and delete both when the test is over.
+
+  Orders, client corrections and articles that were waiting for one of the deleted jobs keep the state they had in the dump: nothing queues them again by itself (the scheduler only queues the syncs, off here, and its own heartbeat).
 
 If the whole server is lost: bootstrap a new one, put back `.env` from your own copy (or from a backup: `restic restore` from any machine with the same `BACKUP_S3_*`, `BACKUP_NAME` and `RESTIC_PASSWORD`), put back the profile, deploy, then restore the latest snapshot as above.
 
