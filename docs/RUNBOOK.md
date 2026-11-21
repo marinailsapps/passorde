@@ -670,14 +670,14 @@ Afterwards: when `/var/run/reboot-required` exists (kernel, libc), reboot in a q
 
 ## First deploy
 
-1. The bootstrap is done, `.env` is complete (standalone: `EVOLIZ_ENABLED=false`; `SMS_ENABLED=false` until tested), the profile is in place, and both images are in your registry.
-2. Copy the deploy files and run `deploy.sh <tag>` ("CI, images and copying the deploy files"). Caddy gets the certificate on the first request.
+1. The bootstrap is done, `.env` is complete (standalone: `EVOLIZ_ENABLED=false`; `SMS_ENABLED=false` until tested), the profile is in place, and both images are in your registry (or built on the server, "Without a registry"). Bringing the database of another installation: load it now, before `deploy.sh` ("Restoring a backup", "A database from another installation").
+2. Copy the deploy files and run `deploy.sh <tag>` (`DEPLOY_PULL_OPTIONAL=1 deploy.sh <tag>` without a registry; "CI, images and copying the deploy files"). It starts Postgres, which creates the empty database on its first start. Caddy gets the certificate on the first request.
 3. On the server:
 
    ```bash
    cd /srv/passorde
    docker compose ps                                   # all healthy (queue and scheduler within ~2 minutes)
-   docker compose exec app php artisan db:seed --force # first admin from ADMIN_* + payment types
+   docker compose exec app php artisan db:seed --force # first admin from ADMIN_* (none if the database has one: "First admin") + payment types
    docker compose exec app php artisan passorde:check-profile
    docker compose exec backup backup.sh                # first backup now, creates the restic repository
    curl -sI https://orders.example.com/login | grep -i -E 'strict|content-security'
