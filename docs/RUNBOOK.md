@@ -34,6 +34,8 @@ docker compose exec app php artisan db:seed --force
 
 The seeder creates the admin only if no admin exists, and seeds the 13 payment types (those listed in the profile's `evoliz.enabled_paytypes` start enabled; by default Virement, Carte bancaire, Chèque, Espèces and Prélèvement). Running it again is safe: it never touches existing users or the payment type choices. Remove `ADMIN_PASSWORD` from `.env` once the admin has signed in and changed it.
 
+On a database that already has an admin (a restored backup, a copy of another installation, a scratch copy for a test), the seeder creates none and says so ("An admin already exists; skipping."); there is no command that creates a user. Sign in with an existing admin instead: list them with `docker compose exec postgres psql -U <DB_USERNAME> -d <DB_DATABASE> -c "select login, is_active from users where role = 'admin'"`, then give one a new password with `docker compose exec app php artisan user:password <login>` ("Users and passwords" below). On a copy, that changes the password in the copy only; create the other accounts from Administration → **Utilisateurs** once signed in.
+
 In development, `docker compose exec app php artisan migrate:fresh --seed` empties the database, migrates and seeds in one go.
 
 ## Users and passwords
@@ -700,7 +702,7 @@ An installation whose fields, tables or texts keys had other names before (its p
 - Every night at 02:30 Europe/Paris the `backup` container runs `deploy/backup.sh` (its crond, `TZ=Europe/Paris`, crontab from `BACKUP_SCHEDULE`, default `30 2 * * *`): `pg_dump -Fc` of the database plus the server `.env` and the installation profile, into a restic repository at `s3:<BACKUP_S3_ENDPOINT>/<BACKUP_S3_BUCKET>/<BACKUP_NAME>` (restic host `BACKUP_NAME`, default `passorde`; encrypted with `RESTIC_PASSWORD`). Every night `restic forget --keep-daily 30 --keep-monthly 12 --keep-tag keep` marks old snapshots; on Sundays it also prunes (frees the space) and runs `restic check`. Each step has a deadline (an unreachable bucket fails after 10 minutes instead of retrying for hours).
 - Any S3-compatible storage works (the laptop rehearsal uses MinIO). The container has `RESTIC_REPOSITORY` and the S3 keys in its environment (`compose.prod.yml`), so plain `restic` commands work in it.
 - The result goes to `ops_heartbeats` ("backup"): the daily digest reports a failed run or no successful backup for 26 hours.
-- Retention: the last snapshot of each of the last 30 days and of 12 months, so a second backup the same day makes the first one forgettable; a snapshot tagged `keep` (`backup.sh --keep <name>`, lower-case letters, digits and `-`) is never forgotten until the tag is removed.
+- Retention: the last snapshot of each of the last 30 days and of 12 months, so a second backup the same day makes the first one forgettable; a snapshot tagged `keep` (`backup.sh --keep <name>`, lower-case letters, digits and `-`) is never forgotten until the tag is removed. Any snapshot can be tagged afterwards, nightly ones included and those of a backup image whose `backup.sh` has no `--keep` yet: `restic tag --add keep --add <name> <snapshot id>` (the id from `restic snapshots`), before the next nightly `forget` would drop it.
 - The licence file of the add-on (on the `storage` volume, used only until a key is saved on "Réglages Evoliz") is not in the backup; keep your licence key elsewhere.
 - By hand:
 
@@ -709,6 +711,7 @@ An installation whose fields, tables or texts keys had other names before (its p
   docker compose exec -e BACKUP_PRUNE=1 backup backup.sh  # with prune and check
   docker compose exec backup restic snapshots             # list (also: restic stats, restic check)
   docker compose exec backup backup.sh --keep <name>      # a backup the retention never forgets (tags keep, <name>)
+  docker compose exec backup restic tag --add keep --add <name> <snapshot id>   # keep a snapshot taken without --keep
   docker compose exec backup restic tag --tag <name> --remove keep   # forgettable again
   docker compose logs backup                              # last runs
   ```
@@ -721,6 +724,17 @@ docker compose exec backup restore.sh latest              # or a snapshot id; op
 ```
 
 `restore.sh` restores the snapshot into a **new** database (`<DB_DATABASE>_restore_<date>_<time>` unless named; `a-z`, `0-9` and `_` only; never the live name), copies that night's `.env` to `/srv/passorde/restore/<snapshot>/.env` and its installation profile to `/srv/passorde/restore/<snapshot>/profile/`, and prints the switch-over steps without touching the live database: stop caddy, app, queue and scheduler; rename the live database aside and the restored one to the live name; only if the server `.env` was lost, compare it with the restored one (`APP_KEY` must be the backup's); `docker compose up -d`; `docker compose exec app php artisan migrate --force`; check `/up`; drop the old database once satisfied. Orders created after the backup are gone from the server; orders still waiting on phones are sent as usual. A snapshot taken before `passorde:rename-legacy` holds the older names: after the switch-over rename and before `docker compose up -d`, run `passorde:rename-legacy --dry-run` and then `passorde:rename-legacy` as in "Older names" (with `docker compose run --rm --no-deps -e AUTORUN_ENABLED=false app …`), so the running image finds the current names.
+
+**A database from another installation** (a `pg_dump -Fc` file, not a restic snapshot), brought into a new install directory: bootstrap and fill in `.env` as for a first deploy, with that installation's `APP_KEY` (encrypted values in the database, such as the Evoliz keys and the licence key, need it), put the profile in place, and load the dump into the empty database **before the first `deploy.sh`** (the app's first start would create the tables, and the restore would then fail on them). Postgres 16 restores dumps of 16 and older.
+
+```bash
+cd /srv/passorde
+docker compose up -d --wait postgres                 # creates the empty DB_DATABASE on its first start
+docker compose exec -T postgres pg_restore --no-owner --role=<DB_USERNAME> --exit-on-error -U <DB_USERNAME> -d <DB_DATABASE> < old.dump
+/srv/passorde/deploy/deploy.sh <tag>                 # checks the profile against it, then migrates what is missing
+```
+
+A plain SQL dump goes through `psql` instead (`docker compose exec -T postgres psql -U <DB_USERNAME> -d <DB_DATABASE> -v ON_ERROR_STOP=1 < old.sql`). If that installation's database still has older names (its profile has a `schema` map), run the rename of "Older names" from the `pull` line on, before `deploy.sh`. The users come with the database: sign in with one of its admins ("First admin" says how to give one a new password); `ADMIN_*` creates nobody. Take a first backup once it runs (`docker compose exec backup backup.sh`).
 
 If the whole server is lost: bootstrap a new one, put back `.env` from your own copy (or from a backup: `restic restore` from any machine with the same `BACKUP_S3_*`, `BACKUP_NAME` and `RESTIC_PASSWORD`), put back the profile, deploy, then restore the latest snapshot as above.
 

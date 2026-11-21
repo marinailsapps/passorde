@@ -184,6 +184,8 @@ Everything in more detail, with the `.env` checklist: docs/RUNBOOK.md "Productio
 - Settings: `BACKUP_S3_ENDPOINT`, `BACKUP_S3_BUCKET`, `BACKUP_S3_REGION`, `BACKUP_S3_KEY`, `BACKUP_S3_SECRET`, `BACKUP_NAME` (default `passorde`: the restic host and the repository's folder in the bucket), `RESTIC_PASSWORD`. **Without `RESTIC_PASSWORD` the backups cannot be read: keep a copy away from the server.** Keep `APP_KEY` too: encrypted values in the database need it.
 - By hand: `docker compose exec backup backup.sh`; list: `docker compose exec backup restic snapshots`.
 - Restore: `docker compose exec backup restore.sh latest` (or a snapshot id, optionally followed by a new database name) restores into a **new** database, copies that night's `.env` and profile to `/srv/passorde/restore/<snapshot>/`, and prints the switch-over steps. It never touches the live database.
+- Keep a snapshot past the retention: `docker compose exec backup backup.sh --keep <name>` for a new one, `docker compose exec backup restic tag --add keep --add <name> <snapshot id>` for one already taken.
+- A `pg_dump` from another installation goes into the empty database of a new install directory before its first deploy, with that installation's `APP_KEY`; its users come with it (docs/RUNBOOK.md "Restoring a backup", "First admin").
 
 Details and a restore drill: docs/RUNBOOK.md "Backups" and "Restoring a backup".
 
