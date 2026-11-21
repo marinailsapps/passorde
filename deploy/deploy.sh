@@ -5,7 +5,7 @@
 #   /srv/passorde/deploy/deploy.sh 1a2b3c4          # tag = short git SHA
 #
 # Steps: check that .env states PASSORDE_PROFILE, pull the app and backup images, start Postgres
-# if it is not running, check the installation profile with the new image (against the database as it is, not
+# if it is not running, check that every image of the tag is on the server, check the installation profile with the new image (against the database as it is, not
 # migrated yet: ProfileCheck reads the older names of the profile too), record the tag in .env
 # (PASSORDE_TAG), stop the scheduler and clear its locks, stop the queue worker, recreate the app containers (the app
 # migrates and every container runs `optimize` on start, so the queue and the
@@ -91,6 +91,20 @@ fi
 # The profile check below reads the database: start Postgres when it is not running (the first deploy
 # of a new installation). A running one is left as it is.
 docker compose up -d --wait --no-recreate postgres >/dev/null
+
+# Every image the stack runs with this tag must be on the server before anything switches: after a
+# failed pull (DEPLOY_PULL_OPTIONAL) a missing one would only fail at `up`, after the switch below.
+images=$(PASSORDE_TAG="$tag" docker compose config --images app queue scheduler backup | sort -u)
+if [ -z "$images" ]; then
+	echo "deploy: docker compose names no image for ${tag}. Nothing was changed." >&2
+	exit 1
+fi
+for image in $images; do
+	if ! docker image inspect "$image" >/dev/null 2>&1; then
+		echo "deploy: the image ${image} is not on the server. Nothing was changed." >&2
+		exit 1
+	fi
+done
 
 # The new image must start, and reads the profile and checks it against the live database
 # before anything switches: a profile the new version refuses stops the deploy here.

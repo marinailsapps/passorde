@@ -95,6 +95,7 @@ function fakeDocker(string $dir, array $exits = [], array $signals = []): void
         {$kills}
         {$cases}
         case " \$* " in
+        \t*" config --images "*) echo "img-app:\${PASSORDE_TAG:-}"; echo "img-backup:\${PASSORDE_TAG:-}"; echo "postgres:16" ;;
         \t*" list --raw "*) [ -e "{$dir}/\${PASSORDE_TAG:-}-no-check" ] || echo "passorde:check-profile   Check the installation profile" ;;
         \t*"to_regclass"*) [ -e "{$dir}/ran" ] && echo t || echo f ;;
         \t*" exec -T postgres sh "*) cat "{$dir}/ran" 2>/dev/null ;;
@@ -125,7 +126,7 @@ it('stops before switching when the new image refuses the profile; the old tag k
         ->and($output)->toContain('does not pass passorde:check-profile with abc1234')->toContain('nothing was changed')
         ->and($calls[0])->toContain('compose pull')
         ->and(end($calls))->toBe('compose run --rm --no-deps -T -e AUTORUN_ENABLED=false app php artisan passorde:check-profile')
-        ->and(callIndex($calls, 'artisan --version'))->toBeLessThan(count($calls) - 1)
+        ->and(callIndex($calls, 'artisan --version'))->toBeInt()->toBeLessThan(count($calls) - 1)
         ->and(callIndex($calls, ' up -d --remove-orphans '))->toBeFalse()
         ->and($env)->toContain('PASSORDE_TAG=old1234');
 });
@@ -136,7 +137,7 @@ it('checks the profile with the new image, then deploys', function () {
     expect($code)->toBe(0)
         ->and(callIndex($calls, 'passorde:check-profile'))->toBeInt()
         // Postgres runs for the check (a new installation's first deploy), and a running one is not recreated.
-        ->and(callIndex($calls, 'compose up -d --wait --no-recreate postgres'))->toBeLessThan(callIndex($calls, 'passorde:check-profile'))
+        ->and(callIndex($calls, 'compose up -d --wait --no-recreate postgres'))->toBeInt()->toBeLessThan(callIndex($calls, 'passorde:check-profile'))
         ->and(collect($calls)->contains(fn (string $call) => str_contains($call, 'compose up -d --remove-orphans --wait')))->toBeTrue()
         ->and($env)->toContain('PASSORDE_TAG=abc1234');
 });
@@ -172,6 +173,7 @@ it('stops the old queue worker before the new app migrates', function () {
 
     expect($code)->toBe(0)
         ->and($index('compose stop queue'))->toBeInt()
+        ->and($index('compose up -d --remove-orphans --wait'))->toBeInt()
         ->and($index('compose stop queue'))->toBeLessThan($index('compose up -d --remove-orphans --wait'));
 });
 
@@ -213,11 +215,16 @@ it('goes on with the images already on the server when the pull fails, only with
         ->and($output)->toContain('pull failed: using the images of abc1234 already on the server')
         ->and($after)->toContain('PASSORDE_TAG=abc1234');
 
-    // An image that is not on the server either: stopped before anything changes.
-    [$code, $output, , $after] = runDeploy($env, ['pull' => 1, 'artisan --version' => 1], ['DEPLOY_PULL_OPTIONAL' => '1']);
-    expect($code)->toBe(1)
-        ->and($output)->toContain('does not start')->toContain('nothing was changed')
-        ->and($after)->toContain('PASSORDE_TAG=old1234');
+    // An image of the tag that is not on the server either (the app's, or the backup's alone): stopped
+    // before the tag is written and before anything is stopped.
+    foreach (['img-app:abc1234', 'img-backup:abc1234'] as $missing) {
+        [$code, $output, $calls, $after] = runDeploy($env, ['pull' => 1, $missing => 1], ['DEPLOY_PULL_OPTIONAL' => '1']);
+        expect($code)->toBe(1)
+            ->and($output)->toContain("the image {$missing} is not on the server")->toContain('nothing was changed')
+            ->and(callIndex($calls, ' stop '))->toBeFalse()
+            ->and(callIndex($calls, 'artisan --version'))->toBeFalse()
+            ->and($after)->toContain('PASSORDE_TAG=old1234');
+    }
 
     // rollback.sh passes the switch on to deploy.sh.
     $releases = "2026-11-14T08:00:00Z prev0001 (previous none)\n2026-11-15T08:00:00Z old1234 (previous prev0001)\n";
