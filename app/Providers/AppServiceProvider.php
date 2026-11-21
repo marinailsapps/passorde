@@ -15,11 +15,13 @@ use App\Integrations\Sync\Sinks\PaytypeSink;
 use App\Integrations\Sync\Sinks\UserSink;
 use App\Integrations\Sync\SyncProvider;
 use App\Models\Setting;
+use App\Support\BreachCheck;
 use App\Support\EvolizState;
 use App\Support\Profile\ProfileTranslationLoader;
 use App\Support\SyncMode;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Translation\Loader;
+use Illuminate\Contracts\Validation\UncompromisedVerifier;
 use Illuminate\Http\Client\Factory as HttpFactory;
 use Illuminate\Support\Facades\Queue;
 use Illuminate\Support\Facades\URL;
@@ -38,6 +40,9 @@ class AppServiceProvider extends ServiceProvider
     {
         // The installation's wording over lang/fr.json (App\Support\Profile\Wording).
         $this->app->extend('translation.loader', fn (Loader $loader) => new ProfileTranslationLoader($loader));
+
+        // Have I Been Pwned unreachable: one warning line instead of a stack trace (App\Support\BreachCheck).
+        $this->app->extend(UncompromisedVerifier::class, fn (UncompromisedVerifier $verifier, Application $app) => new BreachCheck($app->make(HttpFactory::class)));
 
         // The mode decides at resolve time, so that a test switching to file mode gets the file provider.
         $this->app->bind(SyncProvider::class, fn (Application $app) => SyncMode::isFile()
