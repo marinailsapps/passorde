@@ -22,7 +22,7 @@ Stack: PHP 8.3, Laravel 12, Inertia 2, Vue 3 + TypeScript, Tailwind 4, PostgreSQ
 ## Quick start (development)
 
 ```bash
-git clone <this repository> passorde
+git clone https://github.com/marinailsapps/passorde.git passorde
 cd passorde
 cp .env.example .env
 ```
@@ -31,6 +31,7 @@ Edit `.env`:
 
 - `ADMIN_LOGIN`, `ADMIN_PASSWORD` (12 characters or more) and optionally `ADMIN_EMAIL`: the first admin.
 - Ports, if the defaults collide with something: `APP_PORT` (8093), `VITE_PORT` (5193), `DB_PORT` (54393).
+- On a Linux host whose user or group id is not 1000 (`id -u`, `id -g`): `USER_ID` and `GROUP_ID`, before the first `docker compose build app`, so that the files the container writes (`vendor/`, `storage/`, `.env`) belong to you. They are build arguments of the dev image (`compose.yml`); after changing them, build it again. macOS and Windows (Docker Desktop) need nothing.
 
 To run beside another Docker stack (another checkout of this app, or another project), give this one its own Compose project name, ports and image tag in `.env`, so that containers, volumes, ports and the built image never meet:
 
@@ -189,7 +190,7 @@ Details and a restore drill: docs/RUNBOOK.md "Backups" and "Restoring a backup".
 ## Optional Evoliz add-on
 
 Passorde Connect (https://github.com/marinailsapps/passorde-connect) links Passorde to Evoliz: catalogue, stock, clients and payment methods synchronised from Evoliz, and each approved order sent as an Evoliz delivery note. It is compatible with Evoliz, not affiliated with Evoliz SAS / Visma.
-It does nothing unless `EVOLIZ_ENABLED=true` **and** a licence key, bought separately, is pasted with the Evoliz API keys on Administration → **Réglages Evoliz**. Without a valid licence the app simply runs standalone.
+It does nothing unless `EVOLIZ_ENABLED=true` **and** a licence key for the add-on is pasted with the Evoliz API keys on Administration → **Réglages Evoliz**. Without a valid licence the app simply runs standalone. A licence is obtained from the Passorde page of the site, https://apps.marinails.site/passorde (sales are not open yet).
 `PASSORDE_WRITES_ENABLED=false` (the default) is a test mode: reads run, every write to Evoliz is refused before it is sent.
 See docs/RUNBOOK.md "EVOLIZ_ENABLED and the Evoliz settings" and the add-on's own documentation.
 
@@ -206,7 +207,7 @@ npm run lint
 npm run build
 ```
 
-Tests run against the `passorde_test` database (created by `docker/postgres/init-test-db.sql` when the Postgres volume is first created), never the dev database.
+On the host, run `npm ci` once before the npm commands (the `vite` container keeps its own `node_modules`). Tests run against the `passorde_test` database (created by `docker/postgres/init-test-db.sql` when the Postgres volume is first created), never the dev database.
 
 ## Licence
 
