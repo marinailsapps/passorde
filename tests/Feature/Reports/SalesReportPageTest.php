@@ -23,8 +23,8 @@ beforeEach(function () {
     $this->client = Client::factory()->create(['company_name' => 'SARL FICTIF', 'postcode' => '59380']);
     $this->variety = Article::factory()->create(['reference' => 'VELOURS TIGE POM']);
     ArticleAttribute::query()->create(['article_id' => $this->variety->id, 'category' => 'POMMIER', 'variant' => 'nu', 'needs_review' => false, 'source' => AttributeSource::Auto]);
-    $this->gloves = Article::factory()->create(['reference' => 'GANTS']);
-    ArticleAttribute::query()->create(['article_id' => $this->gloves->id, 'category' => null, 'variant' => 'material', 'needs_review' => false, 'source' => AttributeSource::Auto]);
+    $this->wateringCan = Article::factory()->create(['reference' => 'ARROSOIR']);
+    ArticleAttribute::query()->create(['article_id' => $this->wateringCan->id, 'category' => null, 'variant' => 'material', 'needs_review' => false, 'source' => AttributeSource::Auto]);
 });
 
 /**
@@ -38,7 +38,7 @@ function salesBl(string $number, string $date, array $lines, array $attributes =
     $vat = 0;
     foreach ($lines as [$article, $quantity, $price]) {
         $ht += $quantity * $price;
-        $vat += $quantity * $price * ($article->reference === 'GANTS' ? 0.2 : 0.055);
+        $vat += $quantity * $price * ($article->reference === 'ARROSOIR' ? 0.2 : 0.055);
     }
     $delivery = EvolizDelivery::query()->create([
         'evoliz_delivery_id' => ++$id, 'document_number' => $number, 'client_id' => test()->client->id, 'client_name' => 'SARL FICTIF', 'evoliz_user_id' => 50001,
@@ -49,7 +49,7 @@ function salesBl(string $number, string $date, array $lines, array $attributes =
     foreach ($lines as $position => [$article, $quantity, $price]) {
         $delivery->lines()->create([
             'position' => $position, 'article_id' => $article->id, 'reference' => $article->reference, 'designation' => $article->reference.' désignation',
-            'quantity' => $quantity, 'unit_price_ht' => $price, 'vat_rate' => $article->reference === 'GANTS' ? 20 : 5.5, 'total_ht' => $quantity * $price, 'is_free' => $price == 0,
+            'quantity' => $quantity, 'unit_price_ht' => $price, 'vat_rate' => $article->reference === 'ARROSOIR' ? 20 : 5.5, 'total_ht' => $quantity * $price, 'is_free' => $price == 0,
         ]);
     }
 
@@ -57,7 +57,7 @@ function salesBl(string $number, string $date, array $lines, array $attributes =
 }
 
 it('sums the BLs of the current month by default, never the orders still waiting', function () {
-    salesBl('BL-1', '2026-10-05', [[$this->variety, 10, 32], [$this->variety, 1, 0], [$this->gloves, 1, 20]], ['status_code' => 20, 'status' => 'invoice', 'invoiced' => true]);
+    salesBl('BL-1', '2026-10-05', [[$this->variety, 10, 32], [$this->variety, 1, 0], [$this->wateringCan, 1, 20]], ['status_code' => 20, 'status' => 'invoice', 'invoiced' => true]);
     salesBl('BL-2', '2026-10-20', [[$this->variety, 2, 30]]);
     salesBl('BL-SEPT', '2026-09-30', [[$this->variety, 5, 30]]);
     salesBl('BL-GONE', '2026-10-06', [[$this->variety, 5, 30]])->delete();
@@ -95,7 +95,7 @@ it('filters by invoiced state and by seller', function () {
 });
 
 it('exports Résumé, one sheet per grouping and Détail, with numbers and formulas', function () {
-    salesBl('BL-1', '2026-10-05', [[$this->variety, 10, 32], [$this->variety, 1, 0], [$this->gloves, 1, 20]], ['status_code' => 20, 'status' => 'invoice', 'invoiced' => true]);
+    salesBl('BL-1', '2026-10-05', [[$this->variety, 10, 32], [$this->variety, 1, 0], [$this->wateringCan, 1, 20]], ['status_code' => 20, 'status' => 'invoice', 'invoiced' => true]);
     salesBl('BL-2', '2026-10-20', [[$this->variety, 2, 30]]);
 
     $response = get('/reports/sales.xlsx?from=2026-10-01&to=2026-10-31')->assertOk()->assertDownload('ventes-2026-10-01-2026-10-31.xlsx');
@@ -129,7 +129,7 @@ it('exports Résumé, one sheet per grouping and Détail, with numbers and formu
         ['BL-2', 46315.0, 'SARL FICTIF', 'Bon', 'Evoliz', 'VELOURS TIGE POM', 'VELOURS TIGE POM désignation', 2, 30, null, 5.5, 60, 60, 3.3, 63.3],
         ['BL-1', 46300.0, 'SARL FICTIF', 'Facturé', 'Evoliz', 'VELOURS TIGE POM', 'VELOURS TIGE POM désignation', 10, 32, null, 5.5, 320, 340, 21.6, 361.6],
         ['BL-1', 46300.0, 'SARL FICTIF', 'Facturé', 'Evoliz', 'VELOURS TIGE POM', 'VELOURS TIGE POM désignation', 1, 0, 'Oui', 5.5, 0, null, null, null],
-        ['BL-1', 46300.0, 'SARL FICTIF', 'Facturé', 'Evoliz', 'GANTS', 'GANTS désignation', 1, 20, null, 20, 20, null, null, null],
+        ['BL-1', 46300.0, 'SARL FICTIF', 'Facturé', 'Evoliz', 'ARROSOIR', 'ARROSOIR désignation', 1, 20, null, 20, 20, null, null, null],
     ])->and($detail->getCell('M6')->getValue())->toBe('=SUM(M2:M5)');
 });
 

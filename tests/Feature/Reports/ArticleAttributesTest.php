@@ -38,7 +38,7 @@ function stockFile(): string
     ]);
     $book->createSheet()->setTitle('MATERIEL')->fromArray([
         ['Référence', 'Désignation', 'LOT', 'PORTE-GREFFE', 'CALIBRE', 'HAUTEUR', 'Catégorie'],
-        ['GANTS', 'GANTS JARDIN', null, null, null, null, 'MATERIEL'],
+        ['ARROSOIR', 'ARROSOIR 10 L', null, null, null, null, 'MATERIEL'],
     ]);
     $book->createSheet()->setTitle('AUTRES ESSENCES')->fromArray([
         ['Référence', 'Variante', 'Catégorie', 'Qté Stock Réel'],
@@ -57,7 +57,7 @@ beforeEach(function () {
     $this->rivo = Article::factory()->create(['reference' => 'RIVO_ABR', 'designation' => 'RIVO ABR']);
     $this->luna = Article::factory()->create(['reference' => 'LUNA TIGE', 'designation' => 'LUNA GRIOTTE', 'sale_classification_code' => 'POMMIER']);
     $this->iris = Article::factory()->create(['reference' => 'IRIS TIGE POMMIER', 'designation' => 'IRIS TIGE POMMIER']);
-    $this->gants = Article::factory()->create(['reference' => 'GANTS', 'designation' => 'GANTS JARDIN boîte de 100']);
+    $this->wateringCan = Article::factory()->create(['reference' => 'ARROSOIR', 'designation' => 'ARROSOIR 10 L']);
     $this->gino = Article::factory()->create(['reference' => 'GINO FRAMBOISIEK', 'designation' => 'GINO']);
     $this->other = Article::factory()->create(['reference' => 'MYSTERE', 'designation' => 'MYSTERE / CAL : 12-14']);
     $this->file = stockFile();
@@ -80,7 +80,7 @@ it('classifies every article, then applies the file where the reference matches'
         ->and(attributeOf($this->rivo))->category->toBe('ABRICOTIER')->variant->toBe('nu')
         ->and(attributeOf($this->luna))->category->toBe('POMMIER')->variant->toBe('motte')
         ->and(attributeOf($this->iris))->category->toBe('POMMIER')->source->toBe(AttributeSource::Auto)
-        ->and(attributeOf($this->gants))->category->toBeNull()->variant->toBe('material')
+        ->and(attributeOf($this->wateringCan))->category->toBeNull()->variant->toBe('material')
         ->and(attributeOf($this->gino))->category->toBe('FRAMBOISIER')
         ->and(attributeOf($this->other))->category->toBeNull()->needs_review->toBeTrue()->source->toBe(AttributeSource::Auto);
 });
@@ -154,12 +154,12 @@ describe('admin screens', function () {
 
     it('sets one category on several articles, counted variants only', function () {
         actingAs($this->admin)->post('/admin/article-attributes/bulk-category', [
-            'ids' => [attributeOf($this->other)->id, attributeOf($this->ilaria)->id, attributeOf($this->gants)->id],
+            'ids' => [attributeOf($this->other)->id, attributeOf($this->ilaria)->id, attributeOf($this->wateringCan)->id],
             'category' => 'VIGNE',
         ])->assertRedirect()->assertSessionHas('success', '2 articles mis à jour.');
 
         expect(attributeOf($this->other)->category)->toBe('VIGNE')
-            ->and(attributeOf($this->gants)->category)->toBeNull();
+            ->and(attributeOf($this->wateringCan)->category)->toBeNull();
     });
 
     it('saves the thresholds per category, an empty one removes it', function () {

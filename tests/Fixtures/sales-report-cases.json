@@ -83,7 +83,7 @@
                 {
                     "delivery_id": 1,
                     "article_id": 9,
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "quantity": "1.00",
                     "total_ht": "20.00",
                     "vat_rate": "20.00",
@@ -147,7 +147,7 @@
                     "variant": "motte"
                 },
                 "9": {
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "category": null,
                     "variant": "material"
                 },
@@ -319,7 +319,7 @@
                     },
                     {
                         "key": "id:9",
-                        "label": "GANTS",
+                        "label": "ARROSOIR",
                         "count": 1,
                         "quantity": "0.00",
                         "free_quantity": "0.00",
@@ -648,7 +648,7 @@
                 {
                     "delivery_id": 1,
                     "article_id": 9,
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "quantity": "1.00",
                     "total_ht": "20.00",
                     "vat_rate": "20.00",
@@ -712,7 +712,7 @@
                     "variant": "motte"
                 },
                 "9": {
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "category": null,
                     "variant": "material"
                 },
@@ -848,7 +848,7 @@
                     },
                     {
                         "key": "id:9",
-                        "label": "GANTS",
+                        "label": "ARROSOIR",
                         "count": 1,
                         "quantity": "0.00",
                         "free_quantity": "0.00",
@@ -1107,7 +1107,7 @@
                 {
                     "delivery_id": 1,
                     "article_id": 9,
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "quantity": "1.00",
                     "total_ht": "20.00",
                     "vat_rate": "20.00",
@@ -1171,7 +1171,7 @@
                     "variant": "motte"
                 },
                 "9": {
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "category": null,
                     "variant": "material"
                 },
@@ -1539,7 +1539,7 @@
                 {
                     "delivery_id": 1,
                     "article_id": 9,
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "quantity": "1.00",
                     "total_ht": "20.00",
                     "vat_rate": "20.00",
@@ -1603,7 +1603,7 @@
                     "variant": "motte"
                 },
                 "9": {
-                    "reference": "GANTS",
+                    "reference": "ARROSOIR",
                     "category": null,
                     "variant": "material"
                 },

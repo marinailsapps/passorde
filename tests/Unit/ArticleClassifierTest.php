@@ -57,7 +57,7 @@ it('classifies catalogue articles', function (string $reference, string $designa
     'misspelt FRAMBOISIEK' => ['GINO FRAMBOISIEK', 'GINO FRAMBOISIEK', '55', 'FRAMBOISIER', 'nu', false],
     'PETITS FRUITS' => ['HUGO PFR', 'HUGO PETITS FRUITS', '55', 'PETITS FRUITS', 'nu', false],
     'compost (classification)' => ['TERREAU', 'TERREAU EN VRAC 3 livraisons par an', 'TR', null, 'material', false],
-    'gloves' => ['GANTS', 'GANTS JARDIN boîte de 100', '55', null, 'material', false],
+    'watering can' => ['ARROSOIR', 'ARROSOIR 10 L', '55', null, 'material', false],
     'gel' => ['GEL CICATRISANT 5 L', 'GEL CICATRISANT 5 LITRES', '20', null, 'material', false],
     'goods at 20 % VAT' => ['POMPE_12V', 'POMPE 12V 220V', '20', null, 'material', false],
     'shipping' => ['PORT', 'Frais de Port Facturés', '02', null, 'other', false],

@@ -73,8 +73,8 @@ it('mirrors the window with lines, totals, invoiced state and links to clients a
             ['reference' => 'VELOURS TIGE POM', 'quantity' => '15.00', 'unit_price_ht' => '74.00', 'vat_rate' => '5.50', 'is_free' => false],
             ['reference' => 'VELOURS TIGE POM', 'quantity' => '3.00', 'unit_price_ht' => '0.00', 'vat_rate' => '5.50', 'is_free' => true],
             ['reference' => 'VERVEINE_COG', 'quantity' => '12.00', 'unit_price_ht' => '67.00', 'vat_rate' => '5.50', 'is_free' => false],
-            ['reference' => 'GANTS', 'quantity' => '1.00', 'unit_price_ht' => '0.00', 'vat_rate' => '20.00', 'is_free' => true],
-            ['reference' => 'SECATEURS', 'quantity' => '2.00', 'unit_price_ht' => '0.00', 'vat_rate' => '20.00', 'is_free' => true],
+            ['reference' => 'SECATEUR', 'quantity' => '1.00', 'unit_price_ht' => '0.00', 'vat_rate' => '20.00', 'is_free' => true],
+            ['reference' => 'TERREAU', 'quantity' => '2.00', 'unit_price_ht' => '0.00', 'vat_rate' => '20.00', 'is_free' => true],
         ])
         ->and($lines[0]->article_id)->toBe($velours->id)
         ->and($lines[2]->article_id)->toBeNull();

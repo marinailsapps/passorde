@@ -132,12 +132,12 @@ it('takes the variety’s threshold before the category’s, and none without ei
 
 it('counts broken units and gifts of the period only', function () {
     $alpha = reportArticle('ALPHA POM', 'POMMIER', article: ['stock_qty' => 20]);
-    $gloves = reportArticle('GANTS', null, 'material', ['stock_qty' => 100]);
+    $wateringCan = reportArticle('ARROSOIR', null, 'material', ['stock_qty' => 100]);
     $client = Client::factory()->create(['company_name' => 'SARL DU PRE']);
     adjustment($alpha, StockAdjustmentKind::Broken, '4', '2025-12-31');
     adjustment($alpha, StockAdjustmentKind::Broken, '2', '2026-06-01');
     adjustment($alpha, StockAdjustmentKind::Gift, '1', '2026-06-02', client: $client);
-    adjustment($gloves, StockAdjustmentKind::Gift, '10', '2026-06-03');
+    adjustment($wateringCan, StockAdjustmentKind::Gift, '10', '2026-06-03');
     $order = Order::factory()->status(OrderStatus::Sent)->withLines([[$alpha, 3, true], [$alpha, 5]])->create(['sent_at' => '2026-06-04 21:30:00']);
     Order::factory()->status(OrderStatus::Sent)->withLines([[$alpha, 7, true]])->create(['sent_at' => '2026-07-01 08:00:00']);
 
