@@ -149,6 +149,14 @@ it('keeps the healthchecks independent of the profile and backs the profile up',
         ->and((string) file_get_contents(base_path('deploy/restore.sh')))->toContain('"/restore/$id/profile"');
 });
 
+it('takes the subnet of the edge network from EDGE_SUBNET, which TRUSTED_PROXIES trusts by default', function () {
+    $compose = (string) file_get_contents(base_path('compose.prod.yml'));
+    $example = (string) file_get_contents(base_path('.env.production.example'));
+
+    expect($compose)->toContain('- subnet: ${EDGE_SUBNET:-172.30.93.0/24}')
+        ->and($example)->toContain("\nEDGE_SUBNET=172.30.93.0/24\n")->toContain("\nTRUSTED_PROXIES=172.30.93.0/24\n");
+});
+
 it('shows a profile that does not fit the data on the settings page', function () {
     ArticleAttribute::query()->create(['article_id' => Article::factory()->create()->id, 'category' => 'PLATANE', 'variant' => 'nu', 'needs_review' => false, 'source' => AttributeSource::Manual]);
 

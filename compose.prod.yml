@@ -10,7 +10,7 @@
 # Only Caddy publishes ports (Docker's port rules bypass ufw). Postgres sits on
 # an internal network without a route out; the app containers reach it there
 # and reach the internet (Evoliz, OVH, SMTP) through the "edge" network, whose
-# fixed subnet is what TRUSTED_PROXIES trusts.
+# subnet (EDGE_SUBNET) is what TRUSTED_PROXIES trusts.
 
 x-app: &app
   image: ${PASSORDE_IMAGE:-ghcr.io/marinailsapps/passorde}:${PASSORDE_TAG:?set PASSORDE_TAG in .env (deploy/deploy.sh does)}
@@ -199,11 +199,12 @@ services:
     logging: *logging
 
 networks:
-  # Caddy ↔ app, and the way out to the internet. TRUSTED_PROXIES=172.30.93.0/24.
+  # Caddy ↔ app, and the way out to the internet. TRUSTED_PROXIES names the same subnet
+  # (172.30.93.0/24 unless EDGE_SUBNET gives another one, e.g. for a second installation on the host).
   edge:
     ipam:
       config:
-        - subnet: 172.30.93.0/24
+        - subnet: ${EDGE_SUBNET:-172.30.93.0/24}
   # Postgres only: no published port, no route out.
   db:
     internal: true

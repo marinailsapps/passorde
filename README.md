@@ -176,7 +176,7 @@ The production stack is `compose.prod.yml`: `caddy` (TLS from Let's Encrypt for 
    `deploy.sh <tag>` refuses while `.env` does not state `PASSORDE_PROFILE`, pulls the images, checks the profile with the new image against the live database, then recreates the app containers (the app migrates on start), reloads Caddy, checks `/up` and appends to `releases.log`. When a check fails, nothing changes and the running version keeps running. `deploy/rollback.sh [<tag>]` goes back to the previous (or a given) tag.
 5. **First start**: `docker compose exec app php artisan db:seed --force` (first admin and payment types), `docker compose exec backup backup.sh` (first backup), sign in, change the password, remove `ADMIN_PASSWORD` from `.env`.
 
-Everything in more detail, with the `.env` checklist: docs/RUNBOOK.md "Production .env checklist", "Production stack", "Server bootstrap", "First deploy", "Deploying", "Rollback". Rehearse the whole stack on a laptop first: "Production stack on a laptop".
+Everything in more detail, with the `.env` checklist: docs/RUNBOOK.md "Production .env checklist", "Production stack", "Server bootstrap", "First deploy", "Deploying", "Rollback"; a test copy beside production on the same server: "A second installation on the same host". Rehearse the whole stack on a laptop first: "Production stack on a laptop".
 
 ## Backups and restoring
 

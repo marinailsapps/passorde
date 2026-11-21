@@ -72,7 +72,7 @@ In development, `docker compose exec app php artisan migrate:fresh --seed` empti
 | `VITE_PORT` | 5193 | Vite dev server (development only), same port inside and outside the container |
 | `DB_PORT` | 54393 | Postgres port in development, inside the compose network and on the host (production: 5432, internal only) |
 | `PASSORDE_DEV_IMAGE` | `passorde-php:dev` | Development: the tag of the locally built app image (`compose.yml`); another one keeps a second stack's image apart (README "Quick start") |
-| `TRUSTED_PROXIES` | empty | Proxies whose `X-Forwarded-*` headers are trusted; empty means Docker's default compose address pool. In production keep the value of `.env.production.example` (the fixed subnet of the `edge` network in `compose.prod.yml`). Without it every phone looks like Caddy's address: one shared login limit, wrong Turnstile address, `http://` links |
+| `TRUSTED_PROXIES` | empty | Proxies whose `X-Forwarded-*` headers are trusted; empty means Docker's default compose address pool. In production keep the value of `.env.production.example` (the subnet of the `edge` network in `compose.prod.yml`, `EDGE_SUBNET`). Without it every phone looks like Caddy's address: one shared login limit, wrong Turnstile address, `http://` links |
 | `EVOLIZ_ENABLED` | empty | The Evoliz add-on, `true` or `false`; empty means `false` (see "EVOLIZ_ENABLED and the Evoliz settings") |
 | `SYNC_SCHEDULE_ENABLED` | empty | Run the scheduled Evoliz syncs (only while Evoliz is active). Empty: on with `APP_ENV=production`, off anywhere else; `true`/`false` overrides. `.env.example` says `false` |
 | `PASSORDE_WRITES_ENABLED` | false | Evoliz test mode while `false`: reads stay live, every Evoliz write is refused before it is sent, approvals fail with "Envoi Evoliz désactivé (mode test)" and every page shows the amber "Mode test" bar. See "Turning Evoliz writes on" |
@@ -518,7 +518,7 @@ With `SMS_ENABLED=true` the client gets an SMS from the OVH SMS service `OVH_SMS
 | `SESSION_ENCRYPT` | `true` | Session payloads encrypted at rest |
 | `SESSION_SECURE_COOKIE` | unset (follows `APP_ENV=production`) or `true` | Cookies only over https |
 | `SESSION_DOMAIN` | `null` | Cookies for the app host only |
-| `TRUSTED_PROXIES` | the value of `.env.production.example` | Caddy's network, fixed in `compose.prod.yml`: real client addresses for the login limit and Turnstile, https detection |
+| `EDGE_SUBNET`, `TRUSTED_PROXIES` | the values of `.env.production.example` (`172.30.93.0/24`) | Caddy's network in `compose.prod.yml` and the proxies trusted on it: real client addresses for the login limit and Turnstile, https detection. Change them only for a second installation on the host ("A second installation on the same host"); a changed `EDGE_SUBNET` takes effect after `docker compose down` (volumes kept) and a deploy |
 | `DB_HOST`, `DB_PORT` | `postgres`, `5432` | The postgres container on the internal network (no published port) |
 | `DB_PASSWORD` | long random value (required) | `compose.prod.yml` refuses to start without it |
 | `MAIL_*` | your SMTP account | Password reset emails and the daily digest |
@@ -566,6 +566,64 @@ docker compose exec app php artisan ops:check       # queue + scheduler heartbea
 docker compose exec app php artisan ops:daily-digest --print
 docker compose exec app php artisan user:password <login>
 ```
+
+### A second installation on the same host
+
+A second stack on the same server (a test copy beside production, say) gets its own install directory (e.g. `/srv/passorde-test`, with its own `.env`, profile and `deploy/`), and in that `.env`:
+
+- `COMPOSE_PROJECT_NAME=passorde-test`: containers, networks and volumes are named after it, so the two never share a database volume;
+- `EDGE_SUBNET` another free /24 (e.g. `172.30.94.0/24`): two stacks cannot use the same subnet (Docker refuses to create the second network). `TRUSTED_PROXIES` names both subnets (`172.30.93.0/24,172.30.94.0/24`), because requests reach this app through both Caddys;
+- `BACKUP_NAME` of its own (e.g. `passorde-test`), or another bucket, so its snapshots never mix with production's; its own `DB_PASSWORD`, `APP_KEY` and `RESTIC_PASSWORD`;
+- `COMPOSE_FILE=compose.prod.yml:compose.behind.yml` and `CADDYFILE=./docker/caddy/Caddyfile.behind`, the two files below.
+
+Only one Caddy can publish ports 80 and 443. The first installation's Caddy keeps them, gets the certificate for the second host name and hands its requests to the second installation's Caddy, which publishes nothing and joins the first one's `edge` network under an alias. `compose.behind.yml`, in the second install directory (`passorde_edge` is `<first COMPOSE_PROJECT_NAME>_edge`):
+
+```yaml
+services:
+  caddy:
+    ports: !reset []
+    networks:
+      edge: {}
+      front:
+        aliases: [passorde-test]
+networks:
+  front:
+    name: passorde_edge
+    external: true
+```
+
+`docker/caddy/Caddyfile.behind`, in the second install directory: plain HTTP on that network only, the first Caddy trusted for the client address and the scheme, and the upstream named by container (`<COMPOSE_PROJECT_NAME>-app-1`), because the name `app` would also find the first installation's app on the shared network:
+
+```
+{
+	auto_https off
+	servers {
+		trusted_proxies static 172.30.93.0/24
+	}
+}
+
+http://{$APP_DOMAIN} {
+	import /etc/caddy/security.caddy
+	reverse_proxy passorde-test-app-1:8080
+}
+
+import /etc/caddy/sites/*.caddy
+```
+
+`docker/caddy/sites/test.caddy`, in the **first** install directory (then `caddy reload`, `docker/caddy/sites/README.md`):
+
+```
+test.example.com {
+	import /etc/caddy/security.caddy
+	header {
+		defer
+		Strict-Transport-Security "max-age=31536000"
+	}
+	reverse_proxy passorde-test:80
+}
+```
+
+The second installation's `APP_DOMAIN` is `test.example.com` and `APP_URL=https://test.example.com`; point its DNS record at the server. The first stack must be running when the second one starts (its `edge` network is external to the second). Copy `compose.behind.yml` and `Caddyfile.behind` with the other deploy files; `deploy.sh` and `rollback.sh` work in each directory as usual. The second Caddy can reach the first installation's app on the shared network: keep its Caddyfile to the lines above.
 
 ## Server bootstrap
 
