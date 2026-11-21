@@ -4,8 +4,8 @@
 #
 #   /srv/passorde/deploy/deploy.sh 1a2b3c4          # tag = short git SHA
 #
-# Steps: check that .env states PASSORDE_PROFILE, pull the app and backup images,
-# check the installation profile with the new image (against the database as it is, not
+# Steps: check that .env states PASSORDE_PROFILE, pull the app and backup images, start Postgres
+# if it is not running, check the installation profile with the new image (against the database as it is, not
 # migrated yet: ProfileCheck reads the older names of the profile too), record the tag in .env
 # (PASSORDE_TAG), stop the scheduler and clear its locks, stop the queue worker, recreate the app containers (the app
 # migrates and every container runs `optimize` on start, so the queue and the
@@ -87,6 +87,10 @@ fi
 # Migrations only add (tables, columns): an older image runs on a newer database, so going back
 # is only an image change (rollback.sh). A rename of what the code reads would break that: see
 # docs/RUNBOOK.md "Older names" for how an installation renames with passorde:rename-legacy.
+
+# The profile check below reads the database: start Postgres when it is not running (the first deploy
+# of a new installation). A running one is left as it is.
+docker compose up -d --wait --no-recreate postgres >/dev/null
 
 # The new image must start, and reads the profile and checks it against the live database
 # before anything switches: a profile the new version refuses stops the deploy here.

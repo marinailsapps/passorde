@@ -170,6 +170,15 @@ describe('check', function () {
         ]);
     });
 
+    it('compares nothing on a database never migrated, as before the first deploy of a new installation', function () {
+        storedAttributes('CERISIER', 'godet');
+        // Inside the test's transaction: rolled back afterwards.
+        DB::statement('DROP SCHEMA public CASCADE');
+        DB::statement('CREATE SCHEMA public');
+
+        expect(ProfileCheck::run(fixtureProfile('fictional')))->toBe(['errors' => [], 'warnings' => [], 'loaded' => true]);
+    });
+
     it('warns when an optional field switched off still has data', function () {
         fileMode();
         Client::factory()->create(['extra_field' => 'X-1']);

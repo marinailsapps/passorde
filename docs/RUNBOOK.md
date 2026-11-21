@@ -692,9 +692,9 @@ With the add-on, afterwards: set `EVOLIZ_ENABLED=true`, deploy again (or `docker
 What `deploy/deploy.sh <tag>` does on the server (idempotent, POSIX sh):
 
 0. refuses at once, changing nothing, when `.env` does not state `PASSORDE_PROFILE` (it says what to add);
-1. pulls the app and backup images for the tag; if that fails, nothing changed. Then, still changing nothing, it stops on any of these (the running version keeps running):
+1. pulls the app and backup images for the tag; if that fails, nothing changed (`DEPLOY_PULL_OPTIONAL=1`: it goes on with the images already on the server, "CI, images and copying the deploy files"). It starts Postgres if it is not running (the first deploy of a new installation; a running one is left as it is). Then, still changing nothing, it stops on any of these (the running version keeps running):
    - the image does not start (`php artisan --version`);
-   - its `passorde:check-profile` fails against the live database, not migrated yet.
+   - its `passorde:check-profile` fails against the live database, not migrated yet (an empty database, before the first migration, has nothing to compare: only the profile itself is checked).
 
    Each refusal ends with `deploy: FAILED (exit 1) while deploying <tag>.` and `deploy: nothing was changed; <previous tag> is still running.`;
 2. writes `PASSORDE_TAG=<tag>` in `.env`;

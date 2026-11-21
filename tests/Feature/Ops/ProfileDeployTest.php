@@ -126,7 +126,7 @@ it('stops before switching when the new image refuses the profile; the old tag k
         ->and($calls[0])->toContain('compose pull')
         ->and(end($calls))->toBe('compose run --rm --no-deps -T -e AUTORUN_ENABLED=false app php artisan passorde:check-profile')
         ->and(callIndex($calls, 'artisan --version'))->toBeLessThan(count($calls) - 1)
-        ->and(callIndex($calls, ' up '))->toBeFalse()
+        ->and(callIndex($calls, ' up -d --remove-orphans '))->toBeFalse()
         ->and($env)->toContain('PASSORDE_TAG=old1234');
 });
 
@@ -135,6 +135,8 @@ it('checks the profile with the new image, then deploys', function () {
 
     expect($code)->toBe(0)
         ->and(callIndex($calls, 'passorde:check-profile'))->toBeInt()
+        // Postgres runs for the check (a new installation's first deploy), and a running one is not recreated.
+        ->and(callIndex($calls, 'compose up -d --wait --no-recreate postgres'))->toBeLessThan(callIndex($calls, 'passorde:check-profile'))
         ->and(collect($calls)->contains(fn (string $call) => str_contains($call, 'compose up -d --remove-orphans --wait')))->toBeTrue()
         ->and($env)->toContain('PASSORDE_TAG=abc1234');
 });
