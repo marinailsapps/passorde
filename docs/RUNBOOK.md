@@ -592,7 +592,7 @@ networks:
     external: true
 ```
 
-`docker/caddy/Caddyfile.behind`, in the second install directory: plain HTTP on that network only, the first Caddy trusted for the client address and the scheme, and the upstream named by container (`<COMPOSE_PROJECT_NAME>-app-1`), because the name `app` would also find the first installation's app on the shared network:
+`docker/caddy/Caddyfile.behind`, in the second install directory: plain HTTP on that network only, the first Caddy trusted for the client address and the scheme (`trusted_proxies` names the **first** installation's `EDGE_SUBNET`, `172.30.93.0/24` by default), and the upstream named by container (`<COMPOSE_PROJECT_NAME>-app-1`), because the name `app` would also find the first installation's app on the shared network:
 
 ```
 {
@@ -623,7 +623,11 @@ test.example.com {
 }
 ```
 
-The second installation's `APP_DOMAIN` is `test.example.com` and `APP_URL=https://test.example.com`; point its DNS record at the server. The first stack must be running when the second one starts (its `edge` network is external to the second). Copy `compose.behind.yml` and `Caddyfile.behind` with the other deploy files; `deploy.sh` and `rollback.sh` work in each directory as usual. The second Caddy can reach the first installation's app on the shared network: keep its Caddyfile to the lines above.
+The second installation's `APP_DOMAIN` is `test.example.com` and `APP_URL=https://test.example.com`. Before its first `deploy.sh`, the first stack runs (its `edge` network is external to the second), the site file is in the first install directory and Caddy there reloaded, and the DNS record points at the server: `deploy.sh` checks `/up` at `APP_URL` from outside and fails otherwise. Copy `compose.behind.yml` and `Caddyfile.behind` with the other deploy files; `deploy.sh` and `rollback.sh` work in each directory as usual.
+
+While the second Caddy is attached to the first installation's `edge` network, `docker compose down` in the first directory cannot remove that network (Docker refuses a network with containers on it), and with the first Caddy stopped the second installation is unreachable as well: stop the second installation's Caddy first (`docker compose stop caddy` in its directory) and start it again after the first one is back.
+
+Keep `Caddyfile.behind` to the lines above. The second Caddy has an address in the first installation's `edge` subnet, which the first app trusts as a proxy (`TRUSTED_PROXIES`): anything sent to the first app through it could carry any client address in `X-Forwarded-For` (the login limit, the logs). It must only serve the second host name to the second app, never route to the first one.
 
 ## Server bootstrap
 
@@ -741,7 +745,7 @@ An installation whose fields, tables or texts keys had other names before (its p
   /srv/passorde/deploy/deploy.sh <new tag>
   ```
 
-  The dry run lists every rename and changes nothing; read it before the real run. If `deploy.sh` then refuses (a profile error, an image that does not start), the older version is **not** running any more: fix the cause and run `deploy.sh <new tag>` again, or go back with the undo below and start the older tag with `docker compose up -d`. `deploy.sh` writes the new tag in `.env` only after its checks (it refuses a pull, an image that does not start or a profile error before that), so after such a refusal `.env` still names the older image, which may not have the command: put `PASSORDE_TAG=<new tag>` in front of both `docker compose run` lines of the undo.
+  Without a registry, leave out the `pull` line (the new image is on the server already) and put `DEPLOY_PULL_OPTIONAL=1` in front of `deploy.sh`. The dry run lists every rename and changes nothing; read it before the real run. If `deploy.sh` then refuses (a profile error, an image that does not start), the older version is **not** running any more: fix the cause and run `deploy.sh <new tag>` again, or go back with the undo below and start the older tag with `docker compose up -d`. `deploy.sh` writes the new tag in `.env` only after its checks (it refuses a pull, an image that does not start or a profile error before that), so after such a refusal `.env` still names the older image, which may not have the command: put `PASSORDE_TAG=<new tag>` in front of both `docker compose run` lines of the undo.
 
   **Going back past the rename** (before `rollback.sh` to an image from before it), with the image running now, because only it knows the current names, and with the application stopped: the undo takes each table's exclusive lock and rewrites stored rows in one transaction, so a running request waits on it and then fails on the names that have gone, a queue worker fails its jobs the same way, and a row written in between may keep the current field names:
 
@@ -761,7 +765,7 @@ An installation whose fields, tables or texts keys had other names before (its p
 - Every night at 02:30 Europe/Paris the `backup` container runs `deploy/backup.sh` (its crond, `TZ=Europe/Paris`, crontab from `BACKUP_SCHEDULE`, default `30 2 * * *`): `pg_dump -Fc` of the database plus the server `.env` and the installation profile, into a restic repository at `s3:<BACKUP_S3_ENDPOINT>/<BACKUP_S3_BUCKET>/<BACKUP_NAME>` (restic host `BACKUP_NAME`, default `passorde`; encrypted with `RESTIC_PASSWORD`). Every night `restic forget --keep-daily 30 --keep-monthly 12 --keep-tag keep` marks old snapshots; on Sundays it also prunes (frees the space) and runs `restic check`. Each step has a deadline (an unreachable bucket fails after 10 minutes instead of retrying for hours).
 - Any S3-compatible storage works (the laptop rehearsal uses MinIO). The container has `RESTIC_REPOSITORY` and the S3 keys in its environment (`compose.prod.yml`), so plain `restic` commands work in it.
 - The result goes to `ops_heartbeats` ("backup"): the daily digest reports a failed run or no successful backup for 26 hours.
-- Retention: the last snapshot of each of the last 30 days and of 12 months, so a second backup the same day makes the first one forgettable; a snapshot tagged `keep` (`backup.sh --keep <name>`, lower-case letters, digits and `-`) is never forgotten until the tag is removed. Any snapshot can be tagged afterwards, nightly ones included and those of a backup image whose `backup.sh` has no `--keep` yet: `restic tag --add keep --add <name> <snapshot id>` (the id from `restic snapshots`), before the next nightly `forget` would drop it.
+- Retention: the last snapshot of each of the last 30 days and of 12 months, so a second backup the same day makes the first one forgettable; a snapshot tagged `keep` (`backup.sh --keep <name>`, lower-case letters, digits and `-`) is never forgotten until the tag is removed. Any snapshot can be tagged afterwards, a nightly one for example: `restic tag --add keep --add <name> <snapshot id>` (the id from `restic snapshots`), before the next nightly `forget` would drop it.
 - The licence file of the add-on (on the `storage` volume, used only until a key is saved on "Réglages Evoliz") is not in the backup; keep your licence key elsewhere.
 - By hand:
 
@@ -789,11 +793,11 @@ docker compose exec backup restore.sh latest              # or a snapshot id; op
 ```bash
 cd /srv/passorde
 docker compose up -d --wait postgres                 # creates the empty DB_DATABASE on its first start
-docker compose exec -T postgres pg_restore --no-owner --role=<DB_USERNAME> --exit-on-error -U <DB_USERNAME> -d <DB_DATABASE> < old.dump
+docker compose exec -T postgres pg_restore --no-owner --role=<DB_USERNAME> --single-transaction --exit-on-error -U <DB_USERNAME> -d <DB_DATABASE> < old.dump
 /srv/passorde/deploy/deploy.sh <tag>                 # checks the profile against it, then migrates what is missing
 ```
 
-A plain SQL dump goes through `psql` instead (`docker compose exec -T postgres psql -U <DB_USERNAME> -d <DB_DATABASE> -v ON_ERROR_STOP=1 < old.sql`). If that installation's database still has older names (its profile has a `schema` map), run the rename of "Older names" from the `pull` line on, before `deploy.sh`. The users come with the database: sign in with one of its admins ("First admin" says how to give one a new password); `ADMIN_*` creates nobody. Take a first backup once it runs (`docker compose exec backup backup.sh`).
+`--single-transaction` makes a failed restore leave the database as empty as before, so the same line can run again once the cause is fixed. A plain SQL dump goes through `psql` instead (`docker compose exec -T postgres psql -U <DB_USERNAME> -d <DB_DATABASE> -v ON_ERROR_STOP=1 --single-transaction < old.sql`). If that installation's database still has older names (its profile has a `schema` map), run the rename of "Older names" from the `pull` line on, before `deploy.sh` (without a registry, leave out the `pull` line, the image being on the server already, and run `DEPLOY_PULL_OPTIONAL=1 deploy.sh`). The users come with the database: sign in with one of its admins ("First admin" says how to give one a new password); `ADMIN_*` creates nobody. Take a first backup once it runs (`docker compose exec backup backup.sh`).
 
 If the whole server is lost: bootstrap a new one, put back `.env` from your own copy (or from a backup: `restic restore` from any machine with the same `BACKUP_S3_*`, `BACKUP_NAME` and `RESTIC_PASSWORD`), put back the profile, deploy, then restore the latest snapshot as above.
 
