@@ -94,8 +94,11 @@ final class ProfileCheck
         $check->values($config);
         $check->build($config);
 
-        // A database never migrated (a new installation before its first deploy) holds nothing to compare.
-        if ($database && Schema::hasTable('migrations')) {
+        // A database without any table (a new installation before its first deploy) holds nothing to compare:
+        // said, so that the deploy log shows it. Any table at all, and the comparison runs.
+        if ($database && Schema::getTables() === []) {
+            $check->warnings[] = 'The database is empty (no table yet): stored values not compared.';
+        } elseif ($database) {
             $check->database($config);
             $check->phones($raw);
         }

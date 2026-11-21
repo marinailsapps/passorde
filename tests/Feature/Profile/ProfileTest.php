@@ -170,13 +170,25 @@ describe('check', function () {
         ]);
     });
 
-    it('compares nothing on a database never migrated, as before the first deploy of a new installation', function () {
-        storedAttributes('CERISIER', 'godet');
+    it('compares nothing on a database without any table, as before the first deploy of a new installation, and says so', function () {
         // Inside the test's transaction: rolled back afterwards.
         DB::statement('DROP SCHEMA public CASCADE');
         DB::statement('CREATE SCHEMA public');
 
-        expect(ProfileCheck::run(fixtureProfile('fictional')))->toBe(['errors' => [], 'warnings' => [], 'loaded' => true]);
+        expect(ProfileCheck::run(fixtureProfile('fictional')))->toBe([
+            'errors' => [],
+            'warnings' => ['The database is empty (no table yet): stored values not compared.'],
+            'loaded' => true,
+        ]);
+    });
+
+    it('compares the stored values on a database with tables but no migrations table', function () {
+        storedAttributes('CERISIER', 'godet');
+        DB::statement('DROP TABLE migrations');
+
+        expect(ProfileCheck::run(fixtureProfile('fictional'))['errors'])
+            ->toBe(['1 row(s) of article_attributes.category hold "CERISIER", which catalog.categories does not list.'])
+            ->and(ProfileCheck::run(fixtureProfile('fictional'))['warnings'])->toBe([]);
     });
 
     it('warns when an optional field switched off still has data', function () {

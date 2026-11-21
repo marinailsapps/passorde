@@ -695,7 +695,7 @@ What `deploy/deploy.sh <tag>` does on the server (idempotent, POSIX sh):
 1. pulls the app and backup images for the tag; if that fails, nothing changed (`DEPLOY_PULL_OPTIONAL=1`: it goes on with the images already on the server, "CI, images and copying the deploy files"). It starts Postgres if it is not running (the first deploy of a new installation; a running one is left as it is). Then, still changing nothing, it stops on any of these (the running version keeps running):
    - an image of the tag (app, backup, Postgres) is not on the server (`docker image inspect`);
    - the image does not start (`php artisan --version`);
-   - its `passorde:check-profile` fails against the live database, not migrated yet (an empty database, before the first migration, has nothing to compare: only the profile itself is checked).
+   - its `passorde:check-profile` fails against the live database, not migrated yet (a database without any table, before the first migration, has nothing to compare: the check warns "The database is empty (no table yet): stored values not compared." and checks the profile itself; a database with any table is compared).
 
    Each refusal ends with `deploy: FAILED (exit 1) while deploying <tag>.` and `deploy: nothing was changed; <previous tag> is still running.`;
 2. writes `PASSORDE_TAG=<tag>` in `.env`;
