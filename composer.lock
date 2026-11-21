@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "c1265331f3d16d816a88d7ad490a1f14",
+    "content-hash": "22595aa9f93b45b95a18a0b713d07154",
     "packages": [
         {
             "name": "brick/math",
@@ -2190,16 +2190,16 @@
         },
         {
             "name": "marinailsapps/passorde-connect",
-            "version": "v1.0.0-beta.4",
+            "version": "v1.0.0-beta.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/marinailsapps/passorde-connect.git",
-                "reference": "045ab7dc3e4159cc1913774b33df0ef672a720ac"
+                "reference": "a37c2133697351f8fbe31edbba8277a7f991fa4e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/marinailsapps/passorde-connect/zipball/045ab7dc3e4159cc1913774b33df0ef672a720ac",
-                "reference": "045ab7dc3e4159cc1913774b33df0ef672a720ac",
+                "url": "https://api.github.com/repos/marinailsapps/passorde-connect/zipball/a37c2133697351f8fbe31edbba8277a7f991fa4e",
+                "reference": "a37c2133697351f8fbe31edbba8277a7f991fa4e",
                 "shasum": ""
             },
             "require": {
@@ -2284,9 +2284,9 @@
             "homepage": "https://apps.marinails.site/passorde",
             "support": {
                 "email": "apps@marinails.site",
-                "source": "https://github.com/marinailsapps/passorde-connect/tree/v1.0.0-beta.4"
+                "source": "https://github.com/marinailsapps/passorde-connect/tree/v1.0.0-beta.5"
             },
-            "time": "2026-11-15T20:41:08+00:00"
+            "time": "2026-11-21T05:37:16+00:00"
         },
         {
             "name": "markbaker/complex",
