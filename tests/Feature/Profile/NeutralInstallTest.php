@@ -95,8 +95,9 @@ it('runs from CSV to order, export and reports on the neutral defaults, with no 
         config()->set('passorde.catalog.category_groups', array_map(fn (array $c) => ['key' => $c['group'], 'label' => mb_strtoupper($c['label'])], $categories));
     }
     seed(PaytypeSeeder::class);
-    $admin = User::factory()->admin()->create();
-    $seller = User::factory()->create();
+    // Fixed names: a random one from the factory can hold an installation word (a surname that is also a category).
+    $admin = User::factory()->admin()->create(['name' => 'Alex Admin', 'login' => 'alex', 'email' => 'alex@example.com']);
+    $seller = User::factory()->create(['name' => 'Sam Vendeur', 'login' => 'sam', 'email' => 'sam@example.com']);
     $csv = fn (string $contents) => UploadedFile::fake()->createWithContent('import.csv', $contents);
     $inertia = fn (string $page) => get($page, ['X-Inertia' => 'true', 'X-Inertia-Version' => (string) app(HandleInertiaRequests::class)->version(request())])->assertOk();
 
