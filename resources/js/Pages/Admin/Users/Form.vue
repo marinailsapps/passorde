@@ -67,7 +67,7 @@ function setPassword(): void {
             <TextField
                 v-model="form.login"
                 :label="t('Login')"
-                :hint="t('Short handle used to log in, e.g. ysolde.')"
+                :hint="t('Short handle used to log in, e.g. marie.')"
                 autocomplete="off"
                 :error="form.errors.login"
                 required
